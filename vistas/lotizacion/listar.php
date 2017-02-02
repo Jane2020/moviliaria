@@ -34,7 +34,7 @@ include "../../template/header.php";
                 <a href="editar.php?id=<?php echo $row->id ?>"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Editar</a>
             </td>
             <td>
-                <a onclick="return confirm('Desea eliminar el registro')" href="delete.php?d=<?php echo $row->id ?>"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Eliminar</a>
+                <a onclick="return confirm('Desea eliminar el registro')" href="accion.php?id=<?php echo $row->id ?>"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Eliminar</a>
             </td>
           </tr>
       <?php
