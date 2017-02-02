@@ -4,6 +4,7 @@ include "../../template/header.php";
 
 $lotizacion = new Lotizacion();
 $item= $lotizacion->editarLotizacion();
+
 if (isset($_POST['guardar'])){
 	$lotizacion->guardarLotizacion();	
 }
@@ -12,7 +13,7 @@ if (isset($_POST['guardar'])){
 <div style="overflow: auto;">
 	<div class="form-group col-sm-6">
 		<label class="control-label">Lotización</label>
-		<input type='text' name='lotizacion' class='form-control' value="<?php echo $item->lotizacion; ?>" id="lotizacion">
+		<input type='text' name='nombre' class='form-control' value="<?php echo $item->nombre; ?>" id="nombre">
 	</div>
 	<div class="form-group col-sm-6">
 		<label class="control-label">Ciudad</label> 

@@ -13,9 +13,9 @@ class Lotizacion extends Conexion {
 	 * Función que obtiene el Listado de Lotizaciones
 	 */
 	public function listarLotizacion(){		
-		$resultado = $this->mysqli->query("SELECT * FROM lotizacion");		
+		$resultado = $this->mysqli->query("SELECT * FROM lotizacion where eliminado=0");		
 		if($resultado != null){
-			while( $fila = $resultado->fetch_array() ){
+			while( $fila = $resultado->fetch_object() ){
 				$data[] = $fila;
 			}	
 			if (isset($data)) {
@@ -30,11 +30,11 @@ class Lotizacion extends Conexion {
 	public function editarLotizacion(){
 		if(isset($_GET['id']) && $_GET['id'] >0){
 			$id= $_GET['id'];
-			$resultado = $this->mysqli->query("SELECT * FROM lotizacion where id=".$id);	
-			$data= $$resultado->fetch_row();			
+			$resultado = $this->mysqli->query("SELECT * FROM lotizacion where id=".$id);
+			$data =  $resultado->fetch_object();					  	
 		}
 		else{
-			$data = (object) array('id'=>0,''=>'','lotizacion' =>'','ciudad'=>'','sector'=>'','referencia'=>'');
+			$data = (object) array('id'=>0,''=>'','nombre' =>'','ciudad'=>'','sector'=>'','referencia'=>'');
 		}
 		return $data;
 	}
@@ -42,29 +42,21 @@ class Lotizacion extends Conexion {
 	/**
 	 * Función que guarda o modificar una lotización
 	 */
-	public function guardarLotizacion() {	
+	public function guardarLotizacion() {
+		$localizacion = $_POST['nombre'];
+		$ciudad = $_POST['ciudad'];
+		$sector = $_POST['sector'];
+		$referencia = $_POST['referencia'];
+			
 		if ($_POST['id'] == 0){
-			$localizacion = $_POST['lotizacion'];
-			$ciudad = $_POST['ciudad'];
-			$sector = $_POST['sector'];
-			$referencia = $_POST['referencia'];
 			$consulta = "INSERT INTO lotizacion( nombre, ciudad, sector, referencia)
 						 VALUES ('".$localizacion."','".$ciudad."','".$sector."','".$referencia."')";
 		}
 		else{
-			$consulta = sprintf(
-					"UPDATE lotizacion SET
-		            nombre = %s,
-		            ciudad = %s,
-		            sector = %s,
-		            referencia
-		            WHERE
-		            id = %s;",
-					parent::comillas_inteligentes($_POST['lotizacion']),
-					parent::comillas_inteligentes($_POST['ciudad']),
-					parent::comillas_inteligentes($_POST['sector']),
-					parent::comillas_inteligentes($_POST['referencia'])
-					);				
+			$id = $_POST['id'];
+			$consulta = "UPDATE lotizacion SET nombre='".
+			$localizacion."',ciudad='".$ciudad."',sector='".$sector."',referencia='".$referencia.
+			"' WHERE id=".$id;	
 		}
 		$resultado = $this->mysqli->query($consulta);
 		if ($resultado)
@@ -73,7 +65,23 @@ class Lotizacion extends Conexion {
 		}
 		else
 		{
-			echo"No se inserto";
+			echo"Error al insertar";
 		}
 	}	
+	
+	public function eliminarLotizacion() {
+		if(isset($_GET['id']) && $_GET['id'] >0){
+			$id= $_GET['id'];			
+			$consulta = "UPDATE lotizacion SET eliminado=1 WHERE id =".$id;
+			$resultado = $this->mysqli->query($consulta);
+			if ($resultado)
+			{
+				header('Location:listar.php');
+			}
+			else
+			{
+				echo"Error al eliminar";
+			}
+		}
+	}
 }
