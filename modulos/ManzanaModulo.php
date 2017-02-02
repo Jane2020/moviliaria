@@ -26,16 +26,31 @@ class Manzana extends Conexion {
 	}	
 	
 	/**
+	 * Función que obtiene el Listado de Lotizaciones
+	 */
+	public function listarLotizacion(){
+		$resultado = $this->mysqli->query("SELECT id, nombre FROM lotizacion where eliminado=0");
+		if($resultado != null){
+			while( $fila = $resultado->fetch_object() ){
+				$data[] = $fila;
+			}
+			if (isset($data)) {
+				return $data;
+			}
+		}
+	}
+	
+	/**
 	 * Función que edita los datos de una Manzana
 	 */	
 	public function editarManzana(){
 		if(isset($_GET['id']) && $_GET['id'] >0){
 			$id= $_GET['id'];
-			$resultado = $this->mysqli->query("SELECT * FROM multa where id=".$id);
+			$resultado = $this->mysqli->query("SELECT * FROM manzana where id=".$id);
 			$data =  $resultado->fetch_object();					  	
 		}
 		else{
-			$data = (object) array('id'=>0,''=>'','nombre' =>'','descipcion'=>'','lotizacion'=>'');
+			$data = (object) array('id'=>0,''=>'','nombre' =>'','descipcion'=>'','lotizacion_id'=>'');
 		}
 		return $data;
 	}
@@ -46,14 +61,14 @@ class Manzana extends Conexion {
 	public function guardarManzana() {
 		$nombre = $_POST['nombre'];
 		$descripcion = trim($_POST['descripcion']);
-		$valor = $_POST['valor'];			
+		$lotizacion_id = $_POST['lotizacion_id'];			
 		if ($_POST['id'] == 0){
-			$consulta = "INSERT INTO multa( nombre, descripcion,valor)
-						 VALUES ('".$nombre."','".$descripcion."',".$valor.")";
+			$consulta = "INSERT INTO manzana(nombre, descripcion,lotizacion_id)
+						 VALUES ('".$nombre."','".$descripcion."',".$lotizacion_id.")";
 		}
 		else{
 			$id = $_POST['id'];
-			$consulta = "UPDATE multa SET nombre='".$nombre."',descripcion='".$descripcion."',valor=".$valor." WHERE id=".$id;	
+			$consulta = "UPDATE manzana SET nombre='".$nombre."',descripcion='".$descripcion."',lotizacion_id=".$lotizacion_id." WHERE id=".$id;	
 		}
 		$resultado = $this->mysqli->query($consulta);
 		if ($resultado)
@@ -69,7 +84,7 @@ class Manzana extends Conexion {
 	public function eliminarManzana() {
 		if(isset($_GET['id']) && $_GET['id'] >0){
 			$id= $_GET['id'];			
-			$consulta = "UPDATE multa SET eliminado=1 WHERE id =".$id;
+			$consulta = "UPDATE manzana SET eliminado=1 WHERE id =".$id;
 			$resultado = $this->mysqli->query($consulta);
 			if ($resultado)
 			{
