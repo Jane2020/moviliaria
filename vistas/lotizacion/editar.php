@@ -3,11 +3,7 @@ require_once ("../../modulos/LotizacionModulo.php");
 $lotizacion = new Lotizacion();
 $item= $lotizacion->editarLotizacion();
 $title = (($item->id>0)?'Editar ':'Nueva ').'Lotizacion';
-
 require_once ("../../template/header.php");
-
-$lotizacion = new Lotizacion();
-$item= $lotizacion->editarLotizacion();
 
 if (isset($_POST['guardar'])){
 	$lotizacion->guardarLotizacion();	
@@ -47,12 +43,12 @@ if (isset($_POST['guardar'])){
 		</div>
 	</div>
 	<div class="form-group">
-	<div class="form-group col-sm-6">
-		<input type='hidden' name='id' class='form-control' value="<?php echo $item->id; ?>">		
-		<input type='hidden' name='guardar' value="1">
-		<button type="submit" name="boton" class="btn btn-success">Guardar</button>		
-		<a href="listar.php" class="btn btn-info">Cancelar</a>
-	</div>
+		<div class="form-group col-sm-6">
+			<input type='hidden' name='id' class='form-control' value="<?php echo $item->id; ?>">		
+			<input type='hidden' name='guardar' value="1">
+			<button type="submit" name="boton" class="btn btn-success btn-sm">Guardar</button>		
+			<a href="listar.php" class="btn btn-info btn-sm">Cancelar</a>
+		</div>
 	</div>
 </div>
 </form>
