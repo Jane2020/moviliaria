@@ -1,20 +1,27 @@
 <?php
-require("../../modulos/LotizacionModulo.php");
-include "../../template/header.php";
+$title = 'Lotizacion';
+require_once ("../../modulos/LotizacionModulo.php");
+require_once ("../../template/header.php");
+
 ?>
+
+<header class="page-header">
+					<h1 class="page-title"><?php echo $title; ?></h1>
+</header>
+
+
 <p>
-   <a href="editar.php" class="btn btn-primary btn-md"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Lotización</a><br/>
+   <a href="editar.php" class="btn btn-info btn-md"><span class="glyphicon glyphicon-plus" aria-hidden="true" title="Nuevo"></span></a><br/>
 </p>
 <table id="ghatable" class="display table table-bordered table-stripe" cellspacing="0" width="100%">
 	<thead>
           <tr>
                <th>ID</th>
-               <th>NOMBRE</th>
-               <th>CIUDAD</th>
-               <th>SECTOR</th>
-               <th>REFERENCIA</th>
-               <th>MODIFICAR</th>
-               <th>ELIMINAR</th>
+               <th>Nombre</th>
+               <th>Ciudad</th>
+               <th>Sector</th>
+               <th>Referencia</th>
+               <th style="width: 15%">Acci&oacute;n</th>
           </tr>
      </thead>
      <tbody>
@@ -30,11 +37,9 @@ include "../../template/header.php";
             <td><?php echo $row->ciudad ?></td>
             <td><?php echo $row->sector?></td>
             <td><?php echo $row->referencia ?></td>
-            <td>
-                <a href="editar.php?id=<?php echo $row->id ?>"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Editar</a>
-            </td>
-            <td>
-                <a onclick="return confirm('Desea eliminar el registro')" href="accion.php?id=<?php echo $row->id ?>"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Eliminar</a>
+            <td style="text-align: center;">
+                <a title="Editar" href="editar.php?id=<?php echo $row->id ?>" class="btn btn-warning "><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a>
+                <a title="Eliminar" class="btn btn-danger btn-sx" onclick="return confirm('Desea eliminar el registro')" href="accion.php?id=<?php echo $row->id ?>"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
             </td>
           </tr>
       <?php
@@ -44,5 +49,5 @@ include "../../template/header.php";
      </tbody>
 </table>	    
 <?php
-include "../../template/footer.php";
+require_once ("../../template/footer.php");
 ?>
