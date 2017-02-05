@@ -38,18 +38,21 @@
 				<a class="navbar-brand" href="index.html"><img src="assets/images/logo.png" alt="Progressus HTML5 template"></a>
 			</div>
 			<div class="navbar-collapse collapse">
-				<ul class="nav navbar-nav pull-right">
-					<li><a href="index.html">Home</a></li>
-					<li class="active"><a href="about.html">About</a></li>
+				<ul class="nav navbar-nav pull-right" style="padding-top: 25px; font-size: 18px;">
+					<li>
+						<a href="index.html">Home</a></li>
+					<!--  <li class="active">
+						<a href="about.html">About</a></li>-->
 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">More Pages <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a href="sidebar-left.html">Left Sidebar</a></li>
-							<li><a href="sidebar-right.html">Right Sidebar</a></li>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Predios <b class="caret"></b></a>
+						<ul class="dropdown-menu" style="font-size: 16px;">
+							<li><a href="../lotizacion/listar.php">Lotizaci&oacute;n</a></li>
+							<li><a href="../manzana/listar.php">Manzana</a></li>
+							<li><a href="../lote/listar.php">Predio</a></li>
 						</ul>
 					</li>
-					<li><a href="contact.html">Contact</a></li>
-					<li><a class="btn" href="signin.html">SIGN IN / SIGN UP</a></li>
+					<li><a href="../multa/listar.php">Multa</a></li>
+					<!-- <li><a class="btn" href="">SIGN IN / SIGN UP</a></li>  -->
 				</ul>
 			</div><!--/.nav-collapse -->
 		</div>
