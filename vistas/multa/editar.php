@@ -13,7 +13,7 @@ if (isset($_POST['guardar'])){
 	<h1 class="page-title"><?php echo $title; ?></h1>
 </header>
 
-<form id="frmLotizacion" method="post" action="">
+<form id="frmMulta" method="post" action="">
 <div style="overflow: auto;">
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6">
@@ -43,3 +43,53 @@ if (isset($_POST['guardar'])){
 	</div>
 </div>
 </form>
+<?php
+require_once ("../../template/footer.php");
+?>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#frmMulta').formValidation({    	    
+			message: 'This value is not valid',
+			feedbackIcons: {
+				valid: 'glyphicon glyphicon-ok',
+				invalid: 'glyphicon glyphicon-remove',
+				validating: 'glyphicon glyphicon-refresh'
+			},
+			fields: {
+				nombre: {
+					message: 'El nombre no es válido',
+					validators: {
+						notEmpty: {
+							message: 'El Nombre no puede ser vacío.'
+						},					
+						regexp: {
+							regexp: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9 \.\,\_\-]+$/,
+							message: 'Ingrese un Nombre válido.'
+						}
+					}
+				},
+				descripcion: {
+					message: 'La descripción no es válida',
+					validators: {
+						regexp: {
+							regexp: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9 \.\,\_\-]+$/,
+							message: 'Ingrese una descripción válido.'
+						}
+					}
+				},
+				valor: {
+					message: 'El valor no es válida',
+					validators: {						
+						notEmpty: {
+							message: 'El valor no puede ser vacío.'
+						},
+						regexp: {
+							regexp: /^[0-9]+$/,
+							message: 'Ingrese un valor válido.'
+						}
+					}
+				}							
+			}
+		});
+    });
+</script>

@@ -48,66 +48,9 @@ if (isset($_POST['guardar'])){
 	</div>
 </div>
 </form>
+
+
+
 <?php
 require_once ("../../template/footer.php");
 ?>
-<script type="text/javascript">
-$(document).ready(function() {
-    $('#frmLotizacion').formValidation({    	    
-			message: 'This value is not valid',
-			feedbackIcons: {
-				valid: 'glyphicon glyphicon-ok',
-				invalid: 'glyphicon glyphicon-remove',
-				validating: 'glyphicon glyphicon-refresh'
-			},
-			fields: {
-				nombre: {
-					message: 'El nombre no es válido',
-					validators: {
-						notEmpty: {
-							message: 'El Nombre no puede ser vacío.'
-						},					
-						regexp: {
-							regexp: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9 \.\,\_\-]+$/,
-							message: 'Ingrese un Nombre válido.'
-						}
-					}
-				},
-				ciudad: {
-					message: 'La ciudad no es válido',
-					validators: {
-						notEmpty: {
-							message: 'La ciudad no puede ser vacía.'
-						},					
-						regexp: {
-							regexp: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9 \.\,\_\-]+$/,
-							message: 'Ingrese una Ciudad válido.'
-						}
-					}
-				},
-				sector: {
-					message: 'El sector no es válido',
-					validators: {
-						notEmpty: {
-							message: 'El sector no puede ser vacío.'
-						},					
-						regexp: {
-							regexp: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9 \.\,\_\-]+$/,
-							message: 'Ingrese un Sector válido.'
-						}
-					}
-				},		 
-				referencia: {
-					message: 'La referencia no es válida',
-					validators: {
-						
-						regexp: {
-							regexp: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9 \.\,\_\-]+$/,
-							message: 'Ingrese una Referencia válida.'
-						}
-					}
-				}							
-			}
-		});
-    });
-</script>

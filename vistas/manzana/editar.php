@@ -15,7 +15,7 @@ if (isset($_POST['guardar'])){
 <header class="page-header">
 	<h1 class="page-title"><?php echo $title; ?></h1>
 </header>
-<form id="frmLotizacion" method="post" action="">
+<form id="frmManzana" method="post" action="">
 <div style="overflow: auto;">
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6">
@@ -32,7 +32,7 @@ if (isset($_POST['guardar'])){
 	<div class="form-group col-sm-12">	
 		<div class="form-group col-sm-6">
 			<label class="control-label">Lotización</label> 
-			<select class='form-control' name="lotizacion_id">
+			<select class='form-control' name="lotizacion_id" id="lotizacion_id">
 				<option value="" >Seleccione</option>
 				<?php foreach ($lotizaciones as $dato) { ?>
 					<option value="<?php echo $dato->id;?>"  <?php if($item->lotizacion_id==$dato->id):echo "selected"; endif;?>><?php echo $dato->nombre;?></option>
@@ -50,5 +50,49 @@ if (isset($_POST['guardar'])){
 	</div>
 </div>
 </form>
+<?php
+require_once ("../../template/footer.php");
+?>
 <script type="text/javascript">
+$(document).ready(function() {
+    $('#frmManzana').formValidation({    	    
+			message: 'This value is not valid',
+			feedbackIcons: {
+				valid: 'glyphicon glyphicon-ok',
+				invalid: 'glyphicon glyphicon-remove',
+				validating: 'glyphicon glyphicon-refresh'
+			},
+			fields: {
+				nombre: {
+					message: 'El nombre no es válido',
+					validators: {
+						notEmpty: {
+							message: 'El Nombre no puede ser vacío.'
+						},					
+						regexp: {
+							regexp: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9 \.\,\_\-]+$/,
+							message: 'Ingrese un Nombre válido.'
+						}
+					}
+				},
+				descripcion: {
+					message: 'La descripción no es válida',
+					validators: {
+						regexp: {
+							regexp: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9 \.\,\_\-]+$/,
+							message: 'Ingrese una descripción válido.'
+						}
+					}
+				},
+				lotizacion_id: {
+					message: 'La lotización no es válida',
+					validators: {						
+						notEmpty: {
+							message: 'La lotización no puede ser vacía.'
+						}
+					}
+				}							
+			}
+		});
+    });
 </script>

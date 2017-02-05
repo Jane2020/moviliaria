@@ -39,17 +39,15 @@
 	</footer>	
 
 	<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
-
 	<script src="<?php echo PATH_JS; ?>/jquery.min.js"></script>
+	<script src="<?php echo PATH_JS; ?>/formValidation.js"></script>
+	<script src="<?php echo PATH_JS; ?>/validation/bootstrap.js"></script>
 	<script src="<?php echo PATH_JS; ?>/jquery.dataTables.min.js"></script>
 	<script src="<?php echo PATH_JS; ?>/dataTables.bootstrap.min.js"></script>
-
 	<script src="<?php echo PATH_JS; ?>/table.js"></script>
-	<script src="<?php echo PATH_JS; ?>/bootstrap.min.js"></script>
-	<script src="<?php echo PATH_JS; ?>/formValidation.js"></script>	
+	<link href="<?php echo PATH_CSS; ?>/bootstrapValidator.min.css" rel="stylesheet"></link>
 	<script src="<?php echo PATH_JS; ?>/headroom.min.js"></script>
 	<script src="<?php echo PATH_JS; ?>/jQuery.headroom.min.js"></script>
-	<script src="<?php echo PATH_JS; ?>/template.js"></script>
-	
+	<script src="<?php echo PATH_JS; ?>/template.js"></script>	
 </body>
 </html>
