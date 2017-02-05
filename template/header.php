@@ -14,9 +14,11 @@
 	
 	<link rel="stylesheet" href="<?php echo PATH_CSS; ?>/bootstrap.min.css">
 	<link rel="stylesheet" href="<?php echo PATH_CSS; ?>/font-awesome.min.css">
+	<link rel="stylesheet" href="<?php echo PATH_CSS; ?>/dataTables.bootstrap.css">
 
 	<!-- Custom styles for our template -->
 	<link rel="stylesheet" href="<?php echo PATH_CSS; ?>/bootstrap-theme.css" media="screen" >
+	<link href="<?php echo PATH_CSS; ?>/dataTables.bootstrap.css" rel="stylesheet">
 	<link rel="stylesheet" href="<?php echo PATH_CSS; ?>/main.css">
 
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->

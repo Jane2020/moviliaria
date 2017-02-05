@@ -1,5 +1,5 @@
 <?php
-$title = 'Lotizacion';
+$title = 'Lotización';
 require_once ("../../modulos/LotizacionModulo.php");
 require_once ("../../template/header.php");
 
@@ -10,7 +10,7 @@ require_once ("../../template/header.php");
 <p>
    <a href="editar.php" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-plus" aria-hidden="true" title="Nuevo"></span></a><br/>
 </p>
-<table id="ghatable" class="display table table-bordered table-stripe" cellspacing="0" width="100%">
+<table id="dataTables-example" class="display table table-bordered table-stripe" cellspacing="0" width="100%">
 	<thead>
           <tr>
                <th>ID</th>

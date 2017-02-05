@@ -2,20 +2,16 @@
 require_once ("../../modulos/LotizacionModulo.php");
 $lotizacion = new Lotizacion();
 $item= $lotizacion->editarLotizacion();
-$title = (($item->id>0)?'Editar ':'Nueva ').'Lotizacion';
+$title = (($item->id>0)?'Editar ':'Nueva ').'Lotización';
 require_once ("../../template/header.php");
 
 if (isset($_POST['guardar'])){
 	$lotizacion->guardarLotizacion();	
 }
 ?>
-
-
 <header class="page-header">
 					<h1 class="page-title"><?php echo $title; ?></h1>
 </header>
-
-
 <form id="frmLotizacion" method="post" action="">
 <div style="overflow: auto;">
 	<div class="form-group col-sm-12">

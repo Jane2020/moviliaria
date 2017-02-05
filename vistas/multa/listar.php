@@ -4,19 +4,19 @@ require("../../modulos/MultaModulo.php");
 require_once ("../../template/header.php");
 ?>
 <header class="page-header">
-					<h1 class="page-title"><?php echo $title; ?></h1>
+	<h1 class="page-title"><?php echo $title; ?></h1>
 </header>
 <p>
    <a href="editar.php" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-plus" aria-hidden="true" title="Nuevo"></span></a><br/>
 </p>
-<table id="ghatable" class="display table table-bordered table-stripe" cellspacing="0" width="100%">
+<table id="dataTables-example" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 	<thead>
           <tr>
                <th>ID</th>
                <th>Nombre</th>
                <th>Descripción</th>
                <th>Valor</th>
-               <th colspan="2">Acción</th>               
+               <th>Acción</th>               
           </tr>
      </thead>
      <tbody>
