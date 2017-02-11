@@ -1,8 +1,8 @@
 <?php
 require_once 'Conexion.php';
 class Lotizacion extends Conexion {
-	public $mysqli;
-	public $data;
+	private $mysqli;
+	private $data;
 	
 	public function __construct() {
 		$this->mysqli = parent::conectar();

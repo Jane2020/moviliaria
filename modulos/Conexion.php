@@ -1,4 +1,4 @@
-<?php
+ <?php
 define("PATH_ROOT", __DIR__);
 require_once(PATH_ROOT . "/../config/config.inc");
 

@@ -1,5 +1,5 @@
 <?php
-$title = 'Lotización';
+$title = 'Lote';
 require_once ("../../modulos/LoteModulo.php");
 require_once ("../../template/header.php");
 
@@ -15,25 +15,29 @@ require_once ("../../template/header.php");
           <tr>
                <th>ID</th>
                <th>Nombre</th>
-               <th>Ciudad</th>
-               <th>Sector</th>
-               <th>Referencia</th>
+               <th>Ubicación</th>
+               <th>Dimensión</th>
+               <th>Número de Lotes</th>
+               <th>Lotes Disponibles</th>
+               <th>Manzana</th>
                <th style="width: 15%">Acci&oacute;n</th>
           </tr>
      </thead>
      <tbody>
      <?php
-          $lotizacion = new Lotizacion();
-          $listaLotizacion = $lotizacion->listarLotizacion();
-          if(count($listaLotizacion) > 0){
-               foreach ($listaLotizacion as $row){
+          $lote = new Lote();
+          $listaLote = $lote->listarLotes();
+          if(count($listaLote) > 0){
+               foreach ($listaLote as $row){
      ?>
      	<tr>
             <td><?php echo $row->id ?></td>
             <td><?php echo $row->nombre ?></td>
-            <td><?php echo $row->ciudad ?></td>
-            <td><?php echo $row->sector?></td>
-            <td><?php echo $row->referencia ?></td>
+            <td><?php echo $row->ubicacion ?></td>
+            <td><?php echo $row->dimension?></td>
+            <td><?php echo $row->numero_lote ?></td>
+            <td><?php echo $row->disponible ?></td>
+            <td><?php echo $row->manzana_nombre ?></td>
             <td style="text-align: center;">
                 <a title="Editar" href="editar.php?id=<?php echo $row->id ?>" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a>
                 <a title="Eliminar" class="btn btn-danger btn-sm" onclick="return confirm('Desea eliminar el registro')" href="accion.php?id=<?php echo $row->id ?>"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>

@@ -1,12 +1,12 @@
 <?php
-require_once ("../../modulos/LotizacionModulo.php");
-$lotizacion = new Lotizacion();
-$item= $lotizacion->editarLotizacion();
-$title = (($item->id>0)?'Editar ':'Nueva ').'Lotización';
+require_once ("../../modulos/LoteModulo.php");
+$lote = new Lote();
+$item= $lote->editarLote();
+$title = (($item->id>0)?'Editar ':'Nueva ').'Lote';
 require_once ("../../template/header.php");
 
 if (isset($_POST['guardar'])){
-	$lotizacion->guardarLotizacion();	
+	$lotizacion->guardarLote();	
 }
 ?>
 <header class="page-header">
@@ -16,14 +16,14 @@ if (isset($_POST['guardar'])){
 <div style="overflow: auto;">
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6 row6" >
-			<label class="control-label">Lotización</label>
+			<label class="control-label">Nombre del Lote</label>
 			<input type='text' name='nombre' class='form-control' value="<?php echo $item->nombre; ?>" id="nombre">
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6 row6">
-			<label class="control-label">Ciudad</label> 
-			<input type='text' name='ciudad' class='form-control' value="<?php echo $item->ciudad; ?>" id="ciudad">
+			<label class="control-label">Ubicación</label> 
+			<input type='text' name='ubicacion' class='form-control' value="<?php echo $item->ubicacion; ?>" id="ubicacion">
 		</div>
 	</div>
 	<div class="form-group col-sm-12">

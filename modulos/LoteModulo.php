@@ -1,8 +1,8 @@
 <?php
 require_once 'Conexion.php';
 class Lote extends Conexion {
-	public $mysqli;
-	public $data;
+	private $mysqli;
+	private $data;
 	
 	public function __construct() {
 		$this->mysqli = parent::conectar();
@@ -13,8 +13,8 @@ class Lote extends Conexion {
 	 * Función que obtiene el Listado de Lotes
 	 */
 	public function listarLotes(){		
-		$resultado = $this->mysqli->query("SELECT m.id,m.nombre,m.descripcion, l.nombre as lotizacion FROM manzana m
-										   INNER JOIN lotizacion l on l.id=m.lotizacion_id where m.eliminado=0");		
+		$resultado = $this->mysqli->query("SELECT l.*,m.id as manzana_id, m.nombre as manzana_nombre  FROM lote l 
+										   INNER JOIN manzana m ON l.manzana_id=m.id WHERE l.eliminado=0");		
 		if($resultado != null){
 			while( $fila = $resultado->fetch_object() ){
 				$data[] = $fila;
@@ -46,7 +46,8 @@ class Lote extends Conexion {
 	public function editarLote(){
 		if(isset($_GET['id']) && $_GET['id'] >0){
 			$id= $_GET['id'];
-			$resultado = $this->mysqli->query("SELECT * FROM manzana where id=".$id);
+			$resultado = $this->mysqli->query("SELECT l.*,m.id as manzana_id, m.nombre as manzana_nombre  FROM lote l 
+										   	   INNER JOIN manzana m ON l.manzana_id=m.id WHERE l.id=".$id);
 			$data =  $resultado->fetch_object();					  	
 		}
 		else{
