@@ -71,29 +71,29 @@ class Manzana extends Conexion {
 			$consulta = "UPDATE manzana SET nombre='".$nombre."',descripcion='".$descripcion."',lotizacion_id=".$lotizacion_id." WHERE id=".$id;	
 		}
 		$resultado = $this->mysqli->query($consulta);
-		if ($resultado)
-		{
-			header('Location:listar.php');
+		try {
+			$resultado = $this->mysqli->query($consulta);
+			$_SESSION ['message'] = "Datos almacenados correctamente.";
+		} catch ( Exception $e ) {
+			$_SESSION ['message'] = $e->getMessage ();
 		}
-		else
-		{
-			echo"Error al insertar";
-		}
+		header ( "Location:listar.php" );
 	}	
 	
+	/**
+	 * Función que eliminar logicamente una Manzana
+	 */
 	public function eliminarManzana() {
 		if(isset($_GET['id']) && $_GET['id'] >0){
 			$id= $_GET['id'];			
 			$consulta = "UPDATE manzana SET eliminado=1 WHERE id =".$id;
-			$resultado = $this->mysqli->query($consulta);
-			if ($resultado)
-			{
-				header('Location:listar.php');
+			try {
+				$resultado = $this->mysqli->query($consulta);
+				$_SESSION ['message'] = "Datos eliminados correctamente.";
+			} catch ( Exception $e ) {
+				$_SESSION ['message'] = $e->getMessage ();
 			}
-			else
-			{
-				echo"Error al eliminar";
-			}
+			header ( "Location:listar.php" );
 		}
 	}
 }

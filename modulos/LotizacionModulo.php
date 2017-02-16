@@ -59,29 +59,29 @@ class Lotizacion extends Conexion {
 			"' WHERE id=".$id;	
 		}
 		$resultado = $this->mysqli->query($consulta);
-		if ($resultado)
-		{
-			header('Location:listar.php');
+		try {
+			$resultado = $this->mysqli->query($consulta);
+			$_SESSION ['message'] = "Datos almacenados correctamente.";
+		} catch ( Exception $e ) {
+			$_SESSION ['message'] = $e->getMessage ();
 		}
-		else
-		{
-			echo"Error al insertar";
-		}
+		header ( "Location:listar.php" );
 	}	
 	
+	/**
+	 * Función que eliminar logicamente una Lotización
+	 */
 	public function eliminarLotizacion() {
 		if(isset($_GET['id']) && $_GET['id'] >0){
 			$id= $_GET['id'];			
 			$consulta = "UPDATE lotizacion SET eliminado=1 WHERE id =".$id;
-			$resultado = $this->mysqli->query($consulta);
-			if ($resultado)
-			{
-				header('Location:listar.php');
+			try {
+				$resultado = $this->mysqli->query($consulta);
+				$_SESSION ['message'] = "Datos eliminados correctamente.";
+			} catch ( Exception $e ) {
+				$_SESSION ['message'] = $e->getMessage ();
 			}
-			else
-			{
-				echo"Error al eliminar";
-			}
+			header ( "Location:listar.php" );
 		}
 	}
 }

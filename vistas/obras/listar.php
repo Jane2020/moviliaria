@@ -7,6 +7,14 @@ require_once ("../../template/header.php");
 	<h1 class="page-title"><?php echo $title; ?></h1>
 </header>
 <p>
+<?php if (isset($_SESSION['message'])&& ($_SESSION['message'] != '')):?>
+		<div class="alert alert-success fade in alert-dismissable">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				<?php echo $_SESSION['message'];$_SESSION['message'] = ''?>
+		</div>
+<?php endif;?>
+</p>
+<p>
    <a href="editar.php" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-plus" aria-hidden="true" title="Nuevo"></span></a><br/>
 </p>
 <table id="dataTables-example" class="display table table-bordered table-stripe" cellspacing="0" width="100%">

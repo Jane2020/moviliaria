@@ -68,3 +68,4 @@
 			<li><a href="index.html">Home</a></li>
 			<li class="active"><?php echo $title;?></li>
 		</ol>
+<?php session_start();?>
