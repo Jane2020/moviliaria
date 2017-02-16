@@ -1,43 +1,67 @@
 <?php
 require_once ("../../modulos/LoteModulo.php");
 $lote = new Lote();
+$manzanas = $lote->listarManzanas();
 $item= $lote->editarLote();
-$title = (($item->id>0)?'Editar ':'Nueva ').'Lote';
+
+$title = (($item->id>0)?'Editar ':'Nuevo ').'Lote';
 require_once ("../../template/header.php");
 
 if (isset($_POST['guardar'])){
-	$lotizacion->guardarLote();	
+	$lote->guardarLote();	
 }
 ?>
 <header class="page-header">
 					<h1 class="page-title"><?php echo $title; ?></h1>
 </header>
-<form id="frmLotizacion" method="post" action="">
+<form id="frmLote" method="post" action="">
 <div style="overflow: auto;">
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6 row6" >
 			<label class="control-label">Nombre del Lote</label>
-			<input type='text' name='nombre' class='form-control' value="<?php echo $item->nombre; ?>" id="nombre">
+			<input type='text' name="nombre" class='form-control' value="<?php echo $item->nombre; ?>" id="nombre">
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6 row6">
 			<label class="control-label">Ubicación</label> 
-			<input type='text' name='ubicacion' class='form-control' value="<?php echo $item->ubicacion; ?>" id="ubicacion">
+			<input type='text' name="ubicacion" class="form-control" value="<?php echo $item->ubicacion; ?>" id="ubicacion">
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6 row6">
-			<label class="control-label">Sector</label> 
-			<input type='text'name='sector' class='form-control' value="<?php echo $item->sector; ?>" id="sector">
+			<label class="control-label">Dimensión</label> 
+			<input type='text'name="dimension" class="form-control" value="<?php echo $item->dimension; ?>" id="dimension">
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6 row6">
-			<label class="control-label">Referencia</label> 
-			<input type='text' name='referencia' class='form-control' value="<?php echo $item->referencia; ?>" id="referencia">
+			<label class="control-label">Número de Lote</label> 
+			<input type='text' name='numero_lote' class='form-control' value="<?php echo $item->numero_lote; ?>" id="numero_lote">
 		</div>
 	</div>
+	<div class="form-group col-sm-12">
+		<div class="form-group col-sm-6 row6">
+			<label class="control-label">Disponible</label>
+			
+			<div class="form-group">		
+			<input type="radio" name='disponible' value="1" id="disponible" <?php echo ($item->disponible)?'checked':'';?> > SI &nbsp; &nbsp;
+			<input type="radio" name='disponible' value="0" id="disponible" <?php echo (!$item->disponible)?'checked':'';?> > NO
+			</div>	
+		</div>
+	</div>
+	<div class="form-group col-sm-12">	
+		<div class="form-group col-sm-6 row6">
+			<label class="control-label">Manzana</label> 
+			<select class='form-control' name="manzana_id" id="manzana_id">
+				<option value="" >Seleccione</option>
+				<?php foreach ($manzanas as $dato) { ?>
+					<option value="<?php echo $dato->id;?>"  <?php if($item->manzana_id==$dato->id):echo "selected"; endif;?>><?php echo $dato->nombre;?></option>
+				<?php }?>
+			</select>
+		</div>
+	</div>
+	
 	<div class="form-group">
 		<div class="form-group col-sm-6">
 			<input type='hidden' name='id' class='form-control' value="<?php echo $item->id; ?>">		
@@ -48,9 +72,84 @@ if (isset($_POST['guardar'])){
 	</div>
 </div>
 </form>
-
-
-
 <?php
 require_once ("../../template/footer.php");
 ?>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#frmLote').formValidation({    	    
+			message: 'This value is not valid',
+			feedbackIcons: {
+				valid: 'glyphicon glyphicon-ok',
+				invalid: 'glyphicon glyphicon-remove',
+				validating: 'glyphicon glyphicon-refresh'
+			},
+			fields: {
+				nombre: {
+					message: 'El nombre no es válido',
+					validators: {
+						notEmpty: {
+							message: 'El Nombre no puede ser vacío.'
+						},					
+						regexp: {
+							regexp: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9 \.\,\_\-]+$/,
+							message: 'Ingrese un Nombre válido.'
+						}
+					}
+				},
+				ubicacion: {
+					message: 'La ubicación no es válida',
+					validators: {
+						notEmpty: {
+							message: 'La ubicación no puede ser vacía.'
+						},					
+						regexp: {
+							regexp: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9 \.\,\_\-]+$/,
+							message: 'Ingrese una ubicación válido.'
+						}
+					}
+				},
+				dimension: {
+					message: 'La dimensión no es válida',
+					validators: {
+						notEmpty: {
+							message: 'La dimensión no puede ser vacía.'
+						},					
+						regexp: {
+							regexp: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9 \.\,\_\-]+$/,
+							message: 'Ingrese una dimension válida.'
+						}
+					}
+				},		 
+				numero_lote: {
+					message: 'El número de lote  no es válido',
+					validators: {
+						notEmpty: {
+							message: 'El número de lote no puede ser vacío.'
+						},						
+						regexp: {
+							regexp: /^[0-9]+$/,
+							message: 'Ingrese un número de lote válido.'
+						}
+					}
+				},
+				disponible: {
+					message: 'La disponibilidad de lote  no es válida',
+					validators: {
+						notEmpty: {
+							message: 'La disponibilidad de lote no puede ser vacía.'
+						}
+					}
+				},
+				manzana_id: {
+					message: 'La manzana  no es válida',
+					validators: {
+						notEmpty: {
+							message: 'Escoja una manzan válida.'
+						}
+					}
+				}							
+			}
+		});
+    });
+</script>

@@ -26,10 +26,10 @@ class Lote extends Conexion {
 	}	
 	
 	/**
-	 * Función que obtiene el Listado de Lotes
+	 * Función que obtiene el Listado de Manzanas
 	 */
-	public function listarLote(){
-		$resultado = $this->mysqli->query("SELECT id, nombre FROM lotizacion where eliminado=0");
+	public function listarManzanas(){
+		$resultado = $this->mysqli->query("SELECT id, nombre FROM manzana where eliminado=0");
 		if($resultado != null){
 			while( $fila = $resultado->fetch_object() ){
 				$data[] = $fila;
@@ -37,7 +37,7 @@ class Lote extends Conexion {
 			if (isset($data)) {
 				return $data;
 			}
-		}
+		}		
 	}
 	
 	/**
@@ -47,30 +47,36 @@ class Lote extends Conexion {
 		if(isset($_GET['id']) && $_GET['id'] >0){
 			$id= $_GET['id'];
 			$resultado = $this->mysqli->query("SELECT l.*,m.id as manzana_id, m.nombre as manzana_nombre  FROM lote l 
-										   	   INNER JOIN manzana m ON l.manzana_id=m.id WHERE l.id=".$id);
+										   INNER JOIN manzana m ON l.manzana_id=m.id WHERE l.id=".$id);
 			$data =  $resultado->fetch_object();					  	
 		}
 		else{
-			$data = (object) array('id'=>0,''=>'','nombre' =>'','descipcion'=>'','lotizacion_id'=>'');
+			$data = (object) array('id'=>0,''=>'','nombre' =>'','ubicacion'=>'','dimension'=>'','dimension'=>'','numero_lote'=>'','disponible'=>'','manzana_id'=>'');
 		}
 		return $data;
 	}
 	
 	/**
-	 * Función que guarda o modificar una Manzana
+	 * Función que guarda o modificar una Lote
 	 */
 	public function guardarLote() {
 		$nombre = $_POST['nombre'];
-		$descripcion = trim($_POST['descripcion']);
-		$lotizacion_id = $_POST['lotizacion_id'];			
+		$ubicacion = trim($_POST['ubicacion']);
+		$dimension = $_POST['dimension'];		
+		$numero_lote = trim($_POST['numero_lote']);
+		$disponible = $_POST['disponible'];
+		$manzana_id = $_POST['manzana_id'];		
+		
 		if ($_POST['id'] == 0){
-			$consulta = "INSERT INTO manzana(nombre, descripcion,lotizacion_id)
-						 VALUES ('".$nombre."','".$descripcion."',".$lotizacion_id.")";
+			$consulta = "INSERT INTO lote(nombre,ubicacion,dimension,numero_lote,disponible,manzana_id)
+						 VALUES ('".$nombre."','".$ubicacion."','".$dimension."',".$numero_lote.",".$disponible.",".$manzana_id.")";
 		}
 		else{
 			$id = $_POST['id'];
-			$consulta = "UPDATE manzana SET nombre='".$nombre."',descripcion='".$descripcion."',lotizacion_id=".$lotizacion_id." WHERE id=".$id;	
+			$consulta = "UPDATE lote SET nombre='".$nombre."',ubicacion='".$ubicacion."',dimension='".$dimension."',disponible=".$disponible." ,numero_lote=".$numero_lote.", manzana_id=".$manzana_id." WHERE id=".$_POST['id'];	
 		}
+
+		
 		$resultado = $this->mysqli->query($consulta);
 		if ($resultado)
 		{
@@ -85,7 +91,7 @@ class Lote extends Conexion {
 	public function eliminarLote() {
 		if(isset($_GET['id']) && $_GET['id'] >0){
 			$id= $_GET['id'];			
-			$consulta = "UPDATE manzana SET eliminado=1 WHERE id =".$id;
+			$consulta = "UPDATE lote SET eliminado=1 WHERE id =".$id;
 			$resultado = $this->mysqli->query($consulta);
 			if ($resultado)
 			{

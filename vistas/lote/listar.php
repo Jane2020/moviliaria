@@ -17,8 +17,8 @@ require_once ("../../template/header.php");
                <th>Nombre</th>
                <th>Ubicación</th>
                <th>Dimensión</th>
-               <th>Número de Lotes</th>
-               <th>Lotes Disponibles</th>
+               <th>Número de Lote</th>
+               <th>Disponibilidad</th>
                <th>Manzana</th>
                <th style="width: 15%">Acci&oacute;n</th>
           </tr>
@@ -36,7 +36,7 @@ require_once ("../../template/header.php");
             <td><?php echo $row->ubicacion ?></td>
             <td><?php echo $row->dimension?></td>
             <td><?php echo $row->numero_lote ?></td>
-            <td><?php echo $row->disponible ?></td>
+            <td><?php echo ($row->disponible)?"Disponible":"No Disponible" ?></td>
             <td><?php echo $row->manzana_nombre ?></td>
             <td style="text-align: center;">
                 <a title="Editar" href="editar.php?id=<?php echo $row->id ?>" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a>
