@@ -54,7 +54,6 @@ class Multa extends Conexion {
 			$id = $_POST['id'];
 			$consulta = "UPDATE multa SET nombre='".$nombre."',descripcion='".$descripcion."',valor=".$valor." WHERE id=".$id;	
 		}
-		$resultado = $this->mysqli->query($consulta);
 		try {
 			$resultado = $this->mysqli->query($consulta);
 			$_SESSION ['message'] = "Datos almacenados correctamente.";

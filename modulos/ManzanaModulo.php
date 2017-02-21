@@ -70,7 +70,6 @@ class Manzana extends Conexion {
 			$id = $_POST['id'];
 			$consulta = "UPDATE manzana SET nombre='".$nombre."',descripcion='".$descripcion."',lotizacion_id=".$lotizacion_id." WHERE id=".$id;	
 		}
-		$resultado = $this->mysqli->query($consulta);
 		try {
 			$resultado = $this->mysqli->query($consulta);
 			$_SESSION ['message'] = "Datos almacenados correctamente.";

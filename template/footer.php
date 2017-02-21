@@ -42,7 +42,10 @@
 
 	<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
 	<script src="<?php echo PATH_JS; ?>/jquery.min.js"></script>
-	<script src="<?php echo PATH_JS; ?>/formValidation.js"></script>
+	<script src="<?php echo PATH_JS; ?>/jquery-ui.min.js"></script>
+	<script src="<?php echo PATH_JS; ?>/calendar.js"></script>
+	
+	<script src="<?php echo PATH_JS; ?>/formValidation.js"></script>	
 	<script src="<?php echo PATH_JS; ?>/validation/bootstrap.js"></script>
 	<script src="<?php echo PATH_JS; ?>/jquery.dataTables.min.js"></script>
 	<script src="<?php echo PATH_JS; ?>/dataTables.bootstrap.min.js"></script>

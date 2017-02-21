@@ -58,7 +58,6 @@ class Lotizacion extends Conexion {
 			$localizacion."',ciudad='".$ciudad."',sector='".$sector."',referencia='".$referencia.
 			"' WHERE id=".$id;	
 		}
-		$resultado = $this->mysqli->query($consulta);
 		try {
 			$resultado = $this->mysqli->query($consulta);
 			$_SESSION ['message'] = "Datos almacenados correctamente.";
