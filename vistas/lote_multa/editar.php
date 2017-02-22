@@ -2,18 +2,16 @@
 require("../../modulos/LoteMultaModulo.php");
 
 $loteMulta = new LoteMulta();
-$lotizaciones = $loteMulta->listarLotizacion();
-//$lotes = $loteMulta->listarLotes();
-$multas = $loteMulta->listarMultas();
 $item= $loteMulta->editarLoteMultas();
-$manzanas = array();
-
+$lotizaciones = $loteMulta->listarLotizaciones();
+$multas = $loteMulta->listarMultas();
+if($item->id>0){
+	$manzanas = $loteMulta->listarManzanasByLotizacion($item->lotizacion_id);
+	$lotes = $loteMulta->listarLoteByLManzana($item->manzana_id);		
+}
 $title = (($item->id>0)?'Editar ':'Nueva ').'Multa del Lote';
 require_once ("../../template/header.php");
-
 if (isset($_POST['guardar'])){
-	print_r($_POST['valor_multa']);
-	exit();
 	$loteMulta->guardarLoteMultas();
 }
 ?>
@@ -36,10 +34,10 @@ if (isset($_POST['guardar'])){
 	<div class="form-group col-sm-12">	
 		<div class="form-group col-sm-6">
 			<label class="control-label">Nombre de la Manzana</label> 			
-			<select class='form-control' name="manzana_id" id="manzana_id" disabled="disabled">
+			<select class='form-control' name="manzana_id" id="manzana_id" <?php echo $item->id==0? "disabled=disabled ": ''; ?>">
 				<option value="" >Seleccione</option>
 				<?php foreach ($manzanas as $dato) { ?>
-					<option value="<?php echo $dato->id;?>"  <?php if($item->lotizacion_id==$dato->id):echo "selected"; endif;?>><?php echo $dato->nombre;?></option>
+					<option value="<?php echo $dato->id;?>"  <?php if($item->manzana_id==$dato->id):echo "selected"; endif;?>><?php echo $dato->nombre;?></option>
 				<?php }?>
 			</select>
 		</div>
@@ -47,7 +45,7 @@ if (isset($_POST['guardar'])){
 	<div class="form-group col-sm-12">	
 		<div class="form-group col-sm-6">
 			<label class="control-label">Nombre del Lote</label> 
-			<select class='form-control' name="lote_id" id="lote_id" disabled="disabled">
+			<select class='form-control' name="lote_id" id="lote_id" <?php echo $item->id==0? "disabled=disabled ": ''; ?>">
 				<option value="" >Seleccione</option>
 				<?php foreach ($lotes as $dato) { ?>
 					<option value="<?php echo $dato->id;?>"  <?php if($item->lote_id==$dato->id):echo "selected"; endif;?>><?php echo $dato->nombre;?></option>
@@ -57,7 +55,7 @@ if (isset($_POST['guardar'])){
 	</div>	
 	<div class="form-group col-sm-12">	
 		<div class="form-group col-sm-6">
-			<label class="control-label">Nombre de la Multa</label> 
+			<label class="control-label">Nombre de la Multa</label> <?php echo $item->multa_id ?>
 			<select class='form-control' name="multa_id" id="multa_id">
 				<option value="" >Seleccione</option>
 				<?php foreach ($multas as $dato) { ?>
@@ -75,7 +73,7 @@ if (isset($_POST['guardar'])){
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6">
 			<label class="control-label">Fecha de Ingreso de Multa</label>
-			<input type="text" name="fecha_ingreso" id="fecha_ingreso"  class='form-control'  value="<?php echo $item->fecha_ingreso; ?>" readonly="readonly" size="12" />						
+			<input type="text" name="fecha_ingreso" id="fecha_ingreso"  class='form-control'  value="<?php echo $item->fecha_ingreso; ?>" size="12" />						
 		</div>
 	</div>
 	<div class="form-group col-sm-12">	
@@ -150,17 +148,11 @@ $(document).ready(function() {
 		        	"accion":2
 		        },
 		        success:function(response) {			       
-			        $('#valor_multa').val(response);			        
-			        beforeSubmit:valor();
-			           	
+			        $('#valor_multa').val(response);    	
 		        }
 		});	    
 	});
 
-	function valor(){
-        var valor = $(this).val();
-        $("#valor_multa").val(valor);
-     };
 	
 	$('#frmLoteMulta').formValidation({    	    
 			message: 'This value is not valid',
