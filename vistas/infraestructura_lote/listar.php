@@ -1,6 +1,6 @@
 <?php
-$title = 'Obras de Infraestructura';
-require("../../modulos/ObrasModulo.php");
+$title = 'Obra de Infraestructura en Lotes';
+require("../../modulos/InfraestructuraLoteModulo.php");
 require_once ("../../template/header.php");
 ?>
 <header class="page-header">
@@ -21,24 +21,24 @@ require_once ("../../template/header.php");
 	<thead>
           <tr>
                <th>ID</th>
-               <th>Nombre</th>
-               <th>Valor</th>
-               <th>Descripción</th>               
+               <th>Nombre del Lote</th>
+               <th>Obra de Infraestructura</th>
+               <th>Valor de la Infraestructura</th>
                <th>Acción</th>               
           </tr>
      </thead>
      <tbody>
      <?php
-          $obras = new Obras();
-          $listaObras = $obras->listarObras();
-          if(count($listaObras) > 0){
-               foreach ($listaObras as $row){
+          $loteInfraestructura = new InfraestructuraLote();
+          $listaLoteInfraestructura = $loteInfraestructura->listarLoteInfra();
+          if(count($listaLoteInfraestructura) > 0){
+               foreach ($listaLoteInfraestructura as $row){
      ?>
      	<tr>
             <td><?php echo $row->id ?></td>
-            <td><?php echo $row->nombre ?></td>
+            <td><?php echo $row->lote ?></td>
+            <td><?php echo $row->infra ?></td>
             <td><?php echo $row->valor ?></td>
-            <td><?php echo $row->descripcion ?></td>
             <td style="text-align: center;">
                 <a title="Editar" href="editar.php?id=<?php echo $row->id ?>" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a>
                 <a title="Eliminar" class="btn btn-danger btn-sm" onclick="return confirm('Desea eliminar el registro')" href="accion.php?id=<?php echo $row->id ?>"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>

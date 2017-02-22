@@ -22,6 +22,12 @@ if (isset($_POST['guardar'])){
 			<input type='text' name='nombre' class='form-control' value="<?php echo $item->nombre; ?>" id="nombre">
 		</div>
 	</div>	
+	<div class="form-group col-sm-12">
+		<div class="form-group col-sm-6">
+			<label class="control-label">Valor</label>
+			<input type='text' name='valor' class='form-control' value="<?php echo $item->valor; ?>" id="valor">
+		</div>
+	</div>
 	<div class="form-group col-sm-12">	
 		<div class="form-group col-sm-6">
 			<label class="control-label">Descripción</label> 
@@ -63,6 +69,18 @@ $(document).ready(function() {
 						}
 					}
 				},
+				valor: {
+					message: 'El valor no es válido',
+					validators: {
+						notEmpty: {
+							message: 'El valor no puede ser vacío.'
+						},					
+						regexp: {
+							regexp: /^[0-9\.\,]+$/,
+							message: 'Ingrese un valor válido.'
+						}
+					}
+				},				
 				descripcion: {
 					message: 'La descripción no es válida',
 					validators: {
