@@ -34,7 +34,7 @@ class Obras extends Conexion {
 			$data =  $resultado->fetch_object();					  	
 		}
 		else{
-			$data = (object) array('id'=>0,''=>'','nombre' =>'','descripcion'=>'');
+			$data = (object) array('id'=>0,''=>'','nombre' =>'','valor' =>'','descripcion'=>'');
 		}
 		return $data;
 	}
@@ -45,15 +45,16 @@ class Obras extends Conexion {
 	public function guardarObra() {
 		$nombre = $_POST['nombre'];
 		$descripcion = $_POST['descripcion'];
+		$valor = $_POST['valor'];
 			
 		if ($_POST['id'] == 0){
-			$consulta = "INSERT INTO obras_infraestructura(nombre, descripcion)
-						 VALUES ('".$nombre."','".$descripcion."')";
+			$consulta = "INSERT INTO obras_infraestructura(nombre, descripcion,valor)
+						 VALUES ('".$nombre."','".$descripcion."',".$valor.")";
 		}
 		else{
 			$id = $_POST['id'];
 			$consulta = "UPDATE obras_infraestructura SET nombre='".
-			$nombre."',descripcion='".$descripcion.
+			$nombre."',valor=".$valor.",descripcion='".$descripcion.
 			"' WHERE id=".$id;	
 		}
 		try {
