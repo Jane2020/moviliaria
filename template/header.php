@@ -1,6 +1,13 @@
 <?php
  ob_start();
- session_start();?>
+ session_start();
+ 
+ if (!isset($_SESSION['SESSION_USER'])){
+ 	$url = $_SERVER["REQUEST_URI"];
+ 	header ( "Location: ../seguridad/login.php" );
+ }
+ 
+ ?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -77,7 +84,7 @@
             </li>
             <li class="<?php echo ((strpos($url, '/lotizacion/'))||(strpos($url, '/manzana/'))||(strpos($url, '/lote/')))?'active':'';?>">
                <a data-toggle="collapse" href="#formsPredios">
-                	<i class="ti-home"></i>
+                	<i class="ti-map"></i>
                      <p>Predios  &nbsp;<b class="caret"></b></p> 
               </a>
                   <div class="collapse" id="formsPredios">
@@ -156,12 +163,15 @@
                               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="ti-user"></i>
                                     
-									<p>Usuario</p>
+									<p><?php echo  $_SESSION['SESSION_USER']->nombres; ?></p>
 									<b class="caret"></b>
                               </a>
+                              <form id="form1" name="form1" action="../seguridad/accion.php" method="post"> 
+                              <input type="hidden" name="action" id="action" value="">
+                              </form>
                               <ul class="dropdown-menu">
-                                <li><a href="#">Cambiar Contraseña</a></li>
-                                <li><a href="#">Cerrar Sesión</a></li>
+                                <li><a href="#" onclick="javascript:document.form1.action.value='cambiarContrasena'; document.form1.submit();">Cambiar Contraseña</a></li>
+                                <li><a href="#" onclick="javascript:document.form1.action.value='cerrarSesion'; document.form1.submit();">Cerrar Sesión</a></li>
                           
                               </ul>
                         </li>
