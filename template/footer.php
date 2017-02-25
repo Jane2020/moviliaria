@@ -1,47 +1,41 @@
-</div>	<!-- /container -->
-	
-
-	<footer id="footer" class="top-space">
-
-		<div class="footer1">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-6 widget">
-						
-					</div>
-					<div class="col-md-4 widget">
-						
-					</div>
-
-					<div class="col-md-2 widget" >
-						<h3 class="widget-title">Follow me</h3>
-						<div class="widget-body" >
-							<p class="follow-me-icons clearfix">
-								<a href=""><i class="fa fa-twitter fa-2"></i></a>
-								<a href=""><i class="fa fa-dribbble fa-2"></i></a>
-								<a href=""><i class="fa fa-github fa-2"></i></a>
-								<a href=""><i class="fa fa-facebook fa-2"></i></a>
-							</p>	
-						</div>
-					</div>
-
-					
-
-				</div> <!-- /row of widgets -->
-			</div>
-		</div>
-
-		<div class="footer2">
-			<div class="container">
-				
-			</div>
-		</div>
-	</footer>	
+        </div>
 
 
+        <footer class="footer">
+            <div class="container-fluid">
 
-	<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
-	<script src="<?php echo PATH_JS; ?>/jquery.min.js"></script>
+                <div class="copyright pull-right">
+                  Copyright  &copy; 2017
+                </div>
+            </div>
+        </footer>
+
+    </div>
+</div>
+
+
+</body>
+
+    <!--   Core JS Files   -->
+    <script src="<?php echo PATH_JS; ?>/jquery-1.10.2.js" type="text/javascript"></script>
+	<script src="<?php echo PATH_JS; ?>/bootstrap.min.js" type="text/javascript"></script>
+
+	<!--  Checkbox, Radio & Switch Plugins -->
+	<script src="<?php echo PATH_JS; ?>/bootstrap-checkbox-radio.js"></script>
+
+	<!--  Charts Plugin -->
+	<script src="<?php echo PATH_JS; ?>/chartist.min.js"></script>
+
+    <!--  Notifications Plugin    -->
+    <script src="<?php echo PATH_JS; ?>/bootstrap-notify.js"></script>
+
+   
+    <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
+	<script src="<?php echo PATH_JS; ?>/paper-dashboard.js"></script>
+
+	<!-- Paper Dashboard DEMO methods, don't include it in your project! -->
+	<script src="<?php echo PATH_JS; ?>/demo.js"></script>
+
 	<script src="<?php echo PATH_JS; ?>/jquery-ui.min.js"></script>
 	<script src="<?php echo PATH_JS; ?>/calendar.js"></script>
 	
@@ -53,9 +47,7 @@
 	<link href="<?php echo PATH_CSS; ?>/bootstrapValidator.min.css" rel="stylesheet"></link>
 	
 	
-	<script src="<?php echo PATH_JS; ?>/bootstrap.min.js"></script>
-	<script src="<?php echo PATH_JS; ?>/headroom.min.js"></script>
-	<script src="<?php echo PATH_JS; ?>/jQuery.headroom.min.js"></script>
-	<script src="<?php echo PATH_JS; ?>/template.js"></script>	
-</body>
 </html>
+<?php
+ob_end_flush();
+?>

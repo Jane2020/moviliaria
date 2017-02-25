@@ -11,27 +11,26 @@ if (isset($_POST['guardar'])){
 	$obra->guardarObra();
 }
 ?>
-<header class="page-header">
-	<h1 class="page-title"><?php echo $title; ?></h1>
-</header>
+ <div class="card">
+ <div class="content">
 <form id="frmManzana" method="post" action="">
 <div style="overflow: auto;">
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6">
 			<label class="control-label">Nombre</label>
-			<input type='text' name='nombre' class='form-control' value="<?php echo $item->nombre; ?>" id="nombre">
+			<input type='text' name='nombre' class='form-control border-input' value="<?php echo $item->nombre; ?>" id="nombre">
 		</div>
 	</div>	
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6">
 			<label class="control-label">Valor</label>
-			<input type='text' name='valor' class='form-control' value="<?php echo $item->valor; ?>" id="valor">
+			<input type='text' name='valor' class='form-control border-input' value="<?php echo $item->valor; ?>" id="valor">
 		</div>
 	</div>
 	<div class="form-group col-sm-12">	
 		<div class="form-group col-sm-6">
 			<label class="control-label">Descripción</label> 
-			<textarea name='descripcion' class='form-control' id="descripcion" rows="5" cols="10"><?php echo isset($item->descripcion)?$item->descripcion:null; ?></textarea>
+			<textarea name='descripcion' class='form-control border-input' id="descripcion" rows="5" cols="10"><?php echo isset($item->descripcion)?$item->descripcion:null; ?></textarea>
 		</div>
 	</div>	
 	<div class="form-group">
@@ -44,6 +43,8 @@ if (isset($_POST['guardar'])){
 	</div>
 </div>
 </form>
+</div>
+</div>
 <?php
 require_once ("../../template/footer.php");
 ?>
@@ -51,11 +52,7 @@ require_once ("../../template/footer.php");
 $(document).ready(function() {
     $('#frmManzana').formValidation({    	    
 			message: 'This value is not valid',
-			feedbackIcons: {
-				valid: 'glyphicon glyphicon-ok',
-				invalid: 'glyphicon glyphicon-remove',
-				validating: 'glyphicon glyphicon-refresh'
-			},
+
 			fields: {
 				nombre: {
 					message: 'El nombre no es válido',

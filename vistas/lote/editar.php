@@ -11,40 +11,38 @@ if (isset($_POST['guardar'])){
 	$lote->guardarLote();	
 }
 ?>
-<header class="page-header">
-					<h1 class="page-title"><?php echo $title; ?></h1>
-</header>
+ <div class="card">
+ <div class="content">
 <form id="frmLote" method="post" action="">
 <div style="overflow: auto;">
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6 row6" >
 			<label class="control-label">Nombre del Lote</label>
-			<input type='text' name="nombre" class='form-control' value="<?php echo $item->nombre; ?>" id="nombre">
+			<input type='text' name="nombre" class='form-control border-input' value="<?php echo $item->nombre; ?>" id="nombre">
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6 row6">
 			<label class="control-label">Ubicación</label> 
-			<input type='text' name="ubicacion" class="form-control" value="<?php echo $item->ubicacion; ?>" id="ubicacion">
+			<input type='text' name="ubicacion" class="form-control border-input" value="<?php echo $item->ubicacion; ?>" id="ubicacion">
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6 row6">
 			<label class="control-label">Dimensión</label> 
-			<input type='text'name="dimension" class="form-control" value="<?php echo $item->dimension; ?>" id="dimension">
+			<input type='text'name="dimension" class="form-control border-input" value="<?php echo $item->dimension; ?>" id="dimension">
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6 row6">
 			<label class="control-label">Número de Lote</label> 
-			<input type='text' name='numero_lote' class='form-control' value="<?php echo $item->numero_lote; ?>" id="numero_lote">
+			<input type='text' name='numero_lote' class='form-control border-input' value="<?php echo $item->numero_lote; ?>" id="numero_lote">
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6 row6">
-			<label class="control-label">Disponible</label>
-			
-			<div class="form-group">		
+			<label class="control-label">Disponible</label>			
+			<div class="radios">		
 			<input type="radio" name='disponible' value="1" id="disponible" <?php echo ($item->disponible)?'checked':'';?> > SI &nbsp; &nbsp;
 			<input type="radio" name='disponible' value="0" id="disponible" <?php echo (!$item->disponible)?'checked':'';?> > NO
 			</div>	
@@ -53,7 +51,7 @@ if (isset($_POST['guardar'])){
 	<div class="form-group col-sm-12">	
 		<div class="form-group col-sm-6 row6">
 			<label class="control-label">Manzana</label> 
-			<select class='form-control' name="manzana_id" id="manzana_id">
+			<select class='form-control border-input' name="manzana_id" id="manzana_id">
 				<option value="" >Seleccione</option>
 				<?php foreach ($manzanas as $dato) { ?>
 					<option value="<?php echo $dato->id;?>"  <?php if($item->manzana_id==$dato->id):echo "selected"; endif;?>><?php echo $dato->nombre;?></option>
@@ -71,6 +69,8 @@ if (isset($_POST['guardar'])){
 		</div>
 	</div>
 </div>
+</div>
+</div>
 </form>
 <?php
 require_once ("../../template/footer.php");
@@ -79,11 +79,7 @@ require_once ("../../template/footer.php");
 $(document).ready(function() {
     $('#frmLote').formValidation({    	    
 			message: 'This value is not valid',
-			feedbackIcons: {
-				valid: 'glyphicon glyphicon-ok',
-				invalid: 'glyphicon glyphicon-remove',
-				validating: 'glyphicon glyphicon-refresh'
-			},
+			
 			fields: {
 				nombre: {
 					message: 'El nombre no es válido',

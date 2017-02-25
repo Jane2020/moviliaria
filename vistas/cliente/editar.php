@@ -10,43 +10,42 @@ if (isset($_POST['guardar'])){
 	$cliente->guardarCliente();	
 }
 ?>
-<header class="page-header">
-					<h1 class="page-title"><?php echo $title; ?></h1>
-</header>
+ <div class="card">
+ <div class="content">
 <form id="frmUsuario" method="post" action="">
 <div style="overflow: auto;">
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6 row6" >
-			<label class="control-label">Identificación</label>
-		<input type='text' name='cedula' class='form-control'
+			<label class="control-label ">Identificación</label>
+		<input type='text' name='cedula' class='form-control border-input'
 			value="<?php echo $item->cedula; ?>" id="cedula">
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6 row6">
 			<label class="control-label">Nombres</label> <input type='text'
-			name='nombres' class='form-control' 
+			name='nombres' class='form-control border-input' 
 			value="<?php echo $item->nombres; ?>" id="nombres">
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6 row6">
 			<label class="control-label">Apellidos</label> <input type='text'
-			name='apellidos' class='form-control' 
+			name='apellidos' class='form-control border-input' 
 			value="<?php echo $item->apellidos; ?>" id="apellidos">
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6 row6">
 			<label class="control-label">Email</label> <input type='text'
-			name='email' class='form-control'
+			name='email' class='form-control border-input'
 			value="<?php echo $item->email; ?>" id="email">
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6 row6">
 			<label class="control-label">Celular</label> <input type='text'
-			name='celular' class='form-control'
+			name='celular' class='form-control border-input'
 			value="<?php echo $item->celular; ?>" id="celular">	
 		</div>
 	</div>
@@ -61,6 +60,8 @@ if (isset($_POST['guardar'])){
 	</div>
 </div>
 </form>
+</div>
+</div>
 <?php
 require_once ("../../template/footer.php");
 ?>
@@ -68,11 +69,6 @@ require_once ("../../template/footer.php");
 $(document).ready(function() {
     $('#frmUsuario').formValidation({    	    
 			message: 'This value is not valid',
-			feedbackIcons: {
-				valid: 'glyphicon glyphicon-ok',
-				invalid: 'glyphicon glyphicon-remove',
-				validating: 'glyphicon glyphicon-refresh'
-			},
 			fields: {
 				cedula: {
 					message: 'La Cédula no es válida',

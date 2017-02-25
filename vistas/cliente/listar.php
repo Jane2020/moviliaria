@@ -4,9 +4,8 @@ require_once ("../../modulos/ClienteModulo.php");
 require_once ("../../template/header.php");
 
 ?>
-<header class="page-header">
-		<h1 class="page-title"><?php echo $title; ?></h1>
-</header>
+ <div class="card">
+ <div class="header">
 <p>
 <?php if (isset($_SESSION['message'])&& ($_SESSION['message'] != '')):?>
 		<div class="alert alert-success fade in alert-dismissable">
@@ -54,7 +53,9 @@ require_once ("../../template/header.php");
           }
       ?>
      </tbody>
-</table>	    
+</table>
+</div>
+</div>	    
 <?php
 require_once ("../../template/footer.php");
 ?>

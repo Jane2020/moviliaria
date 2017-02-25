@@ -4,10 +4,8 @@ require_once ("../../modulos/LoteModulo.php");
 require_once ("../../template/header.php");
 
 ?>
-<header class="page-header">
-		<h1 class="page-title"><?php echo $title; ?></h1>
-</header>
-<p>
+ <div class="card">
+ <div class="header">
 <?php if (isset($_SESSION['message'])&& ($_SESSION['message'] != '')):?>
 		<div class="alert alert-success fade in alert-dismissable">
 				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -56,7 +54,9 @@ require_once ("../../template/header.php");
           }
       ?>
      </tbody>
-</table>	    
+</table>	
+ </div>    
+ </div>
 <?php
 require_once ("../../template/footer.php");
 ?>

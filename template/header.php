@@ -1,73 +1,175 @@
-
-<!DOCTYPE html>
-<html lang="es">
+<?php
+ ob_start();
+ session_start();?>
+<!doctype html>
+<html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport"    content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author"      content="Sergey Pozhilov (GetTemplate.com)">
-	
+	<meta charset="utf-8" />
+	<link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
 	<title><?php echo $title; ?></title>
 
-	<link rel="shortcut icon" href="images/gt_favicon.png">
-	
-	
-	<link rel="stylesheet" href="<?php echo PATH_CSS; ?>/bootstrap.min.css">
-	<link rel="stylesheet" href="<?php echo PATH_CSS; ?>/font-awesome.min.css">
-	<link rel="stylesheet" href="<?php echo PATH_CSS; ?>/dataTables.bootstrap.css">
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
 
-	<!-- Custom styles for our template -->
-	<link rel="stylesheet" href="<?php echo PATH_CSS; ?>/bootstrap-theme.css" media="screen" >
-	<link href="<?php echo PATH_CSS; ?>/dataTables.bootstrap.css" rel="stylesheet">
-	
-	<link rel="stylesheet" href="<?php echo PATH_CSS; ?>/main.css">	
+
+    <!-- Bootstrap core CSS     -->
+    <link href="<?php echo PATH_CSS; ?>/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Animation library for notifications   -->
+    <link href="<?php echo PATH_CSS; ?>/animate.min.css" rel="stylesheet"/>
+
+    <!--  Paper Dashboard core CSS    -->
+    <link href="<?php echo PATH_CSS; ?>/paper-dashboard.css" rel="stylesheet"/>
+
+
+    <!--  CSS for Demo Purpose, don't include it in your project     -->
+    <link href="<?php echo PATH_CSS; ?>/demo.css" rel="stylesheet" />
+	<link rel="stylesheet" href="<?php echo PATH_CSS; ?>/font-awesome.min.css">    
+    <link href="<?php echo PATH_CSS; ?>/themify-icons.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="<?php echo PATH_CSS; ?>/dataTables.bootstrap.css">
+      <link rel="stylesheet" href="<?php echo PATH_CSS; ?>/main.css">	
 	<link rel="stylesheet" href="<?php echo PATH_CSS; ?>/jquery-ui.min.css">
 
-	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-	<!--[if lt IE 9]>
-	<script src="assets/js/html5shiv.js"></script>
-	<script src="assets/js/respond.min.js"></script>
-	<![endif]-->
 </head>
-
 <body>
-	<!-- Fixed navbar -->
-	<div class="navbar navbar-inverse navbar-fixed-top headroom" >
-		<div class="container">
-			<div class="navbar-header">
-				<!-- Button for smallest screens -->
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-				<a class="navbar-brand" href="index.html"><img src="assets/images/logo.png" alt="Progressus HTML5 template"></a>
-			</div>
-			<div class="navbar-collapse collapse">
-				<ul class="nav navbar-nav pull-right" style="padding-top: 25px; font-size: 18px;">
-					<li>
-						<a href="index.html">Home</a></li>
-					<!--  <li class="active">
-						<a href="about.html">About</a></li>-->
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Predios <b class="caret"></b></a>
-						<ul class="dropdown-menu" style="font-size: 16px;">
-							<li><a href="../lotizacion/listar.php">Lotizaci&oacute;n</a></li>
-							<li><a href="../manzana/listar.php">Manzana</a></li>
-							<li><a href="../lote/listar.php">Predio</a></li>
-						</ul>
-					</li>
-					<li><a href="../multa/listar.php">Multa</a></li>
-					<!-- <li><a class="btn" href="">SIGN IN / SIGN UP</a></li>  -->
-				</ul>
-			</div><!--/.nav-collapse -->
-		</div>
-	</div> 
-	<!-- /.navbar -->
 
-	<header id="head" class="secondary"></header>
+<div class="wrapper">
+    <div class="sidebar" data-background-color="white" data-active-color="danger">
 
-	<!-- container -->
-	<div class="container">
+    <!--
+		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
+		Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
+	-->
 
-		<ol class="breadcrumb">
-			<li><a href="index.html">Home</a></li>
-			<li class="active"><?php echo $title;?></li>
-		</ol>
-<?php session_start();?>
+    	<div class="sidebar-wrapper">
+            <div class="logo">
+                <a href="#" class="simple-text">
+                    Creative Tim
+                </a>
+            </div>
+<?php $url = $_SERVER["REQUEST_URI"];?>
+            <ul class="nav" >
+                <li class="<?php echo (strpos($url, '/seguridad/'))?'active':'';?>">
+                    <a href="dashboard.html">
+                        <i class="ti-panel"></i>
+                        <p>Inicio</p>
+                    </a>
+                </li>                
+           <li class="<?php echo ((strpos($url, '/cliente/'))||(strpos($url, '/usuario/')))?'active':'';?>">
+               <a data-toggle="collapse" href="#formsUsers">
+                	<i class="ti-user"></i>
+                     <p>Personas  &nbsp;<b class="caret"></b></p> 
+              </a>
+                  <div class="collapse" id="formsUsers">
+                     <ul class="nav" style="margin-top: 0px; margin-left: 30px">
+                         <li>
+                          </i><a href="../cliente/listar.php"><p>Clientes</p></a>
+                          </li>
+                         <li>
+                          <a href="../usuario/listar.php"><p>Usuarios</p></a>
+                          </li>                         
+                     </ul>
+                  </div>
+            </li>
+            <li class="<?php echo ((strpos($url, '/lotizacion/'))||(strpos($url, '/manzana/'))||(strpos($url, '/lote/')))?'active':'';?>">
+               <a data-toggle="collapse" href="#formsPredios">
+                	<i class="ti-home"></i>
+                     <p>Predios  &nbsp;<b class="caret"></b></p> 
+              </a>
+                  <div class="collapse" id="formsPredios">
+                     <ul class="nav" style="margin-top: 0px; margin-left: 30px">
+                         <li>
+                          </i><a href="../lotizacion/listar.php"><p>Lotización</p></a>
+                          </li>
+                         <li>
+                          <a href="../manzana/listar.php"><p>Manzana</p></a>
+                          </li>  
+                          <li>
+                          <a href="../lote/listar.php"><p>Lote</p></a>
+                          </li>    
+                                              
+                     </ul>
+                  </div>
+            </li>
+            
+             <li class="<?php echo ((strpos($url, '/multa/'))||(strpos($url, '/lote_multa/')))?'active':'';?>">
+               <a data-toggle="collapse" href="#formsMulta">
+                	<i class="ti-bell"></i>
+                     <p>Multas  &nbsp;<b class="caret"></b></p> 
+              </a>
+                  <div class="collapse" id="formsMulta">
+                     <ul class="nav" style="margin-top: 0px; margin-left: 30px">
+                         <li>
+                          </i><a href="../multa/listar.php"><p>Multa</p></a>
+                          </li>
+                         <li>
+                          <a href="../lote_multa/listar.php"><p>Multas Lotes</p></a>
+                          </li>                    
+                                              
+                     </ul>
+                  </div>
+            </li>
+            
+            <li class="<?php echo ((strpos($url, '/obras/'))||(strpos($url, '/infraestructura_lote/')))?'active':'';?>">
+               <a data-toggle="collapse" href="#formsObra">
+                	<i class="ti-direction-alt"></i>
+                     <p>Obras&nbsp;<b class="caret"></b></p> 
+              </a>
+                  <div class="collapse" id="formsObra">
+                     <ul class="nav" style="margin-top: 0px; margin-left: 30px">
+                         <li>
+                          </i><a href="../obras/listar.php"><p>Obras</p></a>
+                          </li>
+                         <li>
+                          <a href="../infraestructura_lote/listar.php"><p>Obras Lotes</p></a>
+                          </li>                    
+                                              
+                     </ul>
+                  </div>
+            </li>
+
+				
+            </ul>
+    	</div>
+    </div>
+
+       <div class="main-panel">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar bar1"></span>
+                        <span class="icon-bar bar2"></span>
+                        <span class="icon-bar bar3"></span>
+                    </button>
+                    <a class="navbar-brand" href="#"><?php echo $title;?></a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        
+                        <li class="dropdown">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="ti-user"></i>
+                                    
+									<p>Usuario</p>
+									<b class="caret"></b>
+                              </a>
+                              <ul class="dropdown-menu">
+                                <li><a href="#">Cambiar Contraseña</a></li>
+                                <li><a href="#">Cerrar Sesión</a></li>
+                          
+                              </ul>
+                        </li>
+						
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+        <div class="content">
+        

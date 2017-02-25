@@ -1,4 +1,5 @@
 <?php
+
 require_once 'Conexion.php';
 class Lote extends Conexion {
 	private $mysqli;

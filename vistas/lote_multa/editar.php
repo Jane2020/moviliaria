@@ -15,15 +15,14 @@ if (isset($_POST['guardar'])){
 	$loteMulta->guardarLoteMultas();
 }
 ?>
-<header class="page-header">
-	<h1 class="page-title"><?php echo $title; ?></h1>
-</header>
+ <div class="card">
+ <div class="content">
 <form id="frmLoteMulta" method="post" action="">
 <div style="overflow: auto;">
 	<div class="form-group col-sm-12">	
 		<div class="form-group col-sm-6">
 			<label class="control-label">Nombre del Lotización</label> 
-			<select class='form-control' name="lotizacion_id" id="lotizacion_id">
+			<select class='form-control border-input' name="lotizacion_id" id="lotizacion_id">
 				<option value="" >Seleccione</option>
 				<?php foreach ($lotizaciones as $dato) { ?>
 					<option value="<?php echo $dato->id;?>"  <?php if($item->lotizacion_id==$dato->id):echo "selected"; endif;?>><?php echo $dato->nombre;?></option>
@@ -34,7 +33,7 @@ if (isset($_POST['guardar'])){
 	<div class="form-group col-sm-12">	
 		<div class="form-group col-sm-6">
 			<label class="control-label">Nombre de la Manzana</label> 			
-			<select class='form-control' name="manzana_id" id="manzana_id" <?php echo $item->id==0? "disabled=disabled ": ''; ?>">
+			<select class='form-control border-input' name="manzana_id" id="manzana_id" <?php echo $item->id==0? "disabled=disabled ": ''; ?>">
 				<option value="" >Seleccione</option>
 				<?php foreach ($manzanas as $dato) { ?>
 					<option value="<?php echo $dato->id;?>"  <?php if($item->manzana_id==$dato->id):echo "selected"; endif;?>><?php echo $dato->nombre;?></option>
@@ -45,7 +44,7 @@ if (isset($_POST['guardar'])){
 	<div class="form-group col-sm-12">	
 		<div class="form-group col-sm-6">
 			<label class="control-label">Nombre del Lote</label> 
-			<select class='form-control' name="lote_id" id="lote_id" <?php echo $item->id==0? "disabled=disabled ": ''; ?>">
+			<select class='form-control border-input' name="lote_id" id="lote_id" <?php echo $item->id==0? "disabled=disabled ": ''; ?>">
 				<option value="" >Seleccione</option>
 				<?php foreach ($lotes as $dato) { ?>
 					<option value="<?php echo $dato->id;?>"  <?php if($item->lote_id==$dato->id):echo "selected"; endif;?>><?php echo $dato->nombre;?></option>
@@ -56,7 +55,7 @@ if (isset($_POST['guardar'])){
 	<div class="form-group col-sm-12">	
 		<div class="form-group col-sm-6">
 			<label class="control-label">Nombre de la Multa</label> <?php echo $item->multa_id ?>
-			<select class='form-control' name="multa_id" id="multa_id">
+			<select class='form-control border-input' name="multa_id" id="multa_id">
 				<option value="" >Seleccione</option>
 				<?php foreach ($multas as $dato) { ?>
 					<option value="<?php echo $dato->id;?>"  <?php if($item->multa_id==$dato->id):echo "selected"; endif;?>><?php echo $dato->nombre;?></option>
@@ -67,19 +66,19 @@ if (isset($_POST['guardar'])){
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6">
 			<label class="control-label">Valor</label>
-			<input type='text' name='valor_multa' id="valor_multa" class='form-control' value="<?php echo $item->valor_multa; ?>" disabled>			
+			<input type='text' name='valor_multa' id="valor_multa" class='form-control border-input' value="<?php echo $item->valor_multa; ?>" disabled>			
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6">
 			<label class="control-label">Fecha de Ingreso de Multa</label>
-			<input type="text" name="fecha_ingreso" id="fecha_ingreso"  class='form-control'  value="<?php echo $item->fecha_ingreso; ?>" size="12" />						
+			<input type="text" name="fecha_ingreso" id="fecha_ingreso"  class='form-control border-input'  value="<?php echo $item->fecha_ingreso; ?>" size="12" />						
 		</div>
 	</div>
 	<div class="form-group col-sm-12">	
 		<div class="form-group col-sm-6">
 			<label class="control-label">Descripción</label> 
-			<textarea name='descripcion' class='form-control' id="descripcion" rows="5" cols="10"><?php echo isset($item->descripcion)?$item->descripcion:null; ?></textarea>
+			<textarea name='descripcion' class='form-control border-input' id="descripcion" rows="5" cols="10"><?php echo isset($item->descripcion)?$item->descripcion:null; ?></textarea>
 		</div>
 	</div>	
 	<div class="form-group">
@@ -92,6 +91,8 @@ if (isset($_POST['guardar'])){
 	</div>
 </div>
 </form>
+</div>
+</div>
 <?php
 require_once ("../../template/footer.php");
 ?>
@@ -156,11 +157,7 @@ $(document).ready(function() {
 	
 	$('#frmLoteMulta').formValidation({    	    
 			message: 'This value is not valid',
-			feedbackIcons: {
-				valid: 'glyphicon glyphicon-ok',
-				invalid: 'glyphicon glyphicon-remove',
-				validating: 'glyphicon glyphicon-refresh'
-			},
+
 			fields: {
 				lotizacion_id: {
 					message: 'La lotización no es válida',
