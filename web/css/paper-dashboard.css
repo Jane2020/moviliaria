@@ -353,7 +353,7 @@ hr {
 }
 .sidebar .nav li.active > a:after,
 .off-canvas-sidebar .nav li.active > a:after {
-  border-right: 17px solid #f4f3ef;
+  border-right: 17px solid #fffcf5;
   border-top: 17px solid transparent;
   border-bottom: 17px solid transparent;
   content: "";
@@ -476,7 +476,7 @@ hr {
 }
 
 .main-panel {
-  background-color: #f4f3ef;
+  background-color: #fffcf5;
   position: relative;
   z-index: 2;
   float: right;
@@ -803,9 +803,9 @@ hr {
   color: #EB5E28;
 }
 .navbar .navbar-nav > li > a.btn-danger:hover, .navbar .navbar-nav > li > a.btn-danger:focus, .navbar .navbar-nav > li > a.btn-danger:active, .navbar .navbar-nav > li > a.btn-danger.active, .open > .navbar .navbar-nav > li > a.btn-danger.dropdown-toggle, .btn-danger:hover, .btn-danger:focus, .btn-danger:active, .btn-danger.active, .open > .btn-danger.dropdown-toggle {
-  background-color: #EB5E28;
+  background-color: #fffcf5;
   color: rgba(255, 255, 255, 0.7);
-  border-color: #EB5E28;
+  border-color: #fffcf5;
 }
 .navbar .navbar-nav > li > a.btn-danger:hover .caret, .navbar .navbar-nav > li > a.btn-danger:focus .caret, .navbar .navbar-nav > li > a.btn-danger:active .caret, .navbar .navbar-nav > li > a.btn-danger.active .caret, .open > .navbar .navbar-nav > li > a.btn-danger.dropdown-toggle .caret, .btn-danger:hover .caret, .btn-danger:focus .caret, .btn-danger:active .caret, .btn-danger.active .caret, .open > .btn-danger.dropdown-toggle .caret {
   border-top-color: rgba(255, 255, 255, 0.7);
@@ -1463,7 +1463,7 @@ textarea.form-control {
 }
 
 .navbar-default {
-  background-color: #f4f3ef;
+  background-color:  #fffcf5;
   border-bottom: 1px solid #DDDDDD;
 }
 .navbar-default .brand {

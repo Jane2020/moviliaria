@@ -61,7 +61,7 @@
 <?php $url = $_SERVER["REQUEST_URI"];?>
             <ul class="nav" >
                 <li class="<?php echo (strpos($url, '/seguridad/'))?'active':'';?>">
-                    <a href="dashboard.html">
+                    <a href="../seguridad/inicio.php">
                         <i class="ti-panel"></i>
                         <p>Inicio</p>
                     </a>
