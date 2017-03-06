@@ -3,7 +3,10 @@ require_once ("../../modulos/AcuerdoModulo.php");
 $acuerdo = new Acuerdo();
 $item= $acuerdo->editarAcuerdo();
 $lotizaciones = $acuerdo->listarLotizaciones();
-
+if($item->id>0){
+	$manzanas = $acuerdo->listarManzanasByLotizacion($item->lotizacion_id);
+	$lotes = $acuerdo->listarLoteByLManzana($item->manzana_id);
+}
 $title = (($item->id>0)?'Editar ':'Nuevo ').'Acuerdo';
 require_once ("../../template/header.php");
 
@@ -25,7 +28,7 @@ if (isset($_POST['guardar'])){
 	<div class="form-group col-sm-12">	
 		<div class="form-group col-sm-6">
 			<label class="control-label">Nombre del Lotización</label> 
-			<select class='form-control border-input' name="lotizacion_id" id="lotizacion_id">
+			<select class='form-control border-input' name="lotizacion_id" id="lotizacion_id" <?php echo $item->id>0? "disabled=disabled ": ''; ?>">
 				<option value="" >Seleccione</option>
 				<?php foreach ($lotizaciones as $dato) { ?>
 					<option value="<?php echo $dato->id;?>"  <?php if($item->lotizacion_id==$dato->id):echo "selected"; endif;?>><?php echo $dato->nombre;?></option>
@@ -36,7 +39,7 @@ if (isset($_POST['guardar'])){
 	<div class="form-group col-sm-12">	
 		<div class="form-group col-sm-6">
 			<label class="control-label">Nombre de la Manzana</label> 			
-			<select class='form-control border-input' name="manzana_id" id="manzana_id" <?php echo $item->id==0? "disabled=disabled ": ''; ?>">
+			<select class='form-control border-input' name="manzana_id" id="manzana_id" disabled="disabled">
 				<option value="" >Seleccione</option>
 				<?php foreach ($manzanas as $dato) { ?>
 					<option value="<?php echo $dato->id;?>"  <?php if($item->manzana_id==$dato->id):echo "selected"; endif;?>><?php echo $dato->nombre;?></option>
@@ -46,8 +49,8 @@ if (isset($_POST['guardar'])){
 	</div>	
 	<div class="form-group col-sm-12">	
 		<div class="form-group col-sm-6">
-			<label class="control-label">Nombre del Lote</label> 
-			<select class='form-control border-input' name="lote_id" id="lote_id" <?php echo $item->id==0? "disabled=disabled ": ''; ?>">
+			<label class="control-label">Número del Lote</label> 
+			<select class='form-control border-input' name="lote_id" id="lote_id" disabled="disabled">
 				<option value="" >Seleccione</option>
 				<?php foreach ($lotes as $dato) { ?>
 					<option value="<?php echo $dato->id;?>"  <?php if($item->lote_id==$dato->id):echo "selected"; endif;?>><?php echo $dato->nombre;?></option>

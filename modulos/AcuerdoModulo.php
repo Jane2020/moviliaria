@@ -34,7 +34,7 @@ class Acuerdo extends Conexion {
 	 * Función que obtiene el Listado de Lotizaciones
 	 */
 	public function listarLotizaciones(){
-		$resultado = $this->mysqli->query("SELECT * FROM lotizacion where eliminado=0");
+		$resultado = $this->mysqli->query("SELECT * FROM lotizacion WHERE eliminado=0");
 		if($resultado != null){
 			while( $fila = $resultado->fetch_object() ){
 				$data[] = $fila;
@@ -70,13 +70,15 @@ class Acuerdo extends Conexion {
 	 * Función que obtiene el Listado de Lotes dado el id de la manzana
 	 */
 	public function listarLoteByLManzana($manzana_id=null){
+		$disponible = null;
 		if(isset($_GET['id']) && $_GET['id'] >0 && $manzana_id==null){
-			$id= $_GET['id'];
+			$id= $_GET['id'];			
+			$disponible = " and disponible=1 ";
 		}
 		else{
 			$id=$manzana_id;
 		}
-		$resultado = $this->mysqli->query("SELECT * FROM lote where eliminado=0 and disponible=1 and manzana_id=".$id);
+		$resultado = $this->mysqli->query("SELECT id,numero_lote as nombre FROM lote where eliminado=0 ".$disponible." and manzana_id=".$id);
 		if($resultado != null){
 			while( $fila = $resultado->fetch_object() ){
 				$data[] = $fila;
@@ -109,8 +111,15 @@ class Acuerdo extends Conexion {
 	public function editarAcuerdo(){
 		if(isset($_GET['id']) && $_GET['id'] >0){
 			$id= $_GET['id'];
-			$resultado = $this->mysqli->query("SELECT l.*,m.id as manzana_id, m.nombre as manzana_nombre  FROM lote l 
-										   INNER JOIN manzana m ON l.manzana_id=m.id WHERE l.id=".$id);
+			$resultado = $this->mysqli->query("SELECT a.id, u.id as usuario_id,a.id,concat(u.nombres,' ', u.apellidos) as usuario,
+												m.lotizacion_id,l.manzana_id,
+												a.lote_id, cod_promesa,fecha_ingreso,valor_ingreso,valor_venta,cod_promesa
+												FROM acuerdo a 
+												INNER JOIN usuario u ON u.id= a.usuario_id
+												INNER JOIN lote l ON l.id= a.lote_id
+												INNER JOIN manzana m ON m.id = l.manzana_id
+												INNER JOIN lotizacion lz ON lz.id = m.lotizacion_id
+												WHERE a.id=".$id);
 			$data =  $resultado->fetch_object();					  	
 		}
 		else{
@@ -132,7 +141,7 @@ class Acuerdo extends Conexion {
 		
 		if ($_POST['id'] == 0){
 			$consulta = "INSERT INTO acuerdo(usuario_id,lote_id, fecha_ingreso,valor_ingreso,valor_venta,cod_promesa)
-						 VALUES ('".$usuario_id."','".$lote_id."','".$fecha_ingreso."',".$valor_ingreso.",".$valor_venta.",".$cod_promesa.")";
+						 VALUES ('".$usuario_id."','".$lote_id."','".$fecha_ingreso."',".$valor_ingreso.",".$valor_venta.",'".$cod_promesa."')";
 		}
 		else{
 			$id = $_POST['id'];
@@ -141,7 +150,7 @@ class Acuerdo extends Conexion {
 		$consulta_lote = "UPDATE lote SET disponible=0 WHERE id=".$lote_id;
 		try {
 			$this->mysqli->query($consulta);
-		//	$this->mysqli->query($consulta_lote);
+			$this->mysqli->query($consulta_lote);
 			$_SESSION ['message'] = "Datos almacenados correctamente.";
 		} catch ( Exception $e ) {
 			$_SESSION ['message'] = $e->getMessage ();
@@ -156,8 +165,10 @@ class Acuerdo extends Conexion {
 		if(isset($_GET['id']) && $_GET['id'] >0){
 			$id= $_GET['id'];			
 			$consulta = "UPDATE acuerdo SET eliminado=1 WHERE id =".$id;
+			$consulta_lote = "UPDATE lote SET disponible=0 WHERE id=".$lote_id;
 			try {
-				$resultado = $this->mysqli->query($consulta);
+				 $this->mysqli->query($consulta);
+				 $this->mysqli->query($consulta_lote);
 				$_SESSION ['message'] = "Datos eliminados correctamente.";
 			} catch ( Exception $e ) {
 				$_SESSION ['message'] = $e->getMessage ();
