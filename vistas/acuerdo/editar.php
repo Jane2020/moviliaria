@@ -1,25 +1,27 @@
 <?php
-require("../../modulos/InfraestructuraLoteModulo.php");
+require_once ("../../modulos/AcuerdoModulo.php");
+$acuerdo = new Acuerdo();
+$item= $acuerdo->editarAcuerdo();
+$lotizaciones = $acuerdo->listarLotizaciones();
 
-$loteInfra = new InfraestructuraLote();
-$item= $loteInfra->editarLoteInfra();
-
-$lotizaciones = $loteInfra->listarLotizaciones();
-$obras = $loteInfra->listaObras();
-if($item->id>0){
-	$manzanas = $loteInfra->listarManzanasByLotizacion($item->lotizacion_id);
-	$lotes = $loteInfra->listarLoteByLManzana($item->manzana_id);		
-}
-$title = (($item->id>0)?'Editar ':'Nueva ').'Obra de Infraestructura en el Lote';
+$title = (($item->id>0)?'Editar ':'Nuevo ').'Acuerdo';
 require_once ("../../template/header.php");
+
 if (isset($_POST['guardar'])){
-	$loteInfra->guardarLoteInfra();
+	$acuerdo->guardarAcuerdo();	
 }
 ?>
  <div class="card">
  <div class="content">
-<form id="frmLoteInfra" method="post" action="">
+<form id="frmAcuerdo" method="post" action="">
 <div style="overflow: auto;">
+	<div class="form-group col-sm-12">
+		<div class="form-group col-sm-6 row6" >
+			<label class="control-label">Nombre del Cliente</label>
+			<input type='text' name="usuario" class='form-control border-input' value="<?php echo $item->usuario; ?>" id="usuario">
+			<input type="hidden" name="usuario_id" class='form-control border-input' value="<?php echo $item->usuario_id; ?>" id="usuario_id">
+		</div>
+	</div>
 	<div class="form-group col-sm-12">	
 		<div class="form-group col-sm-6">
 			<label class="control-label">Nombre del Lotización</label> 
@@ -53,55 +55,82 @@ if (isset($_POST['guardar'])){
 			</select>
 		</div>
 	</div>	
-	<div class="form-group col-sm-12">	
-		<div class="form-group col-sm-6">
-			<label class="control-label">Nombre de la Obra de Infraestructura</label> <?php echo $item->obra_id ?>
-			<select class='form-control border-input' name="obra_id" id="obra_id">
-				<option value="" >Seleccione</option>
-				<?php foreach ($obras as $dato) { ?>
-					<option value="<?php echo $dato->id;?>"  <?php if($item->obra_id==$dato->id):echo "selected"; endif;?>><?php echo $dato->nombre;?></option>
-				<?php }?>
-			</select>
-		</div>
-	</div>
+		
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6">
-			<label class="control-label">Valor</label>
-			<input type='text' name='valor' id="valor" class='form-control border-input' value="<?php echo $item->valor; ?>" disabled>			
-		</div>
-	</div>
-	<div class="form-group col-sm-12">
-		<div class="form-group col-sm-6">
-			<label class="control-label">Fecha de Ingreso de Multa</label>
+			<label class="control-label">Fecha de Ingreso</label>
 			<input type="text" name="fecha_ingreso" id="fecha_ingreso"  class='form-control border-input'  value="<?php echo $item->fecha_ingreso; ?>" size="12" />						
 		</div>
-	</div>		
+	</div>
+	<div class="form-group col-sm-12">
+		<div class="form-group col-sm-6 row6">
+			<label class="control-label">Valor de Ingreso</label> 
+			<input type='text' name="valor_ingreso" class="form-control border-input" value="<?php echo $item->valor_ingreso; ?>" id="valor_ingreso">
+		</div>
+	</div>
+	<div class="form-group col-sm-12">
+		<div class="form-group col-sm-6 row6">
+			<label class="control-label">Valor de Venta</label> 
+			<input type='text'name="valor_venta" class="form-control border-input" value="<?php echo $item->valor_venta; ?>" id="valor_venta">
+		</div>
+	</div>
+	<div class="form-group col-sm-12">
+		<div class="form-group col-sm-6 row6">
+			<label class="control-label">Código de Promesa</label> 
+			<input type='text' name='cod_promesa' class='form-control border-input' value="<?php echo $item->cod_promesa; ?>" id="cod_promesa">
+		</div>
+	</div>
 	<div class="form-group">
 		<div class="form-group col-sm-6">
 			<input type='hidden' name='id' class='form-control' value="<?php echo $item->id; ?>">		
 			<input type='hidden' name='guardar' value="1">
 			<button type="submit" name="boton" class="btn btn-success btn-sm">Guardar</button>		
 			<a href="listar.php" class="btn btn-info btn-sm">Cancelar</a>
-		</div>		
+		</div>
 	</div>
 </div>
+</div>
+</div>
 </form>
-</div>
-</div>
 <?php
 require_once ("../../template/footer.php");
 ?>
 <script type="text/javascript">
 $(document).ready(function() {
-//	$("#fecha_ingreso").datepicker();
-
+	
 	jQuery( "#fecha_ingreso" ).datepicker({  
 		dateFormat: "yy-mm-dd",
 		onClose: function( selectedDate ) {
-	        $('#frmLoteMulta').formValidation('revalidateField', 'fecha_ingreso');
+	        $('#frmAcuerdo').formValidation('revalidateField', 'fecha_ingreso');
 	      }  		
+	});
+
+	$('#usuario').change(function(){
+	    var usuario_id = jQuery("#usuario").val();
+	    if(usuario_id.length == 10){
+		    jQuery.ajax({
+			        type: "GET",
+			        dataType: "json",
+			        url: "ajax.php",			        
+			        data: {
+			        	"cedula": usuario_id,
+			        	"accion":2
+			        },
+			        success:function(data) {
+				        if(data != -1){
+					         jQuery("#usuario").val(data.nombre);
+						     jQuery("#usuario_id").val(data.usuario_id);			        	
+				        }		
+				        else{
+					        alert('El cliente no existe, ingrese en la administración de clientes para continuar.');
+					        
+					    }
+				        $('#frmAcuerdo').formValidation('revalidateField', 'usuario');		       
+			        }
+			});	    
+	    }	    
 	});  
-	
+
 	$('#lotizacion_id').change(function(){
 	    var lotizacion_id = jQuery("#lotizacion_id").val();
 	    jQuery.ajax({
@@ -133,27 +162,22 @@ $(document).ready(function() {
 		        }
 		});	    
 	});
-
-	$('#obra_id').change(function(){
-	    var obra_id = jQuery("#obra_id").val();
-	    jQuery.ajax({
-		        type: "GET",
-		        url: "ajax.php",
-		        data: {
-		        	"id": obra_id,
-		        	"accion":2
-		        },
-		        success:function(response) {			       
-			        $('#valor').val(response);    	
-		        }
-		});	    
-	});
-
 	
-	$('#frmLoteInfra').formValidation({    	    
+	$('#frmAcuerdo').formValidation({    	    
 			message: 'This value is not valid',
-
 			fields: {
+				usuario: {
+					message: 'El Nombre del Cliente no es válido',
+					validators: {
+						notEmpty: {
+							message: 'El Nombre del Cliente no puede ser vacío.'
+						},					
+						regexp: {
+							regexp: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ \s]+$/,
+							message: 'Ingrese un Nombre del Cliente válido.'
+						}
+					}
+				},
 				lotizacion_id: {
 					message: 'La lotización no es válida',
 					validators: {
@@ -178,14 +202,6 @@ $(document).ready(function() {
 						}
 					}
 				},
-				multa_id: {
-					message: 'La multa no es válida',
-					validators: {
-						notEmpty: {
-							message: 'El multa no puede ser vacía.'
-						}
-					}
-				},
 				fecha_ingreso: {
 					message: 'La fecha de ingreso no es válida',
 					 validators: {
@@ -197,7 +213,39 @@ $(document).ready(function() {
 			                    message: 'La fecha de ingreso no es válida.'				                    
 						 }						 							 
 					 }
-				 }				
+				 },
+				valor_ingreso: {
+					message: 'El valor de ingreso no es válida',
+					validators: {
+						notEmpty: {
+							message: 'La valor de ingreso no puede ser vacía.'
+						},					
+						regexp: {
+							regexp: /^([0-9])*[.]?[0-9]*$/,
+							message: 'Ingrese un valor de ingreso válido.'
+						}
+					}
+				},		 
+				valor_venta: {
+					message: 'El valor de venta no es válido',
+					validators: {
+						notEmpty: {
+							message: 'El valor de venta no puede ser vacío.'
+						},						
+						regexp: {
+							regexp: /^([0-9])*[.]?[0-9]*$/,
+							message: 'Ingrese un valor de venta válido.'
+						}
+					}
+				},
+				cod_promesa: {
+					message: 'El código de promesa no es válido',
+					validators: {
+						notEmpty: {
+							message: 'El código de promesa  no puede ser vacío.'
+						}
+					}
+				}						
 			}
 		});
     });

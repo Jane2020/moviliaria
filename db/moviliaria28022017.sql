@@ -32,9 +32,9 @@ CREATE TABLE `acuerdo` (
   `valor_ingreso` double NOT NULL,
   `valor_venta` double NOT NULL,
   `cod_promesa` varchar(512) DEFAULT NULL,
+  `eliminado` int(11) NOT NULL DEFAULT '0',
   `usuario_id` int(11) NOT NULL,
   `lote_id` int(11) NOT NULL,
-  `tipo_acuerdo_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_venta_usuario1` (`usuario_id`),
   KEY `fk_venta_lote1` (`lote_id`),
@@ -48,26 +48,6 @@ CREATE TABLE `acuerdo` (
 
 /*!40000 ALTER TABLE `acuerdo` DISABLE KEYS */;
 /*!40000 ALTER TABLE `acuerdo` ENABLE KEYS */;
-
-
---
--- Definition of table `infraestructura`
---
-
-DROP TABLE IF EXISTS `infraestructura`;
-CREATE TABLE `infraestructura` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(128) NOT NULL,
-  `eliminado` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `infraestructura`
---
-
-/*!40000 ALTER TABLE `infraestructura` DISABLE KEYS */;
-/*!40000 ALTER TABLE `infraestructura` ENABLE KEYS */;
 
 
 --
@@ -107,6 +87,8 @@ DROP TABLE IF EXISTS `lote_infraestructura`;
 CREATE TABLE `lote_infraestructura` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `valor` double NOT NULL,
+  `fecha_ingreso` date NOT NULL,
+  `eliminado` int(11) NOT NULL DEFAULT '0',
   `infraestructura_id` int(11) NOT NULL,
   `lote_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
@@ -114,13 +96,17 @@ CREATE TABLE `lote_infraestructura` (
   KEY `fk_lote_infraestructura_lote1` (`lote_id`),
   CONSTRAINT `fk_lote_infraestructura_infraestructura1` FOREIGN KEY (`infraestructura_id`) REFERENCES `obras_infraestructura` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_lote_infraestructura_lote1` FOREIGN KEY (`lote_id`) REFERENCES `lote` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `lote_infraestructura`
 --
 
 /*!40000 ALTER TABLE `lote_infraestructura` DISABLE KEYS */;
+INSERT INTO `lote_infraestructura` (`id`,`valor`,`fecha_ingreso`,`eliminado`,`infraestructura_id`,`lote_id`) VALUES 
+ (1,100,'2017-02-22',0,1,1),
+ (2,100,'2017-02-02',0,1,1),
+ (3,100,'2017-02-22',1,1,1);
 /*!40000 ALTER TABLE `lote_infraestructura` ENABLE KEYS */;
 
 
@@ -243,6 +229,7 @@ DROP TABLE IF EXISTS `obras_infraestructura`;
 CREATE TABLE `obras_infraestructura` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(128) NOT NULL,
+  `valor` double NOT NULL,
   `descripcion` varchar(512) DEFAULT NULL,
   `eliminado` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
@@ -253,8 +240,8 @@ CREATE TABLE `obras_infraestructura` (
 --
 
 /*!40000 ALTER TABLE `obras_infraestructura` DISABLE KEYS */;
-INSERT INTO `obras_infraestructura` (`id`,`nombre`,`descripcion`,`eliminado`) VALUES 
- (1,'Obra 1','sa',0);
+INSERT INTO `obras_infraestructura` (`id`,`nombre`,`valor`,`descripcion`,`eliminado`) VALUES 
+ (1,'Obra 1',100,'sa',0);
 /*!40000 ALTER TABLE `obras_infraestructura` ENABLE KEYS */;
 
 
@@ -312,26 +299,6 @@ CREATE TABLE `parametros` (
 
 
 --
--- Definition of table `tipo_acuerdo`
---
-
-DROP TABLE IF EXISTS `tipo_acuerdo`;
-CREATE TABLE `tipo_acuerdo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(45) NOT NULL,
-  `eliminado` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tipo_acuerdo`
---
-
-/*!40000 ALTER TABLE `tipo_acuerdo` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tipo_acuerdo` ENABLE KEYS */;
-
-
---
 -- Definition of table `tipo_pago`
 --
 
@@ -361,13 +328,17 @@ CREATE TABLE `tipo_usuario` (
   `nombre` varchar(128) NOT NULL,
   `descripcion` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tipo_usuario`
 --
 
 /*!40000 ALTER TABLE `tipo_usuario` DISABLE KEYS */;
+INSERT INTO `tipo_usuario` (`id`,`nombre`,`descripcion`) VALUES 
+ (1,'Administrador','Administrador'),
+ (2,'Secretario','Secretario'),
+ (3,'Cliente','Cliente');
 /*!40000 ALTER TABLE `tipo_usuario` ENABLE KEYS */;
 
 
@@ -413,13 +384,15 @@ CREATE TABLE `usuario` (
   PRIMARY KEY (`id`),
   KEY `fk_usuario_tipo_usuario1` (`tipo_usuario_id`),
   CONSTRAINT `fk_usuario_tipo_usuario1` FOREIGN KEY (`tipo_usuario_id`) REFERENCES `tipo_usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `usuario`
 --
 
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
+INSERT INTO `usuario` (`id`,`cedula`,`nombres`,`apellidos`,`password`,`email`,`celular`,`eliminado`,`tipo_usuario_id`) VALUES 
+ (1,'0603108770','Jane','C','202cb962ac59075b964b07152d234b70','l','099999','0',1);
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 
 
