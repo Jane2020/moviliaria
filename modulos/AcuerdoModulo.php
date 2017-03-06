@@ -165,7 +165,7 @@ class Acuerdo extends Conexion {
 		if(isset($_GET['id']) && $_GET['id'] >0){
 			$id= $_GET['id'];			
 			$consulta = "UPDATE acuerdo SET eliminado=1 WHERE id =".$id;
-			$consulta_lote = "UPDATE lote SET disponible=0 WHERE id=".$lote_id;
+			$consulta_lote = "UPDATE lote SET disponible=1 WHERE id=".$lote_id;
 			try {
 				 $this->mysqli->query($consulta);
 				 $this->mysqli->query($consulta_lote);
