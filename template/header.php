@@ -73,9 +73,7 @@
               </a>
                   <div class="collapse" id="formsUsers">
                      <ul class="nav" style="margin-top: 0px; margin-left: 30px">
-                         <li>
-                          </i><a href="../cliente/listar.php"><p>Clientes</p></a>
-                          </li>
+
                          <li>
                           <a href="../usuario/listar.php"><p>Usuarios</p></a>
                           </li>                         

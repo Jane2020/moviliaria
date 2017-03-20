@@ -1,5 +1,5 @@
 <?php
-$title = 'Usuario';
+$title = 'Usuarios';
 require_once ("../../modulos/UsuarioModulo.php");
 require_once ("../../template/header.php");
 

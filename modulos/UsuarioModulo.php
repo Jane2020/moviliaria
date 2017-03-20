@@ -15,7 +15,7 @@ class Usuario extends Conexion {
 	 */
 	public function listarUsuarios(){		
 		$resultado = $this->mysqli->query("SELECT u.*, t.nombre as tipo  FROM usuario as u 
-										   INNER JOIN tipo_usuario as t ON u.tipo_usuario_id = t.id WHERE u.eliminado=0 and tipo_usuario_id <> 3");		
+										   INNER JOIN tipo_usuario as t ON u.tipo_usuario_id = t.id WHERE u.eliminado=0 ");		
 		if($resultado != null){
 			while( $fila = $resultado->fetch_object() ){
 				$data[] = $fila;
@@ -30,7 +30,7 @@ class Usuario extends Conexion {
 	 * Función que obtiene el Listado de Tipos de usuarios
 	 */
 	public function listarTipos(){
-		$resultado = $this->mysqli->query("SELECT id, nombre FROM tipo_usuario where id != 3");
+		$resultado = $this->mysqli->query("SELECT id, nombre FROM tipo_usuario ");
 		if($resultado != null){
 			while( $fila = $resultado->fetch_object() ){
 				$data[] = $fila;
@@ -69,24 +69,59 @@ class Usuario extends Conexion {
 		$celular = $_POST['celular'];		
 		$tipo = $_POST['tipo'];
 		
-		if ($_POST['id'] == 0){
-			$consulta = "INSERT INTO usuario(cedula,nombres,apellidos,password,email,celular,tipo_usuario_id)
+		if($this->validarUsuario($cedula, $tipo, $_POST['id'])){
+
+			if ($_POST['id'] == 0){
+				$consulta = "INSERT INTO usuario(cedula,nombres,apellidos,password,email,celular,tipo_usuario_id)
 						 VALUES ('".$cedula."','".$nombres."','".$apellidos."', '".md5($password)."',  '".$email."','".$celular."',".$tipo.")";
-		} else {
-			if($password != $this->patron){
-				$password = "password='".md5($password)."', ";
+			} else {
+				if($password != $this->patron){
+					$password = "password='".md5($password)."', ";
+				}
+				$id = $_POST['id'];
+				$consulta = "UPDATE usuario SET cedula='".$cedula."', nombres='".$nombres."',apellidos='".$apellidos."', ".$password." email='".$email."' ,celular='".$celular."', tipo_usuario_id=".$tipo." WHERE id=".$_POST['id'];
 			}
-			$id = $_POST['id'];
-			$consulta = "UPDATE usuario SET cedula='".$cedula."', nombres='".$nombres."',apellidos='".$apellidos."', ".$password." email='".$email."' ,celular='".$celular."', tipo_usuario_id=".$tipo." WHERE id=".$_POST['id'];	
+			try {
+				$resultado = $this->mysqli->query($consulta);
+				$_SESSION ['message'] = "Datos almacenados correctamente.";
+			} catch ( Exception $e ) {
+				$_SESSION ['message'] = $e->getMessage ();
+			}
+		} else {
+			$_SESSION ['message'] = "El usuario ya se encuentra registrado con el Rol seleccionado.";
 		}
-		try {
-			$resultado = $this->mysqli->query($consulta);
-			$_SESSION ['message'] = "Datos almacenados correctamente.";
-		} catch ( Exception $e ) {
-			$_SESSION ['message'] = $e->getMessage ();
-		}
+		
+		
 		header ( "Location:listar.php" );
 	}	
+	
+	
+	private function validarUsuario($cedula, $tipo, $id){
+		$resultado = $this->mysqli->query("SELECT u.id FROM usuario as u
+										   WHERE u.eliminado=0 and cedula = '".$cedula."' and tipo_usuario_id=".$tipo);
+		if($resultado != null){
+			
+			$userId = 0;
+			
+			while( $fila = $resultado->fetch_object() ){
+				$userId = $fila->id;
+			}
+			if ($userId > 0) {
+				if($userId == $id){
+					return true;
+				}
+				return false;
+				
+			} else {
+				return true;
+			}
+			
+		} else {
+			return true;
+		}
+	
+	}
+	
 	
 	/**
 	 * Función que eliminar logicamente un Usuario
