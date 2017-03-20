@@ -1,7 +1,7 @@
 <?php
 
 require_once 'Conexion.php';
-class Acuerdo extends Conexion {
+class Pagos extends Conexion {
 	private $mysqli;
 	private $data;
 	
@@ -13,7 +13,7 @@ class Acuerdo extends Conexion {
 	/**
 	 * Función que obtiene el Listado de Acuerdos
 	 */
-	public function listarAcuerdos(){		
+	public function listarPagos(){		
 		$resultado = $this->mysqli->query("SELECT a.id,concat(u.nombres,' ', u.apellidos) as nombre_cliente,
 											l.numero_lote, cod_promesa,fecha_ingreso
 											FROM acuerdo a 
@@ -87,14 +87,13 @@ class Acuerdo extends Conexion {
 				return $data;
 			}
 		}
-	}
-	
+	}	
 	
 	/**
 	 * Función que obtiene el Usuario dado la cédula
 	 */
 	public function obtenerCedula($cedula){
-		$resultado = $this->mysqli->query("SELECT id as usuario_id, concat(nombres,' ' ,apellidos) as nombre FROM usuario WHERE tipo_usuario_id=3 and eliminado=0 and cedula ='".$cedula."'");
+		$resultado = $this->mysqli->query("SELECT id as usuario_id, concat(nombres,' ' ,apellidos) as nombre FROM usuario WHERE eliminado=0 and tipo_usuario_id=3 and cedula ='".$cedula."'");
 		if($resultado != null){
 			while( $fila = $resultado->fetch_object() ){
 				$data[] = $fila;
@@ -108,7 +107,7 @@ class Acuerdo extends Conexion {
 	/**
 	 * Función que edita los datos de una Acuerdo
 	 */	
-	public function editarAcuerdo(){
+	public function editarPagos(){
 		if(isset($_GET['id']) && $_GET['id'] >0){
 			$id= $_GET['id'];
 			$resultado = $this->mysqli->query("SELECT a.id, u.id as usuario_id,a.id,concat(u.nombres,' ', u.apellidos) as usuario,
@@ -131,7 +130,7 @@ class Acuerdo extends Conexion {
 	/**
 	 * Función que guarda o modificar una Acuerdo
 	 */
-	public function guardarAcuerdo() {
+	public function guardarPagos() {
 		$usuario_id = $_POST['usuario_id'];		
 		$lote_id = trim($_POST['lote_id']);		
 		$fecha_ingreso = $_POST['fecha_ingreso'];		
@@ -159,9 +158,9 @@ class Acuerdo extends Conexion {
 	}	
 	
 	/**
-	 * Función que eliminar logicamente un Acuerdo
+	 * Función que eliminar logicamente un Pagos
 	 */
-	public function eliminarAcuerdo() {
+	public function eliminarPagos() {
 		if(isset($_GET['id']) && $_GET['id'] >0){
 			$id= $_GET['id'];			
 			$consulta = "UPDATE acuerdo SET eliminado=1 WHERE id =".$id;
