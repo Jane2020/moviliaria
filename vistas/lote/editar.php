@@ -43,8 +43,10 @@ if (isset($_POST['guardar'])){
 		<div class="form-group col-sm-6 row6">
 			<label class="control-label">Disponible</label>			
 			<div class="radios">		
-			<input type="radio" name='disponible' value="1" id="disponible" <?php echo ($item->disponible)?'checked':'';?> > SI &nbsp; &nbsp;
-			<input type="radio" name='disponible' value="0" id="disponible" <?php echo (!$item->disponible)?'checked':'';?> > NO
+			<input type="radio" name='disponible' value="1" id="disponible" <?php echo ($item->disponible)?'checked':'';?> 
+				<?php echo ($item->disponible ==0) && ($item->id>0)? 'disabled':'';?> > SI &nbsp; &nbsp;
+			<input type="radio" name='disponible' value="0" id="disponible" <?php echo (!$item->disponible)?'checked':'';?> 
+			<?php echo ($item->disponible ==0) && ($item->id>0)? 'disabled':'';?>> NO
 			</div>	
 		</div>
 	</div>
