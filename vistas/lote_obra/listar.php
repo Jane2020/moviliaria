@@ -1,6 +1,6 @@
 <?php
 $title = 'Obra de Infraestructura en Lotes';
-require("../../modulos/InfraestructuraLoteModulo.php");
+require("../../modulos/LoteObraModulo.php");
 require_once ("../../template/header.php");
 ?>
  <div class="card">
@@ -14,7 +14,7 @@ require_once ("../../template/header.php");
 <?php endif;?>
 </p>
 <p>
-   <a href="editar.php" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-plus" aria-hidden="true" title="Nuevo"></span></a><br/>
+   <a href="../generica/editar.php?tipo=2" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-plus" aria-hidden="true" title="Nuevo"></span></a><br/>
 </p>
 <table id="dataTables-example" class="display table table-bordered table-stripe" cellspacing="0" width="100%">
 	<thead>

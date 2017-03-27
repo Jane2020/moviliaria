@@ -16,7 +16,7 @@ if (isset($_POST['guardar'])){
 ?>
  <div class="card">
  <div class="content">
-<form id="frmPagos" method="post" action="">
+<form id="frmPago" method="post" action="">
 <div style="overflow: auto;">
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6 row6" >
@@ -128,7 +128,7 @@ $(document).ready(function() {
 					        alert('El cliente no existe, ingrese en la administración de clientes para continuar.');
 					        
 					    }
-				        $('#frmAcuerdo').formValidation('revalidateField', 'usuario');		       
+				        $('#frmPago').formValidation('revalidateField', 'usuario');		       
 			        }
 			});	    
 	    }	    
@@ -166,7 +166,7 @@ $(document).ready(function() {
 		});	    
 	});
 	
-	$('#frmPagos').formValidation({    	    
+	$('#frmPago').formValidation({    	    
 			message: 'This value is not valid',
 			fields: {
 				usuario: {

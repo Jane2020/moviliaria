@@ -15,11 +15,12 @@ class Pagos extends Conexion {
 	 */
 	public function listarPagos(){		
 		$resultado = $this->mysqli->query("SELECT a.id,concat(u.nombres,' ', u.apellidos) as nombre_cliente,
-											l.numero_lote, cod_promesa,fecha_ingreso
-											FROM acuerdo a 
-											INNER JOIN usuario u ON u.id= a.usuario_id
-											INNER JOIN lote l ON l.id= a.lote_id
-											WHERE a.eliminado=0");		
+											l.numero_lote, sum(monto_total) as monto_pagado									
+											FROM pago p 
+                      						INNER JOIN acuerdo a ON a.id=p.acuerdo_id
+											INNER JOIN usuario u ON u.id= a.usuario_id                                            
+                      						INNER JOIN lote l ON l.id= a.lote_id
+											WHERE p.estado=1");		
 		if($resultado != null){
 			while( $fila = $resultado->fetch_object() ){
 				$data[] = $fila;

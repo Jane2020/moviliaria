@@ -1,6 +1,6 @@
 <?php
-
 require_once 'Conexion.php';
+
 class Acuerdo extends Conexion {
 	private $mysqli;
 	private $data;
@@ -142,6 +142,10 @@ class Acuerdo extends Conexion {
 		if ($_POST['id'] == 0){
 			$consulta = "INSERT INTO acuerdo(usuario_id,lote_id, fecha_ingreso,valor_ingreso,valor_venta,cod_promesa)
 						 VALUES ('".$usuario_id."','".$lote_id."','".$fecha_ingreso."',".$valor_ingreso.",".$valor_venta.",'".$cod_promesa."')";
+			
+			//$acuerdo_id 
+			$consulta_pago = "INSERT INTO pago(monto_total,numero_abonos,monto_pagado,estado,acuerdo_id,id_item)
+							  VALUES (".$valor_venta.",". 0 .",". 0 .",". 0 .",". $acuerdoId.",". 1 .")";			
 		}
 		else{
 			$id = $_POST['id'];
@@ -151,6 +155,7 @@ class Acuerdo extends Conexion {
 		try {
 			$this->mysqli->query($consulta);
 			$this->mysqli->query($consulta_lote);
+			$this->mysqli->query($consulta_pago);
 			$_SESSION ['message'] = "Datos almacenados correctamente.";
 		} catch ( Exception $e ) {
 			$_SESSION ['message'] = $e->getMessage ();

@@ -21,8 +21,7 @@ require_once ("../../template/header.php");
                <th>ID</th>
                <th>Nombre del Cliente</th>
                <th>Número del Lote</th>                             
-               <th>Código de Promesa</th>
-               <th>Fecha de Ingreso</th>               
+               <th>Monto Pagado</th>
                <th style="width: 15%">Acci&oacute;n</th>
           </tr>
      </thead>
@@ -37,8 +36,7 @@ require_once ("../../template/header.php");
             <td><?php echo $row->id ?></td>
             <td><?php echo $row->nombre_cliente ?></td>   
             <td><?php echo $row->numero_lote?></td>
-            <td><?php echo $row->cod_promesa ?></td>
-            <td><?php echo $row->fecha_ingreso ?></td>
+            <td><?php echo $row->monto_pagado ?></td>
             <td style="text-align: center;">
                 <a title="Editar" href="editar.php?id=<?php echo $row->id ?>" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a>
                 <a title="Eliminar" class="btn btn-danger btn-sm" onclick="return confirm('Desea eliminar el registro')" href="accion.php?id=<?php echo $row->id ?>"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
