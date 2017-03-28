@@ -15,11 +15,11 @@ class Pagos extends Conexion {
 	 */
 	public function listarPagos(){		
 		$resultado = $this->mysqli->query("SELECT a.id,concat(u.nombres,' ', u.apellidos) as nombre_cliente,
-											l.numero_lote, cod_promesa,fecha_ingreso
-											FROM acuerdo a 
-											INNER JOIN usuario u ON u.id= a.usuario_id
-											INNER JOIN lote l ON l.id= a.lote_id
-											WHERE a.eliminado=0");		
+											l.numero_lote, l.ubicacion									
+											FROM pago p 
+                      						INNER JOIN acuerdo a ON a.id=p.acuerdo_id
+											INNER JOIN usuario u ON u.id= a.usuario_id                                            
+                      						INNER JOIN lote l ON l.id= a.lote_id");		
 		if($resultado != null){
 			while( $fila = $resultado->fetch_object() ){
 				$data[] = $fila;
@@ -29,80 +29,6 @@ class Pagos extends Conexion {
 			}
 		}
 	}	
-	
-	/**
-	 * Función que obtiene el Listado de Lotizaciones
-	 */
-	public function listarLotizaciones(){
-		$resultado = $this->mysqli->query("SELECT * FROM lotizacion WHERE eliminado=0");
-		if($resultado != null){
-			while( $fila = $resultado->fetch_object() ){
-				$data[] = $fila;
-			}
-			if (isset($data)) {
-				return $data;
-			}
-		}
-	}
-	
-	/**
-	 * Función que obtiene el Listado de Manzanas dado el id de la Lotización
-	 */
-	public function listarManzanasByLotizacion($lotizacion_id=null){
-		if(isset($_GET['id']) && $_GET['id'] >0 && $lotizacion_id == null){
-			$id= $_GET['id'];
-		}
-		else{
-			$id=$lotizacion_id;
-		}
-		$resultado = $this->mysqli->query("SELECT * FROM manzana WHERE lotizacion_id=".$id." and eliminado=0");
-		if($resultado != null){
-			while( $fila = $resultado->fetch_object() ){
-				$data[] = $fila;
-			}
-			if (isset($data)) {
-				return $data;
-			}
-		}
-	}
-	
-	/**
-	 * Función que obtiene el Listado de Lotes dado el id de la manzana
-	 */
-	public function listarLoteByLManzana($manzana_id=null){
-		$disponible = null;
-		if(isset($_GET['id']) && $_GET['id'] >0 && $manzana_id==null){
-			$id= $_GET['id'];			
-			$disponible = " and disponible=1 ";
-		}
-		else{
-			$id=$manzana_id;
-		}
-		$resultado = $this->mysqli->query("SELECT id,numero_lote as nombre FROM lote where eliminado=0 ".$disponible." and manzana_id=".$id);
-		if($resultado != null){
-			while( $fila = $resultado->fetch_object() ){
-				$data[] = $fila;
-			}
-			if (isset($data)) {
-				return $data;
-			}
-		}
-	}	
-	
-	/**
-	 * Función que obtiene el Usuario dado la cédula
-	 */
-	public function obtenerCedula($cedula){
-		$resultado = $this->mysqli->query("SELECT id as usuario_id, concat(nombres,' ' ,apellidos) as nombre FROM usuario WHERE eliminado=0 and tipo_usuario_id=3 and cedula ='".$cedula."'");
-		if($resultado != null){
-			while( $fila = $resultado->fetch_object() ){
-				$data[] = $fila;
-			}
-			if (isset($data)) {
-				return $data;
-			}
-		}		
-	}
 	
 	/**
 	 * Función que edita los datos de una Acuerdo

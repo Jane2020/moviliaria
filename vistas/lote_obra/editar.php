@@ -1,5 +1,5 @@
 <?php
-require("../../modulos/InfraestructuraLoteModulo.php");
+require("../../modulos/LoteObraModulo.php");
 
 $loteInfra = new InfraestructuraLote();
 $item= $loteInfra->editarLoteInfra();
@@ -8,7 +8,7 @@ $lotizaciones = $loteInfra->listarLotizaciones();
 $obras = $loteInfra->listaObras();
 if($item->id>0){
 	$manzanas = $loteInfra->listarManzanasByLotizacion($item->lotizacion_id);
-	$lotes = $loteInfra->listarLoteByLManzana($item->manzana_id);		
+	$lotes = $loteInfra->listarLoteByManzana($item->manzana_id);		
 }
 $title = (($item->id>0)?'Editar ':'Nueva ').'Obra de Infraestructura en el Lote';
 require_once ("../../template/header.php");
@@ -55,7 +55,7 @@ if (isset($_POST['guardar'])){
 	</div>	
 	<div class="form-group col-sm-12">	
 		<div class="form-group col-sm-6">
-			<label class="control-label">Nombre de la Obra de Infraestructura</label> <?php echo $item->obra_id ?>
+			<label class="control-label">Nombre de la Obra de Infraestructura</label>
 			<select class='form-control border-input' name="obra_id" id="obra_id">
 				<option value="" >Seleccione</option>
 				<?php foreach ($obras as $dato) { ?>
@@ -72,7 +72,7 @@ if (isset($_POST['guardar'])){
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6">
-			<label class="control-label">Fecha de Ingreso de Multa</label>
+			<label class="control-label">Fecha de Ingreso</label>
 			<input type="text" name="fecha_ingreso" id="fecha_ingreso"  class='form-control border-input'  value="<?php echo $item->fecha_ingreso; ?>" size="12" />						
 		</div>
 	</div>		

@@ -1,6 +1,7 @@
 <?php
-
 require_once 'Conexion.php';
+require_once 'LoteMultaObraModulo.php';
+
 class Acuerdo extends Conexion {
 	private $mysqli;
 	private $data;
@@ -137,20 +138,25 @@ class Acuerdo extends Conexion {
 		$fecha_ingreso = $_POST['fecha_ingreso'];		
 		$valor_ingreso = trim($_POST['valor_ingreso']);
 		$valor_venta = $_POST['valor_venta'];
-		$cod_promesa = $_POST['cod_promesa'];		
-		
-		if ($_POST['id'] == 0){
-			$consulta = "INSERT INTO acuerdo(usuario_id,lote_id, fecha_ingreso,valor_ingreso,valor_venta,cod_promesa)
-						 VALUES ('".$usuario_id."','".$lote_id."','".$fecha_ingreso."',".$valor_ingreso.",".$valor_venta.",'".$cod_promesa."')";
-		}
-		else{
-			$id = $_POST['id'];
-			$consulta = "UPDATE lote SET nombre='".$nombre."',ubicacion='".$ubicacion."',dimension='".$dimension."',disponible=".$disponible." ,numero_lote=".$numero_lote.", manzana_id=".$manzana_id." WHERE id=".$_POST['id'];	
-		}
-		$consulta_lote = "UPDATE lote SET disponible=0 WHERE id=".$lote_id;
+		$cod_promesa = $_POST['cod_promesa'];
 		try {
-			$this->mysqli->query($consulta);
-			$this->mysqli->query($consulta_lote);
+			if ($_POST['id'] == 0){
+				$consulta = "INSERT INTO acuerdo(usuario_id,lote_id, fecha_ingreso,valor_ingreso,valor_venta,cod_promesa)
+							 VALUES ('".$usuario_id."','".$lote_id."','".$fecha_ingreso."',".$valor_ingreso.",".$valor_venta.",'".$cod_promesa."')";			
+				$this->mysqli->query($consulta);
+				
+				$acuerdo = new LoteMultaObraModulo();
+				$acuerdoId = $acuerdo->obtenerAcuerdoId($lote_id);			
+				$consulta_pago = "INSERT INTO pago(monto_total,numero_abonos,monto_pagado,estado,acuerdo_id,id_item)
+								  VALUES (".$valor_venta.",". 0 .",". 0 .",". 0 .",". $acuerdoId.",". 1 .")";
+				$this->mysqli->query($consulta_pago);
+			}
+			else{
+				$id = $_POST['id'];
+				$consulta = "UPDATE lote SET nombre='".$nombre."',ubicacion='".$ubicacion."',dimension='".$dimension."',disponible=".$disponible." ,numero_lote=".$numero_lote.", manzana_id=".$manzana_id." WHERE id=".$_POST['id'];	
+			}
+			$consulta_lote = "UPDATE lote SET disponible=0 WHERE id=".$lote_id;
+			$this->mysqli->query($consulta_lote);			
 			$_SESSION ['message'] = "Datos almacenados correctamente.";
 		} catch ( Exception $e ) {
 			$_SESSION ['message'] = $e->getMessage ();

@@ -67,7 +67,7 @@ class InfraestructuraLote extends Conexion {
 	/**
 	 * Función que obtiene el Listado de Lotes dado el id de la manzana
 	 */
-	public function listarLoteByLManzana($manzana_id=null){
+	public function listarLoteByManzana($manzana_id=null){
 		if(isset($_GET['id']) && $_GET['id'] >0 && $manzana_id==null){
 			$id= $_GET['id'];
 		}
@@ -105,7 +105,6 @@ class InfraestructuraLote extends Conexion {
 			}
 		}		
 	}	
-	
 	
 	/**
 	 * Función que obtiene el Listado de Obras de Infraestructura
@@ -153,20 +152,30 @@ class InfraestructuraLote extends Conexion {
 			$valor_obra = $this->obtenerValorObra($obra_id);
 			$valor = isset($valor_obra[0])?$valor_obra[0]->valor:0;
 		}
-		$fecha_ingreso = $_POST['fecha_ingreso'];				
+		$fecha_ingreso = $_POST['fecha_ingreso'];
+		
+		$consulta_acuerdo = "SELECT id FROM acuerdo where lote_id=".$lote_id;
+		$acuerdoId = $this->mysqli->query($consulta_acuerdo);
+		$acuerdoId = $acuerdoId->fetch_object()->id;
+		
 		if ($_POST['id'] == 0){
 			$consulta = "INSERT INTO lote_infraestructura(lote_id,infraestructura_id,valor,fecha_ingreso)
 						 VALUES (".$lote_id.",".$obra_id.",".$valor.",'".$fecha_ingreso."')";
-		}
+			
+			$consulta_pago = "INSERT INTO pago(monto_total,numero_abonos,monto_pagado,estado,acuerdo_id,id_item)
+							  VALUES (".$valor.",". 0 .",". 0 .",". 0 .",". $acuerdoId.",". 3 .")";		}
 		else{
 			$id = $_POST['id'];
 			$lote_sql = isset($lote_id)?"lote_id=".$lote_id.",":"";
 			$obra_sql = isset($obra_id)?"infraestructura_id=".$obra_id.",":"";
 			$consulta = "UPDATE lote_infraestructura SET ".$lote_sql.$obra_sql." valor=".$valor.",
 					fecha_ingreso='".$fecha_ingreso."' WHERE id=".$id;
+			
+			$consulta_pago = "UPDATE  pago SET monto_total=".$valor." WHERE estado=0 and acuerdo_id=".$acuerdoId;					
 		}
 		try {
 			$resultado = $this->mysqli->query($consulta);
+			$resultado1 = 	$this->mysqli->query($consulta_pago);			
 			$_SESSION ['message'] = "Datos almacenados correctamente.";
 		} catch ( Exception $e ) {
 			$_SESSION ['message'] = $e->getMessage ();

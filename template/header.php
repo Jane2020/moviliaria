@@ -58,7 +58,7 @@
                     Creative Tim
                 </a>
             </div>
-<?php $url = $_SERVER["REQUEST_URI"];?>
+			<?php $url = $_SERVER["REQUEST_URI"];?>
             <ul class="nav" >
                 <li class="<?php echo (strpos($url, '/seguridad/'))?'active':'';?>">
                     <a href="../seguridad/inicio.php">
@@ -99,9 +99,8 @@
                                               
                      </ul>
                   </div>
-            </li>
-            
-             <li class="<?php echo ((strpos($url, '/multa/'))||(strpos($url, '/lote_multa/')))?'active':'';?>">
+            </li>            
+            <li class="<?php echo ((strpos($url, '/multa/'))||(strpos($url, '/lote_multa/')))?'active':'';?>">
                <a data-toggle="collapse" href="#formsMulta">
                 	<i class="ti-bell"></i>
                      <p>Multas  &nbsp;<b class="caret"></b></p> 
@@ -117,9 +116,8 @@
                                               
                      </ul>
                   </div>
-            </li>
-            
-            <li class="<?php echo ((strpos($url, '/obras/'))||(strpos($url, '/infraestructura_lote/')))?'active':'';?>">
+            </li>            
+            <li class="<?php echo ((strpos($url, '/obras/'))||(strpos($url, '/lote_obra/')))?'active':'';?>">
                <a data-toggle="collapse" href="#formsObra">
                 	<i class="ti-direction-alt"></i>
                      <p>Obras&nbsp;<b class="caret"></b></p> 
@@ -130,14 +128,28 @@
                           </i><a href="../obras/listar.php"><p>Obras</p></a>
                           </li>
                          <li>
-                          <a href="../infraestructura_lote/listar.php"><p>Obras Lotes</p></a>
+                          <a href="../lote_obra/listar.php"><p>Obras Lotes</p></a>
+                          </li>                
+                     </ul>
+                  </div>
+            </li>
+            <li class="<?php echo ((strpos($url, '/pagos/'))||(strpos($url, '/pagos/')))?'active':'';?>">
+               <a data-toggle="collapse" href="#formsPagos">
+                	<i class="ti-bell"></i>
+                     <p>Multas  &nbsp;<b class="caret"></b></p> 
+              </a>
+               <div class="collapse" id="#formsPagos">
+                     <ul class="nav" style="margin-top: 0px; margin-left: 30px">
+                         <li>
+                          </i><a href="../acuerdo/listar.php"><p>Acuerdo</p></a>
+                          </li>
+                         <li>
+                          <a href="../pagos/listar.php"><p>Pagos</p></a>
                           </li>                    
                                               
                      </ul>
                   </div>
-            </li>
-
-				
+            </li>				
             </ul>
     	</div>
     </div>

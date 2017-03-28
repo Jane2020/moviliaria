@@ -1,18 +1,25 @@
 <?php
-require("../../modulos/LoteMultaModulo.php");
+require("../../modulos/LoteMultaObraModulo.php");
 
-$loteMulta = new LoteMulta();
-$item= $loteMulta->editarLoteMultas();
-$lotizaciones = $loteMulta->listarLotizaciones();
-$multas = $loteMulta->listarMultas();
-if($item->id>0){
-	$manzanas = $loteMulta->listarManzanasByLotizacion($item->lotizacion_id);
-	$lotes = $loteMulta->listarLoteByLManzana($item->manzana_id);		
+$loteMultaObra = new LoteMultaObraModulo();
+$tipo = $_GET['tipo'];
+if($tipo ==1){
+	$multas = $loteMultaObra->listarMultas();	
 }
-$title = (($item->id>0)?'Editar ':'Nueva ').'Multa del Lote';
+else{
+	$obras = $loteMultaObra->listaObras();
+}
+$item= $loteMultaObra->editarLoteMultas();
+$lotizaciones = $loteMultaObra->listarLotizaciones();
+if($item->id>0){
+	$manzanas = $loteMultaObra->listarManzanasByLotizacion($item->lotizacion_id);
+	$lotes = $loteMultaObra->listarLoteByLManzana($item->manzana_id);		
+}
+$title = (($item->id>0)?'Editar ':'Nueva ');
+$title .= $_GET['tipo']==1?'Multa del Lote':'Obra de Infraestructura en el Lote';
 require_once ("../../template/header.php");
 if (isset($_POST['guardar'])){
-	$loteMulta->guardarLoteMultas();
+	$loteMultaObra->guardarLoteMultasObras();
 }
 ?>
  <div class="card">
@@ -43,18 +50,15 @@ if (isset($_POST['guardar'])){
 	</div>	
 	<div class="form-group col-sm-12">	
 		<div class="form-group col-sm-6">
-			<label class="control-label">Nombre del Lote</label> 
-			<select class='form-control border-input' name="lote_id" id="lote_id" <?php echo $item->id==0? "disabled=disabled ": ''; ?>">
-				<option value="" >Seleccione</option>
-				<?php foreach ($lotes as $dato) { ?>
-					<option value="<?php echo $dato->id;?>"  <?php if($item->lote_id==$dato->id):echo "selected"; endif;?>><?php echo $dato->nombre;?></option>
-				<?php }?>
-			</select>
+			<label class="control-label">Lotes</label>
+			<div id="lotes">			
+			</div>			
 		</div>
 	</div>	
+	<?php if ($tipo ==1){?>
 	<div class="form-group col-sm-12">	
 		<div class="form-group col-sm-6">
-			<label class="control-label">Nombre de la Multa</label>
+			<label class="control-label">Nombre de la Multa</label> <?php echo $item->multa_id ?>
 			<select class='form-control border-input' name="multa_id" id="multa_id">
 				<option value="" >Seleccione</option>
 				<?php foreach ($multas as $dato) { ?>
@@ -69,18 +73,41 @@ if (isset($_POST['guardar'])){
 			<input type='text' name='valor_multa' id="valor_multa" class='form-control border-input' value="<?php echo $item->valor_multa; ?>" disabled>			
 		</div>
 	</div>
+	<?php }?>
+	<?php if ($tipo ==2){?>
+	<div class="form-group col-sm-12">	
+		<div class="form-group col-sm-6">
+			<label class="control-label">Nombre de la Obra de Infraestructura</label>
+			<select class='form-control border-input' name="obra_id" id="obra_id">
+				<option value="" >Seleccione</option>
+				<?php foreach ($obras as $dato) { ?>
+					<option value="<?php echo $dato->id;?>"  <?php if($item->obra_id==$dato->id):echo "selected"; endif;?>><?php echo $dato->nombre;?></option>
+				<?php }?>
+			</select>
+		</div>
+	</div>
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6">
-			<label class="control-label">Fecha de Ingreso de Multa</label>
+			<label class="control-label">Valor</label>
+			<input type='text' name='valor' id="valor" class='form-control border-input' value="<?php echo $item->valor; ?>" disabled>			
+		</div>
+	</div>
+	<?php }?>
+		
+	<div class="form-group col-sm-12">
+		<div class="form-group col-sm-6">
+			<label class="control-label">Fecha de Ingreso</label>
 			<input type="text" name="fecha_ingreso" id="fecha_ingreso"  class='form-control border-input'  value="<?php echo $item->fecha_ingreso; ?>" size="12" />						
 		</div>
 	</div>
+	<?php if ($tipo ==1){?>
 	<div class="form-group col-sm-12">	
 		<div class="form-group col-sm-6">
 			<label class="control-label">Descripción</label> 
 			<textarea name='descripcion' class='form-control border-input' id="descripcion" rows="5" cols="10"><?php echo isset($item->descripcion)?$item->descripcion:null; ?></textarea>
 		</div>
-	</div>	
+	</div>
+	<?php }?>	
 	<div class="form-group">
 		<div class="form-group col-sm-6">
 			<input type='hidden' name='id' class='form-control' value="<?php echo $item->id; ?>">		
@@ -125,18 +152,44 @@ $(document).ready(function() {
 
 	$('#manzana_id').change(function(){
 	    var manzana_id = jQuery("#manzana_id").val();
+	    $("#lotes").empty();	    
+	    
 	    jQuery.ajax({
 		        type: "GET",
-		        url: "ajax.php",
+		        dataType: "json",
+		        url: "ajax.php",		        
 		        data: {
 		        	"id": manzana_id,
 		        	"accion":1
 		        },
-		        success:function(response) {
-			      $('#lote_id').html(response);
-			        $("#lote_id").prop('disabled', false);			        		        				    			           	
+		        success:function(data) {
+			        console.log(data);		        	
+		        	if(typeof data != 'undefined' && data != null){
+		        		$("#lotes").empty();
+			        	$.each(data, function (i, val) { 
+			        		$('#lotes').append('<input type="checkbox" name="lote_id[]" value='+val.id+ '> '+val.nombre+'<br>');		        		
+			        	});    		
+			        }   
+		        	$('#frmLoteMulta').formValidation('addField', 'lote_id[]', {
+		                validators: {
+		                    notEmpty: {
+		                    	message: 'El lote no puede ser vacío.'
+		                        }
+		                }
+		            });     	
 		        }
-		});	    
+		}).fail(function() {
+			$('#lotes').append('<input type="hidden" name="lote_id[]" value="">');	
+			$('#frmLoteMulta').formValidation('addField', 'lote_id[]', {
+				excluded: false,
+                validators: {
+                    
+                    notEmpty: {
+                    	message: 'El lote no puede ser vacío.'
+                        }
+                }
+            });
+		  });	  
 	});
 
 	$('#multa_id').change(function(){
@@ -154,6 +207,20 @@ $(document).ready(function() {
 		});	    
 	});
 
+	$('#obra_id').change(function(){
+	    var obra_id = jQuery("#obra_id").val();
+	    jQuery.ajax({
+		        type: "GET",
+		        url: "ajax.php",
+		        data: {
+		        	"id": obra_id,
+		        	"accion":3
+		        },
+		        success:function(response) {			       
+			        $('#valor').val(response);    	
+		        }
+		});	    
+	});
 	
 	$('#frmLoteMulta').formValidation({    	    
 			message: 'This value is not valid',
@@ -175,14 +242,7 @@ $(document).ready(function() {
 						}
 					}
 				},
-				lote_id: {
-					message: 'El lote no es válido',
-					validators: {
-						notEmpty: {
-							message: 'El lote no puede ser vacío.'
-						}
-					}
-				},
+				
 				multa_id: {
 					message: 'La multa no es válida',
 					validators: {
