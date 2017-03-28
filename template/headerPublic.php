@@ -24,6 +24,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<!---header--->
 			<div class="header-section">
 				<div class="container">
+				<div class="navbar-brand">
+								<img alt="" src="images/logo.png" style="height: 150px; margin-top: 10px; ">
+				</div>
+				<div style="width: 85%; float: right;">
 					<div class="head-top">
 						<div class="social-icon">
 							<a href="#"><i class="icon"></i></a>
@@ -49,11 +53,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<span class="icon-bar"></span>
 								<span class="icon-bar"></span>
 							</button>				  
-							<div class="navbar-brand">
-								<h1><a href="index.html"><span>Real </span>Space</a></h1>
-							</div>
+							
 						</div>
-
+						<div class="navbar-brand">
+						</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<?php $url = $_SERVER["REQUEST_URI"];?>
 						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -68,6 +71,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<div class="clearfix"></div>
 						</div>
 					</nav>
+					</div>
 				</div>
 			</div>
 		<!---header--->
