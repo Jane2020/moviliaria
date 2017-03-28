@@ -54,7 +54,7 @@ if (isset($_POST['guardar'])){
 	</div>	
 	<div class="form-group col-sm-12">	
 		<div class="form-group col-sm-6">
-			<label class="control-label">Nombre de la Multa</label> <?php echo $item->multa_id ?>
+			<label class="control-label">Nombre de la Multa</label>
 			<select class='form-control border-input' name="multa_id" id="multa_id">
 				<option value="" >Seleccione</option>
 				<?php foreach ($multas as $dato) { ?>
