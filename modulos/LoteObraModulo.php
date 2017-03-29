@@ -1,5 +1,7 @@
 <?php
 require_once 'Conexion.php';
+require_once 'LoteMultaObraModulo.php';
+
 class InfraestructuraLote extends Conexion {
 	private $mysqli;
 	private $data;
@@ -121,6 +123,19 @@ class InfraestructuraLote extends Conexion {
 		}
 	}
 	
+	public function obtenerLoteMultaLectura($id){
+		$loteMultaObra = new LoteMultaObraModulo();
+		$acuerdId = $loteMultaObra->obtenerAcuerdoId($id);
+		$resultado = $this->mysqli->query("SELECT id FROM pago WHERE monto_pagado=0 and id_item=2 and acuerdo_id=".$acuerdId);
+		$data =  $resultado->fetch_object();
+		if($data){
+			return 1;
+		}
+		else {
+			return 2;
+		}
+	}
+	
 	/**
 	 * Función que obtiene los datos de una Obras de Infraestructura de Lote dado el id
 	 */	
@@ -158,20 +173,14 @@ class InfraestructuraLote extends Conexion {
 		$acuerdoId = $this->mysqli->query($consulta_acuerdo);
 		$acuerdoId = $acuerdoId->fetch_object()->id;
 		
-		if ($_POST['id'] == 0){
-			$consulta = "INSERT INTO lote_infraestructura(lote_id,infraestructura_id,valor,fecha_ingreso)
-						 VALUES (".$lote_id.",".$obra_id.",".$valor.",'".$fecha_ingreso."')";
-			
-			$consulta_pago = "INSERT INTO pago(monto_total,numero_abonos,monto_pagado,estado,acuerdo_id,id_item)
-							  VALUES (".$valor.",". 0 .",". 0 .",". 0 .",". $acuerdoId.",". 3 .")";		}
-		else{
+		if ($_POST['id'] > 0){
 			$id = $_POST['id'];
 			$lote_sql = isset($lote_id)?"lote_id=".$lote_id.",":"";
 			$obra_sql = isset($obra_id)?"infraestructura_id=".$obra_id.",":"";
 			$consulta = "UPDATE lote_infraestructura SET ".$lote_sql.$obra_sql." valor=".$valor.",
 					fecha_ingreso='".$fecha_ingreso."' WHERE id=".$id;
 			
-			$consulta_pago = "UPDATE  pago SET monto_total=".$valor." WHERE estado=0 and acuerdo_id=".$acuerdoId;					
+			$consulta_pago = "UPDATE pago SET monto_total=".$valor." WHERE id_obra_multa=".$id;
 		}
 		try {
 			$resultado = $this->mysqli->query($consulta);

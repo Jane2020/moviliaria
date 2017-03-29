@@ -1,5 +1,7 @@
 <?php
 require_once 'Conexion.php';
+require_once 'LoteMultaObraModulo.php';
+
 class LoteMulta extends Conexion {
 	private $mysqli;
 	private $data;
@@ -122,6 +124,19 @@ class LoteMulta extends Conexion {
 		}
 	}
 	
+	public function obtenerLoteMultaLectura($id){
+		$loteMultaObra = new LoteMultaObraModulo();
+		$acuerdId = $loteMultaObra->obtenerAcuerdoId($id);		
+		$resultado = $this->mysqli->query("SELECT id FROM pago WHERE monto_pagado=0 and id_item=3 and acuerdo_id=".$acuerdId);
+		$data =  $resultado->fetch_object();
+		if($data){
+			return 1;			
+		}
+		else {
+			return 2;
+		}		
+	}
+	
 	/**
 	 * Función que obtiene los datos de una Multa de Lote dado el id
 	 */	
@@ -155,18 +170,18 @@ class LoteMulta extends Conexion {
 		}
 		$fecha_ingreso = $_POST['fecha_ingreso'];
 		$descripcion = $_POST['descripcion'];			
-		if ($_POST['id'] == 0){
-			$consulta = "INSERT INTO lote_multa(lote_id,multa_id,valor_multa,fecha_ingreso,descripcion)
-						 VALUES (".$lote_id.",".$multa_id.",".$valor.",'".$fecha_ingreso."','".$descripcion."')";		}
-		else{
+		if ($_POST['id'] > 0){
 			$id = $_POST['id'];
 			$lote_sql = isset($lote_id)?"lote_id=".$lote_id.",":"";
 			$multa_sql = isset($multa_id)?"multa_id=".$multa_id.",":"";
 			$consulta = "UPDATE lote_multa SET ".$lote_sql.$multa_sql." valor_multa=".$valor.",
 					fecha_ingreso='".$fecha_ingreso."',descripcion='".$descripcion."' WHERE id=".$id;
+			
+			$consulta_pago = "UPDATE pago SET monto_total=".$valor." WHERE id_obra_multa=".$id;
 		}
 		try {
 			$resultado = $this->mysqli->query($consulta);
+			$resultado_pago = $this->mysqli->query($consulta_pago);			
 			$_SESSION ['message'] = "Datos almacenados correctamente.";
 		} catch ( Exception $e ) {
 			$_SESSION ['message'] = $e->getMessage ();

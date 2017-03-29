@@ -185,7 +185,7 @@ class LoteMultaObraModulo extends Conexion {
 			$descripcion = $_POST ['descripcion'];
 		}
 		
-		if($_POST['obra_id']){
+		if(isset($_POST['obra_id'])){
 			$obra_id = $_POST['obra_id'];
 			$valor_obra = $this->obtenerValorObra($obra_id);
 			$valor = isset($valor_obra[0])?$valor_obra[0]->valor:0;
@@ -199,18 +199,27 @@ class LoteMultaObraModulo extends Conexion {
 					if(isset($multa_id)){
 						$consulta = "INSERT INTO lote_multa(lote_id,multa_id,valor_multa,fecha_ingreso,descripcion)
 								 VALUES (" . $lote . "," . $multa_id . "," . $valor . ",'" . $fecha_ingreso . "','" . $descripcion . "')";
-						$resultado = $this->mysqli->query ( $consulta );
+						$resultado = $this->mysqli->query($consulta);				
+						
+						$consulta = "SELECT id FROM lote_multa order by id desc";
+						$resultado = $this->mysqli->query($consulta);
+						$id = $resultado->fetch_row()[0];
+						//Multa
 						$tipo =3;
 					}
 					if(isset($obra_id)){
 						$consulta = "INSERT INTO lote_infraestructura(lote_id,infraestructura_id,valor,fecha_ingreso)
 						 VALUES (".$lote.",".$obra_id.",".$valor.",'".$fecha_ingreso."')";
-						$resultado = $this->mysqli->query ( $consulta );
+						$resultado = $this->mysqli->query($consulta);
+						$consulta = "SELECT id FROM lote_infraestructura order by id desc";
+						$resultado = $this->mysqli->query($consulta);
+						$id = $resultado->fetch_row()[0];
+						//Obra
 						$tipo =2;
 					}
 					
-					$consulta_pago = "INSERT INTO pago(monto_total,numero_abonos,monto_pagado,estado,acuerdo_id,id_item)
-							  VALUES (".$valor.",". 0 .",". 0 .",". 0 .",". $acuerdoId.",". $tipo .")";		
+					$consulta_pago = "INSERT INTO pago(monto_total,numero_abonos,monto_pagado,estado,acuerdo_id,id_item, id_obra_multa)
+							  VALUES (".$valor.",". 0 .",". 0 .",". 0 .",". $acuerdoId.",". $tipo .",".$id.")";		
 					$resultado1 = 	$this->mysqli->query($consulta_pago);
 					
 				}
