@@ -65,7 +65,7 @@ class Lote extends Conexion {
 		$ubicacion = trim($_POST['ubicacion']);
 		$dimension = $_POST['dimension'];		
 		$numero_lote = trim($_POST['numero_lote']);
-		$disponible = $_POST['disponible'];
+		$disponible = isset($_POST['disponible'])?$_POST['disponible']:0;
 		$manzana_id = $_POST['manzana_id'];		
 		
 		if ($_POST['id'] == 0){
@@ -74,7 +74,7 @@ class Lote extends Conexion {
 		}
 		else{
 			$id = $_POST['id'];
-			$consulta = "UPDATE lote SET nombre='".$nombre."',ubicacion='".$ubicacion."',dimension='".$dimension."',disponible=".$disponible." ,numero_lote=".$numero_lote.", manzana_id=".$manzana_id." WHERE id=".$_POST['id'];	
+			$consulta = "UPDATE lote SET nombre='".$nombre."',ubicacion='".$ubicacion."',dimension='".$dimension."',disponible=".$disponible." ,numero_lote=".$numero_lote.", manzana_id=".$manzana_id." WHERE id=".$_POST['id'];			
 		}
 		try {
 			$resultado = $this->mysqli->query($consulta);

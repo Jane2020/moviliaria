@@ -15,10 +15,12 @@ class InfraestructuraLote extends Conexion {
 	 * Función que obtiene el Listado de Lote de Multas
 	 */
 	public function listarLoteInfra(){		
-		$resultado = $this->mysqli->query("SELECT li.id, l.nombre as lote,oi.nombre as infra, li.valor
+		$resultado = $this->mysqli->query("SELECT li.id, l.nombre as lote,oi.nombre as infra, li.valor,
+										   p.monto_pagado
 										   FROM lote_infraestructura li
 										   INNER JOIN lote l ON l.id = li.lote_id
 										   left JOIN obras_infraestructura oi ON oi.id = li.infraestructura_id
+				 						   INNER JOIN pago p ON p.id_obra_multa= li.id
 										   WHERE li.eliminado=0");		
 		if($resultado != null){
 			while( $fila = $resultado->fetch_object() ){

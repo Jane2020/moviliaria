@@ -73,13 +73,16 @@ class Acuerdo extends Conexion {
 	public function listarLoteByLManzana($manzana_id=null){
 		$disponible = null;
 		if(isset($_GET['id']) && $_GET['id'] >0 && $manzana_id==null){
-			$id= $_GET['id'];			
-			$disponible = " and disponible=1 ";
+			$id= $_GET['id'];
 		}
 		else{
-			$id=$manzana_id;
+			$id=$manzana_id;			
+		}
+		if($_GET['id'] == $manzana_id){
+			$disponible = " and disponible=1 ";
 		}
 		$resultado = $this->mysqli->query("SELECT id,numero_lote as nombre FROM lote where eliminado=0 ".$disponible." and manzana_id=".$id);
+		
 		if($resultado != null){
 			while( $fila = $resultado->fetch_object() ){
 				$data[] = $fila;

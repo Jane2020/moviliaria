@@ -133,12 +133,12 @@
                      </ul>
                   </div>
             </li>
-            <li class="<?php echo ((strpos($url, '/pagos/'))||(strpos($url, '/pagos/')))?'active':'';?>">
-               <a data-toggle="collapse" href="#formsPagos">
-                	<i class="ti-bell"></i>
-                     <p>Multas  &nbsp;<b class="caret"></b></p> 
+            <li class="<?php echo ((strpos($url, '/pagos/'))||(strpos($url, '/acuerdo/')))?'active':'';?>">
+               <a data-toggle="collapse" href="#formsPagos1">
+                	<i class="ti-money"></i>
+                     <p>Pagos  &nbsp;<b class="caret"></b></p> 
               </a>
-               <div class="collapse" id="#formsPagos">
+               <div class="collapse" id="formsPagos1">
                      <ul class="nav" style="margin-top: 0px; margin-left: 30px">
                          <li>
                           </i><a href="../acuerdo/listar.php"><p>Acuerdo</p></a>

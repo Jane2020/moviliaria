@@ -38,9 +38,11 @@ require_once ("../../template/header.php");
             <td><?php echo $row->lote ?></td>
             <td><?php echo $row->infra ?></td>
             <td><?php echo $row->valor ?></td>
-            <td style="text-align: center;">
+            <td style="text-align: left;">
                 <a title="Editar" href="editar.php?id=<?php echo $row->id ?>" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a>
+                <?php if ($row->monto_pagado == 0){?>
                 <a title="Eliminar" class="btn btn-danger btn-sm" onclick="return confirm('Desea eliminar el registro')" href="accion.php?id=<?php echo $row->id ?>"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                <?php }?>
             </td>
           </tr>
       <?php

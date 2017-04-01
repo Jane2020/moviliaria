@@ -82,16 +82,18 @@ if (isset($_POST['guardar'])){
 			<textarea name='descripcion' class='form-control border-input' id="descripcion" rows="5" cols="10" <?php if($lectura==2):echo "disabled"; endif;?>><?php echo isset($item->descripcion)?$item->descripcion:null; ?></textarea>
 		</div>
 	</div>
-	<?php if($lectura==1){?>	
 	<div class="form-group">
 		<div class="form-group col-sm-6">
-			<input type='hidden' name='id' class='form-control' value="<?php echo $item->id; ?>">		
+			<input type='hidden' name='id' class='form-control' value="<?php echo $item->id; ?>">
+			<?php if($lectura==1){?>		
 			<input type='hidden' name='guardar' value="1">
-			<button type="submit" name="boton" class="btn btn-success btn-sm">Guardar</button>		
+			<button type="submit" name="boton" class="btn btn-success btn-sm">Guardar</button>
 			<a href="listar.php" class="btn btn-info btn-sm">Cancelar</a>
+			<?php }else{?>		
+			<a href="listar.php" class="btn btn-info btn-sm">Regresar</a>
+			<?php }?>
 		</div>		
-	</div>
-	<?php }?>
+	</div>	
 </div>
 </form>
 </div>
