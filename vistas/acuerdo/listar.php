@@ -40,8 +40,7 @@ require_once ("../../template/header.php");
             <td><?php echo $row->cod_promesa ?></td>
             <td><?php echo $row->fecha_ingreso ?></td>
             <td style="text-align: center;">
-                <a title="Editar" href="editar.php?id=<?php echo $row->id ?>" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a>
-                <a title="Eliminar" class="btn btn-danger btn-sm" onclick="return confirm('Desea eliminar el registro')" href="accion.php?id=<?php echo $row->id ?>"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                <a title="Editar" href="editar.php?id=<?php echo $row->id ?>" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a>              
             </td>
           </tr>
       <?php

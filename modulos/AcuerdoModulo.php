@@ -164,51 +164,24 @@ class Acuerdo extends Conexion {
 		$estado = $tipo_pago_id ==1?1:2;
 		
 		try {
-			if ($_POST['id'] == 0){
-				$consulta = "INSERT INTO acuerdo(usuario_id,lote_id, fecha_ingreso,valor_total,valor_inicial,cod_promesa)
+			$consulta = "INSERT INTO acuerdo(usuario_id,lote_id, fecha_ingreso,valor_total,valor_inicial,cod_promesa)
 							 VALUES ('".$usuario_id."','".$lote_id."','".$fecha_ingreso."',".$valor_total.",".$valor_inicial.",'".$cod_promesa."')";
-				$this->mysqli->query($consulta);
+			$this->mysqli->query($consulta);
+			
+			$acuerdo = new LoteMultaObraModulo();
+			$acuerdoId = $acuerdo->obtenerAcuerdoId($lote_id);			
+			$consulta_pago = "INSERT INTO pago(monto_total,numero_abonos,monto_pagado,estado,acuerdo_id,tipo_pago_id,id_item)
+							  VALUES (".$valor_total.",". $num_cuotas .",". $valor_inicial .",".$estado.",". $acuerdoId.",". $tipo_pago_id.",". 1 .")";
+			$this->mysqli->query($consulta_pago);
 				
-				$acuerdo = new LoteMultaObraModulo();
-				$acuerdoId = $acuerdo->obtenerAcuerdoId($lote_id);			
-				$consulta_pago = "INSERT INTO pago(monto_total,numero_abonos,monto_pagado,estado,acuerdo_id,tipo_pago_id,id_item)
-								  VALUES (".$valor_total.",". $num_cuotas .",". $valor_inicial .",".$estado.",". $acuerdoId.",". $tipo_pago_id.",". 1 .")";
-				$this->mysqli->query($consulta_pago);
-				
-				$pagoId = $this->mysqli->insert_id;
-				$consulta_trans="INSERT INTO transaccion(fecha_transaccion,valor,eliminado,pago_id)
-								  VALUES ('".$fecha_ingreso."',". $valor_inicial .",". 0 .",". $pagoId.")";
-				$this->mysqli->query($consulta_trans);					
-			}
-			else{
-				$id = $_POST['id'];
-				$consulta = "UPDATE lote SET nombre='".$nombre."',ubicacion='".$ubicacion."',dimension='".$dimension."',disponible=".$disponible." ,numero_lote=".$numero_lote.", manzana_id=".$manzana_id." WHERE id=".$_POST['id'];	
-			}
-			$consulta_lote = "UPDATE lote SET disponible=0 WHERE id=".$lote_id;
-			$this->mysqli->query($consulta_lote);			
+			$pagoId = $this->mysqli->insert_id;
+			$consulta_trans="INSERT INTO transaccion(fecha_transaccion,valor,eliminado,pago_id)
+							  VALUES ('".$fecha_ingreso."',". $valor_inicial .",". 0 .",". $pagoId.")";
+			$this->mysqli->query($consulta_trans);					
 			$_SESSION ['message'] = "Datos almacenados correctamente.";
 		} catch ( Exception $e ) {
 			$_SESSION ['message'] = $e->getMessage ();
 		}
 		header ( "Location:listar.php" );
-	}	
-	
-	/**
-	 * Función que eliminar logicamente un Acuerdo
-	 */
-	public function eliminarAcuerdo() {
-		if(isset($_GET['id']) && $_GET['id'] >0){
-			$id= $_GET['id'];			
-			$consulta = "UPDATE acuerdo SET eliminado=1 WHERE id =".$id;
-			$consulta_lote = "UPDATE lote SET disponible=1 WHERE id=".$lote_id;
-			try {
-				 $this->mysqli->query($consulta);
-				 $this->mysqli->query($consulta_lote);
-				$_SESSION ['message'] = "Datos eliminados correctamente.";
-			} catch ( Exception $e ) {
-				$_SESSION ['message'] = $e->getMessage ();
-			}
-			header ( "Location:listar.php" );
-		}
 	}
 }
