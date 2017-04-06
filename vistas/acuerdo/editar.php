@@ -3,6 +3,7 @@ require_once ("../../modulos/AcuerdoModulo.php");
 $acuerdo = new Acuerdo();
 $item= $acuerdo->editarAcuerdo();
 $lotizaciones = $acuerdo->listarLotizaciones();
+$tipos_pago = $acuerdo->listarTipoPago();
 if($item->id>0){
 	$manzanas = $acuerdo->listarManzanasByLotizacion($item->lotizacion_id);
 	$lotes = $acuerdo->listarLoteByLManzana($item->manzana_id);
@@ -58,31 +59,42 @@ if (isset($_POST['guardar'])){
 			</select>
 		</div>
 	</div>	
-		
-	<div class="form-group col-sm-12">
-		<div class="form-group col-sm-6">
-			<label class="control-label">Fecha de Ingreso</label>
-			<input type="text" name="fecha_ingreso" id="fecha_ingreso"  class='form-control border-input'  value="<?php echo $item->fecha_ingreso; ?>" size="12" />						
-		</div>
-	</div>
-	<div class="form-group col-sm-12">
-		<div class="form-group col-sm-6 row6">
-			<label class="control-label">Valor de Ingreso</label> 
-			<input type='text' name="valor_ingreso" class="form-control border-input" value="<?php echo $item->valor_ingreso; ?>" id="valor_ingreso">
-		</div>
-	</div>
-	<div class="form-group col-sm-12">
-		<div class="form-group col-sm-6 row6">
-			<label class="control-label">Valor de Venta</label> 
-			<input type='text'name="valor_venta" class="form-control border-input" value="<?php echo $item->valor_venta; ?>" id="valor_venta">
-		</div>
-	</div>
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6 row6">
 			<label class="control-label">Código de Promesa</label> 
 			<input type='text' name='cod_promesa' class='form-control border-input' value="<?php echo $item->cod_promesa; ?>" id="cod_promesa">
 		</div>
 	</div>
+	<div class="form-group col-sm-12">
+		<div class="form-group col-sm-6 row6">
+			<label class="control-label">Valor Total del Terreno</label> 
+			<input type='text' name="valor_total" class="form-control border-input" value="<?php echo $item->valor_total; ?>" id="valor_total">
+		</div>
+	</div>
+	<div class="form-group col-sm-12">	
+		<div class="form-group col-sm-6">
+			<label class="control-label">Tipo de Pago</label> 
+			<select class='form-control border-input' name="pago_id" id="pago_id">
+				<option value="" >Seleccione</option>
+				<?php foreach ($tipos_pago as $dato) { ?>
+					<option value="<?php echo $dato->id;?>"  <?php if($item->pago_id==$dato->id):echo "selected"; endif;?>><?php echo $dato->nombre;?></option>
+				<?php }?>
+			</select>
+		</div>
+	</div>
+	<div class="form-group col-sm-12">
+		<div class="form-group col-sm-6 row6">
+			<label class="control-label">Valor de Pagar</label> 
+			<input type='text'name="valor_inicial" class="form-control border-input" value="<?php echo $item->valor_inicial; ?>" id="valor_inicial">
+		</div>
+	</div>
+	<div class="form-group col-sm-12">
+		<div class="form-group col-sm-6 row6">
+			<label class="control-label">Número de Cuotas</label> 
+			<input type='text'name="num_cuotas" class="form-control border-input" value="<?php echo $item->num_cuotas; ?>" id="num_cuotas">
+		</div>
+	</div>
+		
 	<div class="form-group">
 		<div class="form-group col-sm-6">
 			<input type='hidden' name='id' class='form-control' value="<?php echo $item->id; ?>">		
@@ -150,6 +162,24 @@ $(document).ready(function() {
 		});	    
 	});
 
+	$('#pago_id').change(function(){
+	    var pago_id = jQuery("#pago_id").val();
+	    if(pago_id == 1){
+		    var valor_total = jQuery("#valor_total").val();
+		    jQuery("#valor_inicial").val(valor_total);
+		    $("#valor_inicial").prop('disabled', true);
+		    jQuery("#num_cuotas").val(1);
+		    $("#num_cuotas").prop('disabled', true);
+		}
+	    else{
+	    	jQuery("#valor_inicial").val(null);
+	    	 $("#valor_inicial").prop('disabled', false);
+			 jQuery("#num_cuotas").val(null);
+			 $("#num_cuotas").prop('disabled', false);
+		}
+	});
+	
+
 	$('#manzana_id').change(function(){
 	    var manzana_id = jQuery("#manzana_id").val();
 	    jQuery.ajax({
@@ -205,23 +235,11 @@ $(document).ready(function() {
 						}
 					}
 				},
-				fecha_ingreso: {
-					message: 'La fecha de ingreso no es válida',
-					 validators: {
-						 notEmpty: {
-							 message: 'La fecha de ingreso es requerida y no puede ser vacía'
-						 },
-						 date:{	 
-							    format: 'YYYY-MM-DD',
-			                    message: 'La fecha de ingreso no es válida.'				                    
-						 }						 							 
-					 }
-				 },
-				valor_ingreso: {
-					message: 'El valor de ingreso no es válida',
+				valor_total: {
+					message: 'El valor total del terreno no es válida',
 					validators: {
 						notEmpty: {
-							message: 'La valor de ingreso no puede ser vacía.'
+							message: 'La valor total del terreno no puede ser vacío.'
 						},					
 						regexp: {
 							regexp: /^([0-9])*[.]?[0-9]*$/,
@@ -229,11 +247,11 @@ $(document).ready(function() {
 						}
 					}
 				},		 
-				valor_venta: {
-					message: 'El valor de venta no es válido',
+				valor_inicial: {
+					message: 'El valor inicial no es válido',
 					validators: {
 						notEmpty: {
-							message: 'El valor de venta no puede ser vacío.'
+							message: 'El valor inicial no puede ser vacío.'
 						},						
 						regexp: {
 							regexp: /^([0-9])*[.]?[0-9]*$/,
@@ -248,7 +266,27 @@ $(document).ready(function() {
 							message: 'El código de promesa  no puede ser vacío.'
 						}
 					}
-				}						
+				},
+				pago_id: {
+					message: 'El pago no es válido',
+					validators: {
+						notEmpty: {
+							message: 'El pago no puede ser vacío.'
+						}
+					}
+				},						
+				num_cuotas:{
+					message: 'El número de cuotas no es válido',
+					validators: {
+						notEmpty: {
+							message: 'El número de cuotas no puede ser vacías.'
+						},
+						regexp: {
+							regexp: /^[0-9]+$/,
+							message: 'Ingrese un número de cuotas válido.'
+						}
+					}
+				},	
 			}
 		});
     });

@@ -7,7 +7,7 @@ $item= $loteInfra->editarLoteInfra();
 $lotizaciones = $loteInfra->listarLotizaciones();
 $obras = $loteInfra->listaObras();
 if($item->id>0){
-	$lectura = $loteInfra->obtenerLoteMultaLectura($item->lote_id);
+	$lectura = $loteInfra->obtenerLoteObraLectura($item->lote_id);
 	$manzanas = $loteInfra->listarManzanasByLotizacion($item->lotizacion_id);
 	$lotes = $loteInfra->listarLoteByManzana($item->manzana_id);		
 }
@@ -77,16 +77,18 @@ if (isset($_POST['guardar'])){
 			<input type="text" name="fecha_ingreso" id="fecha_ingreso"  class='form-control border-input'  value="<?php echo $item->fecha_ingreso; ?>" size="12" <?php if($lectura==2):echo "disabled"; endif;?>/>						
 		</div>
 	</div>	
-	<?php if($lectura==1){?>		
 	<div class="form-group">
 		<div class="form-group col-sm-6">
+		<?php if($lectura==1){?>
 			<input type='hidden' name='id' class='form-control' value="<?php echo $item->id; ?>">		
 			<input type='hidden' name='guardar' value="1">
 			<button type="submit" name="boton" class="btn btn-success btn-sm">Guardar</button>		
 			<a href="listar.php" class="btn btn-info btn-sm">Cancelar</a>
-		</div>		
+		<?php }else{?>		
+			<a href="listar.php" class="btn btn-info btn-sm">Regresar</a>
+		</div>
+		<?php }?>		
 	</div>
-	<?php }?>
 </div>
 </form>
 </div>

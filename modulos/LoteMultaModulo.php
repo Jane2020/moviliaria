@@ -21,7 +21,7 @@ class LoteMulta extends Conexion {
 										   INNER JOIN lote l ON l.id = lm.lote_id
 										   INNER JOIN multa m ON m.id = lm.multa_id
 				 						   INNER JOIN pago p ON p.id_obra_multa= lm.id                      
-										   WHERE lm.eliminado=0");		
+										   WHERE lm.eliminado=0 and p.id_item=3");		
 		if($resultado != null){
 			while( $fila = $resultado->fetch_object() ){
 				$data[] = $fila;

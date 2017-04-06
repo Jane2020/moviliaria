@@ -47,6 +47,21 @@ class Acuerdo extends Conexion {
 	}
 	
 	/**
+	 * Función que obtiene el Listado de Tipos de pagp
+	 */
+	public function listarTipoPago(){
+		$resultado = $this->mysqli->query("SELECT * FROM tipo_pago where eliminado=0");
+		if($resultado != null){
+			while( $fila = $resultado->fetch_object() ){
+				$data[] = $fila;
+			}
+			if (isset($data)) {
+				return $data;
+			}
+		}
+	}
+	
+	/**
 	 * Función que obtiene el Listado de Manzanas dado el id de la Lotización
 	 */
 	public function listarManzanasByLotizacion($lotizacion_id=null){
@@ -117,8 +132,10 @@ class Acuerdo extends Conexion {
 			$id= $_GET['id'];
 			$resultado = $this->mysqli->query("SELECT a.id, u.id as usuario_id,a.id,concat(u.nombres,' ', u.apellidos) as usuario,
 												m.lotizacion_id,l.manzana_id,
-												a.lote_id, cod_promesa,fecha_ingreso,valor_ingreso,valor_venta,cod_promesa
-												FROM acuerdo a 
+												a.lote_id, cod_promesa,fecha_ingreso,valor_inicial,valor_total,cod_promesa,numero_abonos as num_cuotas, 
+												p.tipo_pago_id as pago_id
+												FROM acuerdo a
+												INNER JOIN pago p ON p.acuerdo_id= a.id
 												INNER JOIN usuario u ON u.id= a.usuario_id
 												INNER JOIN lote l ON l.id= a.lote_id
 												INNER JOIN manzana m ON m.id = l.manzana_id
@@ -127,7 +144,7 @@ class Acuerdo extends Conexion {
 			$data =  $resultado->fetch_object();					  	
 		}
 		else{
-			$data = (object) array('id'=>0,'usuario'=>'','usuario_id'=>'','lotizacion_id' =>'','manzana_id' =>'','lote_id' =>'','usuario'=>'','usuario_id'=>'','fecha_ingreso'=>'','valor_ingreso'=>'','valor_venta'=>'','cod_promesa'=>'');
+			$data = (object) array('id'=>0,'usuario'=>'','usuario_id'=>'','lotizacion_id' =>'','manzana_id' =>'','lote_id' =>'','usuario'=>'','usuario_id'=>'','fecha_ingreso'=>'','valor_total'=>'','valor_inicial'=>'','cod_promesa'=>'', 'pago_id'=>'', 'num_cuotas'=>'');
 		}
 		return $data;
 	}
@@ -138,7 +155,7 @@ class Acuerdo extends Conexion {
 	public function guardarAcuerdo() {
 		$usuario_id = $_POST['usuario_id'];		
 		$lote_id = trim($_POST['lote_id']);		
-		$fecha_ingreso = $_POST['fecha_ingreso'];		
+		$fecha_ingreso = date("Y-m-d");		
 		$valor_ingreso = trim($_POST['valor_ingreso']);
 		$valor_venta = $_POST['valor_venta'];
 		$cod_promesa = $_POST['cod_promesa'];

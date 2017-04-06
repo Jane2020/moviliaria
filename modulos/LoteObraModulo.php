@@ -21,7 +21,7 @@ class InfraestructuraLote extends Conexion {
 										   INNER JOIN lote l ON l.id = li.lote_id
 										   left JOIN obras_infraestructura oi ON oi.id = li.infraestructura_id
 				 						   INNER JOIN pago p ON p.id_obra_multa= li.id
-										   WHERE li.eliminado=0");		
+										   WHERE li.eliminado=0 and p.id_item=2");		
 		if($resultado != null){
 			while( $fila = $resultado->fetch_object() ){
 				$data[] = $fila;
@@ -125,7 +125,7 @@ class InfraestructuraLote extends Conexion {
 		}
 	}
 	
-	public function obtenerLoteMultaLectura($id){
+	public function obtenerLoteObraLectura($id){
 		$loteMultaObra = new LoteMultaObraModulo();
 		$acuerdId = $loteMultaObra->obtenerAcuerdoId($id);
 		$resultado = $this->mysqli->query("SELECT id FROM pago WHERE monto_pagado=0 and id_item=2 and acuerdo_id=".$acuerdId);
@@ -136,7 +136,7 @@ class InfraestructuraLote extends Conexion {
 		else {
 			return 2;
 		}
-	}
+	}	
 	
 	/**
 	 * Función que obtiene los datos de una Obras de Infraestructura de Lote dado el id
