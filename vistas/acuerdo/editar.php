@@ -22,7 +22,7 @@ if (isset($_POST['guardar'])){
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6 row6" >
 			<label class="control-label">Nombre del Cliente</label>
-			<input type='text' name="usuario" class='form-control border-input' value="<?php echo $item->usuario; ?>" id="usuario">
+			<input type='text' name="usuario" class='form-control border-input' value="<?php echo $item->usuario; ?>" id="usuario" <?php echo $item->id>0? "disabled ": ''; ?>>
 			<input type="hidden" name="usuario_id" class='form-control border-input' value="<?php echo $item->usuario_id; ?>" id="usuario_id">
 		</div>
 	</div>
@@ -62,19 +62,19 @@ if (isset($_POST['guardar'])){
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6 row6">
 			<label class="control-label">Código de Promesa</label> 
-			<input type='text' name='cod_promesa' class='form-control border-input' value="<?php echo $item->cod_promesa; ?>" id="cod_promesa">
+			<input type='text' name='cod_promesa' class='form-control border-input' value="<?php echo $item->cod_promesa; ?>" id="cod_promesa" <?php echo $item->id>0? "disabled ": ''; ?>>
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6 row6">
 			<label class="control-label">Valor Total del Terreno</label> 
-			<input type='text' name="valor_total" class="form-control border-input" value="<?php echo $item->valor_total; ?>" id="valor_total">
+			<input type='text' name="valor_total" class="form-control border-input" value="<?php echo $item->valor_total; ?>" id="valor_total" <?php echo $item->id>0? "disabled ": ''; ?>>
 		</div>
 	</div>
 	<div class="form-group col-sm-12">	
 		<div class="form-group col-sm-6">
 			<label class="control-label">Tipo de Pago</label> 
-			<select class='form-control border-input' name="pago_id" id="pago_id">
+			<select class='form-control border-input' name="pago_id" id="pago_id" <?php echo $item->id>0? "disabled=disabled ": ''; ?>>
 				<option value="" >Seleccione</option>
 				<?php foreach ($tipos_pago as $dato) { ?>
 					<option value="<?php echo $dato->id;?>"  <?php if($item->pago_id==$dato->id):echo "selected"; endif;?>><?php echo $dato->nombre;?></option>
@@ -85,22 +85,26 @@ if (isset($_POST['guardar'])){
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6 row6">
 			<label class="control-label">Valor de Pagar</label> 
-			<input type='text'name="valor_inicial" class="form-control border-input" value="<?php echo $item->valor_inicial; ?>" id="valor_inicial">
+			<input type='text'name="valor_inicial" class="form-control border-input" value="<?php echo $item->valor_inicial; ?>" id="valor_inicial" <?php echo $item->id>0? "disabled ": ''; ?>>
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6 row6">
 			<label class="control-label">Número de Cuotas</label> 
-			<input type='text'name="num_cuotas" class="form-control border-input" value="<?php echo $item->num_cuotas; ?>" id="num_cuotas">
+			<input type='text'name="num_cuotas" class="form-control border-input" value="<?php echo $item->num_cuotas; ?>" id="num_cuotas" <?php echo $item->id>0? "disabled ": ''; ?>>
 		</div>
 	</div>
 		
 	<div class="form-group">
 		<div class="form-group col-sm-6">
-			<input type='hidden' name='id' class='form-control' value="<?php echo $item->id; ?>">		
+			<input type='hidden' name='id' class='form-control' value="<?php echo $item->id; ?>">
+		<?php if($item->id==0){?>			
 			<input type='hidden' name='guardar' value="1">
 			<button type="submit" name="boton" class="btn btn-success btn-sm">Guardar</button>		
 			<a href="listar.php" class="btn btn-info btn-sm">Cancelar</a>
+		<?php }else{?>
+			<a href="listar.php" class="btn btn-info btn-sm">Regresar</a>
+		<?php }?>
 		</div>
 	</div>
 </div>

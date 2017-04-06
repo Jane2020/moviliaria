@@ -156,20 +156,29 @@ class Acuerdo extends Conexion {
 		$usuario_id = $_POST['usuario_id'];		
 		$lote_id = trim($_POST['lote_id']);		
 		$fecha_ingreso = date("Y-m-d");		
-		$valor_ingreso = trim($_POST['valor_ingreso']);
-		$valor_venta = $_POST['valor_venta'];
+		$valor_total = trim($_POST['valor_total']);
+		$valor_inicial = isset($_POST['valor_inicial'])?trim($_POST['valor_inicial']):trim($_POST['valor_total']);
 		$cod_promesa = $_POST['cod_promesa'];
+		$num_cuotas = isset($_POST['num_cuotas'])?$_POST['num_cuotas']:1;
+		$tipo_pago_id = $_POST['pago_id'];
+		$estado = $tipo_pago_id ==1?1:2;
+		
 		try {
 			if ($_POST['id'] == 0){
-				$consulta = "INSERT INTO acuerdo(usuario_id,lote_id, fecha_ingreso,valor_ingreso,valor_venta,cod_promesa)
-							 VALUES ('".$usuario_id."','".$lote_id."','".$fecha_ingreso."',".$valor_ingreso.",".$valor_venta.",'".$cod_promesa."')";			
+				$consulta = "INSERT INTO acuerdo(usuario_id,lote_id, fecha_ingreso,valor_total,valor_inicial,cod_promesa)
+							 VALUES ('".$usuario_id."','".$lote_id."','".$fecha_ingreso."',".$valor_total.",".$valor_inicial.",'".$cod_promesa."')";
 				$this->mysqli->query($consulta);
 				
 				$acuerdo = new LoteMultaObraModulo();
 				$acuerdoId = $acuerdo->obtenerAcuerdoId($lote_id);			
-				$consulta_pago = "INSERT INTO pago(monto_total,numero_abonos,monto_pagado,estado,acuerdo_id,id_item)
-								  VALUES (".$valor_venta.",". 0 .",". 0 .",". 0 .",". $acuerdoId.",". 1 .")";
+				$consulta_pago = "INSERT INTO pago(monto_total,numero_abonos,monto_pagado,estado,acuerdo_id,tipo_pago_id,id_item)
+								  VALUES (".$valor_total.",". $num_cuotas .",". $valor_inicial .",".$estado.",". $acuerdoId.",". $tipo_pago_id.",". 1 .")";
 				$this->mysqli->query($consulta_pago);
+				
+				$pagoId = $this->mysqli->insert_id;
+				$consulta_trans="INSERT INTO transaccion(fecha_transaccion,valor,eliminado,pago_id)
+								  VALUES ('".$fecha_ingreso."',". $valor_inicial .",". 0 .",". $pagoId.")";
+				$this->mysqli->query($consulta_trans);					
 			}
 			else{
 				$id = $_POST['id'];
