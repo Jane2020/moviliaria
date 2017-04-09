@@ -33,9 +33,10 @@ class Pagos extends Conexion {
 	 * Función que obtiene el Listado de Lotes dada la Cédula
 	 */
 	public function listarPagos($cedula, $acuerdo_id){
-		$resultado_pagos = $this->mysqli->query("SELECT p.id as pago_id , p.estado, id_item, t.valor,date_format(t.fecha_transaccion, '%Y-%m-%d') as fecha_pago
+		$resultado_pagos = $this->mysqli->query("SELECT p.id as pago_id , p.estado, tp.nombre as estado_nombre,id_item, t.valor,date_format(t.fecha_transaccion, '%Y-%m-%d') as fecha_pago
 												FROM pago p
 												INNER JOIN transaccion t on p.id=t.pago_id
+				 								INNER JOIN tipo_pago tp on tp.id=p.estado
 												WHERE p.acuerdo_id =".$acuerdo_id);
 		
 		$resultado_sinpagos = $this->mysqli->query("SELECT p.id as pago_id , p.estado, id_item, monto_pagado, monto_total
@@ -66,14 +67,13 @@ class Pagos extends Conexion {
 				}
 				else{
 					$item_nombre = "Obra de Infraestructura";
-				}				
-				$item_estado = $fila->estado == 1?"Pagado":"Pago Parcial";
+				}
 			$html .="				<tr>
 		                    			<td>".$fila->pago_id."</td>
 		                        		<td>".$item_nombre."</td>
 		                        		<td>".$fila->valor."</td>
 		                        		<td>".$fila->fecha_pago."</td>
-		                        		<td>".$item_estado."</td>
+		                        		<td>".$fila->estado_nombre."</td>
 	                    			</tr>
                 				</tbody>
         					</table>
