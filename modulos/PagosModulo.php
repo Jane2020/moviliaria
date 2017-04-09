@@ -11,15 +11,14 @@ class Pagos extends Conexion {
 	}
 	
 	/**
-	 * Función que obtiene el Listado de Acuerdos
+	 * Función que obtiene el Listado de Lotes dada la Cédula
 	 */
-	public function listarPagos(){		
-		$resultado = $this->mysqli->query("SELECT a.id,concat(u.nombres,' ', u.apellidos) as nombre_cliente,
-											l.numero_lote, l.ubicacion									
-											FROM pago p 
-                      						INNER JOIN acuerdo a ON a.id=p.acuerdo_id
-											INNER JOIN usuario u ON u.id= a.usuario_id                                            
-                      						INNER JOIN lote l ON l.id= a.lote_id");		
+	public function listarLoteByCedula($cedula){		
+		$resultado = $this->mysqli->query("SELECT a.id as id, l.numero_lote
+											FROM acuerdo a
+											INNER JOIN usuario u ON a.usuario_id=u.id
+											INNER JOIN lote l ON l.id=a.lote_id
+											WHERE l.eliminado=0 and u.cedula='".$cedula."'");		
 		if($resultado != null){
 			while( $fila = $resultado->fetch_object() ){
 				$data[] = $fila;
@@ -28,77 +27,111 @@ class Pagos extends Conexion {
 				return $data;
 			}
 		}
-	}	
-	
-	/**
-	 * Función que edita los datos de una Acuerdo
-	 */	
-	public function editarPagos(){
-		if(isset($_GET['id']) && $_GET['id'] >0){
-			$id= $_GET['id'];
-			$resultado = $this->mysqli->query("SELECT a.id, u.id as usuario_id,a.id,concat(u.nombres,' ', u.apellidos) as usuario,
-												m.lotizacion_id,l.manzana_id,
-												a.lote_id, cod_promesa,fecha_ingreso,valor_ingreso,valor_venta,cod_promesa
-												FROM acuerdo a 
-												INNER JOIN usuario u ON u.id= a.usuario_id
-												INNER JOIN lote l ON l.id= a.lote_id
-												INNER JOIN manzana m ON m.id = l.manzana_id
-												INNER JOIN lotizacion lz ON lz.id = m.lotizacion_id
-												WHERE a.id=".$id);
-			$data =  $resultado->fetch_object();					  	
-		}
-		else{
-			$data = (object) array('id'=>0,'usuario'=>'','usuario_id'=>'','lotizacion_id' =>'','manzana_id' =>'','lote_id' =>'','usuario'=>'','usuario_id'=>'','fecha_ingreso'=>'','valor_ingreso'=>'','valor_venta'=>'','cod_promesa'=>'');
-		}
-		return $data;
 	}
 	
 	/**
-	 * Función que guarda o modificar una Acuerdo
+	 * Función que obtiene el Listado de Lotes dada la Cédula
 	 */
-	public function guardarPagos() {
-		$usuario_id = $_POST['usuario_id'];		
-		$lote_id = trim($_POST['lote_id']);		
-		$fecha_ingreso = $_POST['fecha_ingreso'];		
-		$valor_ingreso = trim($_POST['valor_ingreso']);
-		$valor_venta = $_POST['valor_venta'];
-		$cod_promesa = $_POST['cod_promesa'];		
+	public function listarPagos($cedula, $acuerdo_id){
+		$resultado_pagos = $this->mysqli->query("SELECT p.id as pago_id , p.estado, id_item, t.valor,date_format(t.fecha_transaccion, '%Y-%m-%d') as fecha_pago
+												FROM pago p
+												INNER JOIN transaccion t on p.id=t.pago_id
+												WHERE p.acuerdo_id =".$acuerdo_id);
 		
-		if ($_POST['id'] == 0){
-			$consulta = "INSERT INTO acuerdo(usuario_id,lote_id, fecha_ingreso,valor_ingreso,valor_venta,cod_promesa)
-						 VALUES ('".$usuario_id."','".$lote_id."','".$fecha_ingreso."',".$valor_ingreso.",".$valor_venta.",'".$cod_promesa."')";
-		}
-		else{
-			$id = $_POST['id'];
-			$consulta = "UPDATE lote SET nombre='".$nombre."',ubicacion='".$ubicacion."',dimension='".$dimension."',disponible=".$disponible." ,numero_lote=".$numero_lote.", manzana_id=".$manzana_id." WHERE id=".$_POST['id'];	
-		}
-		$consulta_lote = "UPDATE lote SET disponible=0 WHERE id=".$lote_id;
-		try {
-			$this->mysqli->query($consulta);
-			$this->mysqli->query($consulta_lote);
-			$_SESSION ['message'] = "Datos almacenados correctamente.";
-		} catch ( Exception $e ) {
-			$_SESSION ['message'] = $e->getMessage ();
-		}
-		header ( "Location:listar.php" );
-	}	
-	
-	/**
-	 * Función que eliminar logicamente un Pagos
-	 */
-	public function eliminarPagos() {
-		if(isset($_GET['id']) && $_GET['id'] >0){
-			$id= $_GET['id'];			
-			$consulta = "UPDATE acuerdo SET eliminado=1 WHERE id =".$id;
-			$consulta_lote = "UPDATE lote SET disponible=1 WHERE id=".$lote_id;
-			try {
-				 $this->mysqli->query($consulta);
-				 $this->mysqli->query($consulta_lote);
-				$_SESSION ['message'] = "Datos eliminados correctamente.";
-			} catch ( Exception $e ) {
-				$_SESSION ['message'] = $e->getMessage ();
+		$resultado_sinpagos = $this->mysqli->query("SELECT p.id as pago_id , p.estado, id_item, monto_pagado, monto_total
+												FROM pago p
+												WHERE estado <>1 and p.acuerdo_id=".$acuerdo_id);		
+		if(isset($resultado_pagos)){
+			$html ="<div class='card'>
+    					<div class='header'>
+        					<h4 class='title'>Pagos Realizados</h4>                              
+        				</div>
+        				<div class='content table-responsive table-full-width'>
+        					<table class='table table-striped'>
+            					<thead>
+                					<tr>
+				                		<th>ID</th>
+					                    <th>Nombre del Pago</th>
+				    	                <th>Monto Pagado</th>
+				        	            <th>Fecha de Pago</th> 
+										<th>Estado</th>
+                   					</tr>
+                				</thead>
+                				<tbody>";
+			while( $fila = $resultado_pagos->fetch_object() ){
+				if($fila->id_item == 1){
+					$item_nombre = "Acuerdo";
+				}else if($fila->id_item == 3){
+					$item_nombre = "Multa";
+				}
+				else{
+					$item_nombre = "Obra de Infraestructura";
+				}				
+				$item_estado = $fila->estado == 1?"Pagado":"Pago Parcial";
+			$html .="				<tr>
+		                    			<td>".$fila->pago_id."</td>
+		                        		<td>".$item_nombre."</td>
+		                        		<td>".$fila->valor."</td>
+		                        		<td>".$fila->fecha_pago."</td>
+		                        		<td>".$item_estado."</td>
+	                    			</tr>
+                				</tbody>
+        					</table>
+						</div>
+					</div><br>";
 			}
-			header ( "Location:listar.php" );
+			$data[0]=$html;
+		}	
+		else{
+			$data[0]=null;
 		}
+		if(isset($resultado_sinpagos)){
+			$html ="<div class='card'>
+    					<div class='header'>
+        					<h4 class='title'>Cuentas por Pagar</h4>
+        				</div>
+        				<div class='content table-responsive table-full-width'>
+        					<table class='table table-striped'>
+            					<thead>
+                					<tr>
+				                		<th>ID</th>
+					                    <th>Nombre del Pago</th>
+				    	                <th>Monto Pagado</th>
+				        	            <th>Monto por Pagar</th>					 					
+										<th>Acción</th>
+                   					</tr>
+                				</thead>
+                				<tbody>";
+			while( $fila = $resultado_sinpagos->fetch_object() ){
+				if($fila->id_item == 1){
+					$item_nombre = "Acuerdo";
+				}else if($fila->id_item == 3){
+					$item_nombre = "Multa";
+				}
+				else{
+					$item_nombre = "Obra de Infraestructura";
+				}
+				$deuda = $fila->monto_total - $fila->monto_pagado;
+				$html .="				<tr>
+		                    			<td>".$fila->pago_id."</td>
+		                        		<td>".$item_nombre."</td>
+		                        		<td>".$fila->monto_pagado."</td>
+		                    			<td>".$deuda."</td>
+		                        		<td><button type='submit' name='pagar' id='pagar' class='btn btn-success btn-sm'>Pagar</button></td>
+	                    			</tr>
+                				</tbody>
+        					</table>
+						</div>
+					</div>";
+			}	
+			$data[1]=$html;
+			
+		}	
+		else{
+			$data[1]=null;
+		}
+		return $data;
+		
+		
 	}
 }

@@ -3,53 +3,77 @@ $title = 'Pagos';
 require_once ("../../modulos/PagosModulo.php");
 require_once ("../../template/header.php");
 ?>
- <div class="card">
- <div class="header">
-<?php if (isset($_SESSION['message'])&& ($_SESSION['message'] != '')):?>
-		<div class="alert alert-success fade in alert-dismissable">
-				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-				<?php echo $_SESSION['message'];$_SESSION['message'] = ''?>
-		</div>
-<?php endif;?>
-</p>
-<p>
-   <a href="editar.php" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-plus" aria-hidden="true" title="Nuevo"></span></a><br/>
-</p>
-<table id="dataTables-example" class="display table table-bordered table-stripe" cellspacing="0" width="100%">
-	<thead>
-          <tr>
-               <th>ID</th>
-               <th>Nombre del Cliente</th>
-               <th>Número del Lote</th>                             
-               <th>Ubicación</th>
-               <th style="width: 15%">Acci&oacute;n</th>
-          </tr>
-     </thead>
-     <tbody>
-     <?php
-          $pagos = new Pagos();
-          $listaPagos = $pagos->listarPagos();
-          if(count($listaPagos) > 0){
-               foreach ($listaPagos as $row){
-     ?>
-     	<tr>
-            <td><?php echo $row->id ?></td>
-            <td><?php echo $row->nombre_cliente ?></td>   
-            <td><?php echo $row->numero_lote?></td>
-            <td><?php echo $row->ubicacion ?></td>
-            <td style="text-align: center;">
-                <a title="Editar" href="editar.php?id=<?php echo $row->id ?>" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a>
-                <a title="Eliminar" class="btn btn-danger btn-sm" onclick="return confirm('Desea eliminar el registro')" href="accion.php?id=<?php echo $row->id ?>"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
-            </td>
-          </tr>
-      <?php
-               }
-          }
-      ?>
-     </tbody>
-</table>	
- </div>    
- </div>
+<div style="overflow: auto;">
+		<div class="form-group col-sm-12">
+			<div class="form-group col-sm-3" >
+				<label class="control-label">Ingrese la Cédula del Cliente</label>
+				<input type='text' name="cedula" class='form-control border-input' value="" id="cedula">
+			</div>
+			<div class="form-group col-sm-3" >
+				<label class="control-label">Escoja el número de Lote</label>
+				<select class='form-control border-input' name="lote_numero" id="lote_numero" disabled>
+					<option value="" >Seleccione</option>
+					<?php foreach ($lote as $dato) { ?>
+						<option value="<?php echo $dato->id;?>"><?php echo $dato->numero_lote;?></option>
+					<?php }?>
+				</select>
+			</div>
+			<div class="form-group col-sm-3" >
+				<br>
+				<button type="submit" name="guardar" id="guardar" class="btn btn-success btn-sm" disabled>Buscar</button>
+			</div>		
+		</div>	
+</div>
+
+<div class="col-md-12" id="pagados">    
+</div>
+
 <?php
 require_once ("../../template/footer.php");
 ?>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#cedula').change(function(){
+	    var cedula = jQuery("#cedula").val();
+	    if(typeof cedula != 'undefined' &&  cedula != ''){
+		    jQuery.ajax({
+			        type: "GET",
+			        url: "ajax.php",
+			        data: {
+			        	"id": cedula,
+			        	"accion":0
+			        },
+			        success:function(response) {
+			        	  $('#lote_numero').html(response);		        		        				  
+			        	  $("#lote_numero").prop('disabled', false);  			           	
+			        	  $("#guardar").prop('disabled', false);
+			        }
+			});	    
+	    }
+	    else{
+	    	$("#lote_numero").prop('disabled', true);  			           	
+       	  	$("#guardar").prop('disabled', true);
+		}
+	});
+
+	$('#guardar').click(function(){	
+		  var cedula = jQuery("#cedula").val();
+		  var lote_id = jQuery("#lote_numero").val();
+		  jQuery.ajax({
+		        type: "GET",
+		        url: "ajax.php",		        
+		        data: {
+		        	"cedula": cedula,
+		        	"lote_id":lote_id,
+		        	"accion":1
+		        },
+		        success:function(response) {
+		        	jQuery("#pagados").html('');
+		        	jQuery("#pagados").html(response);		        	  
+		        }
+		});
+	});
+	
+	
+});	
+</script>

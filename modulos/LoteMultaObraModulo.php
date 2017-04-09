@@ -219,7 +219,7 @@ class LoteMultaObraModulo extends Conexion {
 					}
 					
 					$consulta_pago = "INSERT INTO pago(monto_total,numero_abonos,monto_pagado,estado,acuerdo_id,id_item, id_obra_multa)
-							  VALUES (".$valor.",". 0 .",". 0 .",". 0 .",". $acuerdoId.",". $tipo .",".$id.")";		
+							  VALUES (".$valor.",". 1 .",". 0 .",". 0 .",". $acuerdoId.",". $tipo .",".$id.")";		
 					$resultado1 = 	$this->mysqli->query($consulta_pago);
 					
 				}
