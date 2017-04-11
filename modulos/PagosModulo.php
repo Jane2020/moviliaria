@@ -33,7 +33,7 @@ class Pagos extends Conexion {
 	 * Función que obtiene el Listado de Lotes dada la Cédula
 	 */
 	public function listarPagos($cedula, $acuerdo_id){
-		$resultado_pagos = $this->mysqli->query("SELECT p.id as pago_id , p.estado, tp.nombre as estado_nombre,id_item, t.valor,date_format(t.fecha_transaccion, '%Y-%m-%d') as fecha_pago
+		$resultado_pagos = $this->mysqli->query("SELECT p.id as pago_id , p.estado, tp.nombre as estado_nombre,id_item,t.monto_total, t.valor,date_format(t.fecha_transaccion, '%Y-%m-%d') as fecha_pago
 												FROM pago p
 												INNER JOIN transaccion t on p.id=t.pago_id
 				 								INNER JOIN tipo_pago tp on tp.id=tipo_pago_id
@@ -53,6 +53,7 @@ class Pagos extends Conexion {
                 					<tr>
 				                		<th>ID</th>
 					                    <th>Nombre del Pago</th>
+					        			<th>Monto Total</th>
 				    	                <th>Monto Pagado</th>
 				        	            <th>Fecha de Pago</th> 
 										<th>Estado</th>
@@ -71,7 +72,8 @@ class Pagos extends Conexion {
 			$html .="				<tr>
 		                    			<td>".$fila->pago_id."</td>
 		                        		<td>".$item_nombre."</td>
-		                        		<td>".$fila->valor."</td>
+		                        		<td>$".$fila->monto_total."</td>
+		                        		<td>$".$fila->valor."</td>
 		                        		<td>".$fila->fecha_pago."</td>
 		                        		<td>".$fila->estado_nombre."</td>
 	                    			</tr>
@@ -117,7 +119,7 @@ class Pagos extends Conexion {
 		                    			<td>".$fila->pago_id."
 		                    				  <input type='hidden' id='pago_id' value=".$fila->pago_id."></td>
 		                        		<td>".$item_nombre."</td>
-		                        		<td>".$fila->monto_pagado."</td>
+		                        		<td>$".$fila->monto_pagado."</td>
 		                    			<td>".$deuda."</td>
 		                        		<td>
 											<a href='javascript: loadModal(".$fila->pago_id.")' class='btn btn-success btn-sm' title='Pagar' >
@@ -291,8 +293,8 @@ class Pagos extends Conexion {
 				$estado = 1;
 			}
 			
-			$consulta = "INSERT INTO transaccion(fecha_transaccion,valor,pago_id,tipo_pago_id,eliminado)
-						VALUES('".$fecha_ingreso."',".$valor.",".$pago_id.",".$tipo_pago.",0)";
+			$consulta = "INSERT INTO transaccion(fecha_transaccion,monto_total,valor,pago_id,tipo_pago_id,eliminado)
+						VALUES('".$fecha_ingreso."',".$monto_adeudado.",".$valor.",".$pago_id.",".$tipo_pago.",0)";
 			$this->mysqli->query($consulta);
 			
 			$consulta_pago = "update pago set monto_pagado=".$monto.",estado=".$estado."  where id=".$pago_id;
