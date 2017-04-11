@@ -124,8 +124,9 @@ class Pagos extends Conexion {
 													Pagar
 											</a>
 		                    			</td>		
-	                    			</tr>
-                				</tbody>
+	                    			</tr>";
+							}										
+                $html .="		</tbody>
         					</table>
 						</div>
 					</div>
@@ -145,7 +146,6 @@ class Pagos extends Conexion {
 							});
 						}
 		            </script>";
-			}	
 			$data[1]=$html;
 			
 		}	
@@ -293,7 +293,8 @@ class Pagos extends Conexion {
 			
 			$consulta = "INSERT INTO transaccion(fecha_transaccion,valor,pago_id,tipo_pago_id,eliminado)
 						VALUES('".$fecha_ingreso."',".$valor.",".$pago_id.",".$tipo_pago.",0)";
-				
+			$this->mysqli->query($consulta);
+			
 			$consulta_pago = "update pago set monto_pagado=".$monto.",estado=".$estado."  where id=".$pago_id;
 			$this->mysqli->query($consulta_pago);		
 			$_SESSION ['message'] = "Datos almacenados correctamente.";
