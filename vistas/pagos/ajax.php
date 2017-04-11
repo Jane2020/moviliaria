@@ -23,4 +23,21 @@
 			}
 		}
 	}
+	if($accion == 2){
+		$pago_id= $_GET['pago_id'];
+		$resultado = $pagos->mostrarPantallaModal($pago_id);
+		echo $resultado; 
+	}
+	if($accion == 3){
+		$tipo_pago = $_GET['tipo_pago'];
+		$valor= $_GET['valor'];
+		$pago_id = $_GET['pago_id'];
+		$resultado = $pagos->guardarPago($pago_id, $tipo_pago, $valor);
+		
+	}
+	if($accion == 4){
+		$pago_id = $_GET['pago_id'];
+		$resultado = $pagos->obtenerMontoTotal($pago_id);
+		echo $resultado;				
+	}
 ?>

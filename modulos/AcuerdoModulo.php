@@ -133,9 +133,10 @@ class Acuerdo extends Conexion {
 			$resultado = $this->mysqli->query("SELECT a.id, u.id as usuario_id,a.id,concat(u.nombres,' ', u.apellidos) as usuario,
 												m.lotizacion_id,l.manzana_id,
 												a.lote_id, cod_promesa,fecha_ingreso,valor_inicial,valor_total,cod_promesa,numero_abonos as num_cuotas, 
-												p.tipo_pago_id as pago_id
+												t.tipo_pago_id as pago_id
 												FROM acuerdo a
 												INNER JOIN pago p ON p.acuerdo_id= a.id
+												INNER JOIN transaccion t ON t.pago_id= p.id                                                
 												INNER JOIN usuario u ON u.id= a.usuario_id
 												INNER JOIN lote l ON l.id= a.lote_id
 												INNER JOIN manzana m ON m.id = l.manzana_id
@@ -170,13 +171,13 @@ class Acuerdo extends Conexion {
 			
 			$acuerdo = new LoteMultaObraModulo();
 			$acuerdoId = $acuerdo->obtenerAcuerdoId($lote_id);			
-			$consulta_pago = "INSERT INTO pago(monto_total,numero_abonos,monto_pagado,estado,acuerdo_id,tipo_pago_id,id_item)
-							  VALUES (".$valor_total.",". $num_cuotas .",". $valor_inicial .",".$estado.",". $acuerdoId.",". $tipo_pago_id.",". 1 .")";
+			$consulta_pago = "INSERT INTO pago(monto_total,numero_abonos,monto_pagado,estado,acuerdo_id,id_item)
+							  VALUES (".$valor_total.",". $num_cuotas .",". $valor_inicial .",".$estado.",". $acuerdoId.",". 1 .")";
 			$this->mysqli->query($consulta_pago);
 				
 			$pagoId = $this->mysqli->insert_id;
-			$consulta_trans="INSERT INTO transaccion(fecha_transaccion,valor,eliminado,pago_id)
-							  VALUES ('".$fecha_ingreso."',". $valor_inicial .",". 0 .",". $pagoId.")";
+			$consulta_trans="INSERT INTO transaccion(fecha_transaccion,valor,eliminado,pago_id,tipo_pago_id)
+							  VALUES ('".$fecha_ingreso."',". $valor_inicial .",". 0 .",". $pagoId.",". $tipo_pago_id.")";
 			$this->mysqli->query($consulta_trans);					
 			$_SESSION ['message'] = "Datos almacenados correctamente.";
 		} catch ( Exception $e ) {

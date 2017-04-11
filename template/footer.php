@@ -13,6 +13,22 @@
     </div>
 </div>
 
+<div class="modal fade login" id="pagoModal" aria-hidden="true" style="display: none;">
+		      <div class="modal-dialog login animated">
+    		      <div class="modal-content">
+    		         <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">Ingreso de Pagos</h4>
+                    </div>
+                    <div class="modal-body">
+                        
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+    		      </div>
+		      </div>
+		  </div>
+
 
 </body>
 
