@@ -2,7 +2,7 @@
 					<!--copy-->
 					<div class="copy-section">
 						<div class="container">
-							<p>&copy; 2017 Real Space. All rights reserved | Design by <a href="http://w3layouts.com">W3layouts</a></p>
+							<p>&copy; Copyright © 2017</p>
 						</div>
 					</div>
 				<!--copy-->
