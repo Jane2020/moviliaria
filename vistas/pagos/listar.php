@@ -3,6 +3,7 @@ $title = 'Pagos';
 require_once ("../../modulos/PagosModulo.php");
 require_once ("../../template/header.php");
 ?>
+<div id="mensaje"></div>
 <div style="overflow: auto;">
 		<div class="form-group col-sm-12">
 			<div class="form-group col-sm-3" >

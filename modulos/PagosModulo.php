@@ -240,7 +240,24 @@ class Pagos extends Conexion {
 								       	'accion':3
 								      },
 								      success:function(response) {
-											alert('se almaceno');		      	
+										  var cedula = jQuery('#cedula').val();
+										  var lote_id = jQuery('#lote_numero').val();
+										  jQuery.ajax({
+										        type: 'GET',
+										        url: 'ajax.php',		        
+										        data: {
+										        	'cedula': cedula,
+										        	'lote_id':lote_id,
+										        	'accion':1
+										        },
+										        success:function(response) {
+										        	jQuery('#pagados').html('');
+										        	jQuery('#pagados').html(response);		        	  
+										        }
+										});
+										$('#pagoModal').modal('hide');
+										jQuery('#mensaje').html('');
+										jQuery('#mensaje').html(response);
 								      }
 							});						
 						});
@@ -298,8 +315,12 @@ class Pagos extends Conexion {
 			$this->mysqli->query($consulta);
 			
 			$consulta_pago = "update pago set monto_pagado=".$monto.",estado=".$estado."  where id=".$pago_id;
-			$this->mysqli->query($consulta_pago);		
-			$_SESSION ['message'] = "Datos almacenados correctamente.";
+			$this->mysqli->query($consulta_pago);
+			$html="<div class='alert alert-success fade in alert-dismissable'>
+						<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+							Se almaceno correctamente el pago
+					</div>";
+			return $html;
 		} catch ( Exception $e ) {
 			$_SESSION ['message'] = $e->getMessage ();
 		}		

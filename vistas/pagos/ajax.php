@@ -33,6 +33,7 @@
 		$valor= $_GET['valor'];
 		$pago_id = $_GET['pago_id'];
 		$resultado = $pagos->guardarPago($pago_id, $tipo_pago, $valor);
+		echo $resultado;
 		
 	}
 	if($accion == 4){
