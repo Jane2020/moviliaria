@@ -24,38 +24,38 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<!---header--->
 			<div class="header-section">
 				<div class="container">
-				<div class="navbar-brand">
-								<img alt="" src="images/logo.png" style="height: 150px; margin-top: 10px; ">
-				</div>
-				<div style="width: 85%; float: right;">
-					<div class="head-top">
-						<div class="social-icon">
-							<a href="#"><i class="icon"></i></a>
-							<a href="#"><i class="icon1"></i></a>
-							<a href="#"><i class="icon2"></i></a>
-							
-						</div>
-						<div class="email">
-						<ul>
-							<li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i>Email: <a href="mailto:info@example.com">info@example.com</a> </li>
-							<li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="../vistas/seguridad/login.php" >Iniciar Sesión</a></li>
-							
-						</ul>
-						</div>
+					<div class="navbar-brand">
+						<img alt="" src="images/logo.png" style="height: 150px; margin-top: 10px; ">								
+					</div>
+					<div style="width: 85%; float: right;">
+						<div class="head-top">
+							<div class="social-icon">
+								<a href="#"><i class="icon"></i></a>
+								<a href="#"><i class="icon1"></i></a>
+								<a href="#"><i class="icon2"></i></a>							
+							</div>
+							<div class="email">
+								<ul>
+									<li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i>Email: <a href="mailto:companiadonovilsa@gmail.com">companiadonovilsa@gmail.com</a> </li>
+									<li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="../vistas/seguridad/login.php" >Iniciar Sesión</a></li>
+								</ul>
+							</div>
 						<div class="clearfix"></div>
 					</div>
-					<nav class="navbar navbar-default">
+					<nav class="navbar navbar-default">						
 					<!---Brand and toggle get grouped for better mobile display--->
+						<div class="navbar-brand" align="left">
+							<h3 style="color:#C6C7C7;font-family:'Righteous', cursive"> COMPANÍA NUEVO AMANECER DONOVILSA S.A.</h3>
+						</div>
 						<div class="navbar-header">
 							<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
 								<span class="sr-only">Toggle navigation</span>
 								<span class="icon-bar"></span>
 								<span class="icon-bar"></span>
 								<span class="icon-bar"></span>
-							</button>				  
-							
+							</button>		
 						</div>
-						<div class="navbar-brand">
+						<div class="navbar-brand">							
 						</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<?php $url = $_SERVER["REQUEST_URI"];?>
@@ -63,7 +63,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<ul class="nav navbar-nav">
 								<li class="<?php echo (strpos($url, '/index.php'))?'active':'';?>"><a href="index.php">Inicio <span class="sr-only">(current)</span></a></li>									
 								<li class="<?php echo (strpos($url, '/info.php'))?'active':'';?>"><a href="info.php">Quienes Somos</a></li>
-								<li class="<?php echo (strpos($url, '/galeria.php'))?'active':'';?>"><a href="galeria.php">Galeria</a></li>
+								<li class="<?php echo (strpos($url, '/galeria.php'))?'active':'';?>"><a href="galeria.php">Galería</a></li>
 								<li class="<?php echo (strpos($url, '/pagos/'))?'active':'';?>"><a href="../pagos/listar.php">Mis Pagos</a></li>
 								<li class="<?php echo (strpos($url, '/contactos.php'))?'active':'';?>"><a href="contactos.php">Contactos</a></li>
 							</ul>
