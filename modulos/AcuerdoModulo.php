@@ -176,8 +176,8 @@ class Acuerdo extends Conexion {
 			$this->mysqli->query($consulta_pago);
 				
 			$pagoId = $this->mysqli->insert_id;
-			$consulta_trans="INSERT INTO transaccion(fecha_transaccion,valor,eliminado,pago_id,tipo_pago_id)
-							  VALUES ('".$fecha_ingreso."',". $valor_inicial .",". 0 .",". $pagoId.",". $tipo_pago_id.")";
+			$consulta_trans="INSERT INTO transaccion(fecha_transaccion,monto_total,valor,eliminado,pago_id,tipo_pago_id)
+							  VALUES ('".$fecha_ingreso."',".$valor_total.",". $valor_inicial .",". 0 .",". $pagoId.",". $tipo_pago_id.")";
 			$this->mysqli->query($consulta_trans);					
 			$_SESSION ['message'] = "Datos almacenados correctamente.";
 		} catch ( Exception $e ) {
