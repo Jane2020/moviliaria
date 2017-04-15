@@ -109,7 +109,7 @@
 								<ul>
 									<li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i> Oficina : 032376393</li>
 									<li><i class="glyphicon glyphicon-phone" aria-hidden="true"></i> Celular: 0986444478</li>
-									<li><i class="glyphicon glyphicon-print" aria-hidden="true"></i> domingofsguido@yahoo.com</li>
+									<li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i> domingofsguido@yahoo.com</li>
 								</ul>							
 							</div>
 							<div class="clearfix"></div>
@@ -124,7 +124,7 @@
 								<ul>
 									<li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i> Oficina : 032374408</li>
 									<li><i class="glyphicon glyphicon-phone" aria-hidden="true"></i> Celular : 0990474469</li>
-									<li><i class="glyphicon glyphicon-print" aria-hidden="true"></i> luisdonoso29@yahoo.com</li>
+									<li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i> luisdonoso29@yahoo.com</li>
 								</ul>								
 							</div>
 							<div class="clearfix"></div>
@@ -143,7 +143,7 @@
 								<ul>
 									<li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i> Oficina : 032376393</li>
 									<li><i class="glyphicon glyphicon-phone" aria-hidden="true"></i> Celular : 0939942217</li>
-									<li><i class="glyphicon glyphicon-print" aria-hidden="true"></i> avilema@hotmail.com</li>
+									<li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i> avilema@hotmail.com</li>
 								</ul>							
 							</div>
 							<div class="clearfix"></div>
