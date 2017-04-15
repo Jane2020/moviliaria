@@ -134,7 +134,7 @@ CREATE TABLE `lote_multa` (
   KEY `fk_lote_multa_multa1` (`multa_id`),
   CONSTRAINT `fk_lote_multa_lote1` FOREIGN KEY (`lote_id`) REFERENCES `lote` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_lote_multa_multa1` FOREIGN KEY (`multa_id`) REFERENCES `multa` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `lote_multa`
@@ -144,7 +144,10 @@ CREATE TABLE `lote_multa` (
 INSERT INTO `lote_multa` (`id`,`lote_id`,`multa_id`,`valor_multa`,`fecha_ingreso`,`descripcion`,`estado`,`eliminado`) VALUES 
  (1,12,3,2000,'2017-04-01 00:00:00','A',NULL,0),
  (2,13,3,2000,'2017-04-01 00:00:00','A',NULL,0),
- (3,12,3,2000,'2017-04-08 00:00:00','mk',NULL,0);
+ (3,12,3,2000,'2017-04-08 00:00:00','mk',NULL,0),
+ (4,13,4,4000,'2017-04-10 00:00:00','kkk',NULL,0),
+ (5,12,3,2000,'2017-04-11 00:00:00','k',NULL,0),
+ (6,13,3,2000,'2017-04-11 00:00:00','k',NULL,0);
 /*!40000 ALTER TABLE `lote_multa` ENABLE KEYS */;
 
 
@@ -262,27 +265,26 @@ CREATE TABLE `pago` (
   `monto_pagado` double NOT NULL,
   `estado` int(11) NOT NULL DEFAULT '0' COMMENT '0->Sin Pago 1 -> Pagado  2->Pago Parcial',
   `acuerdo_id` int(11) NOT NULL,
-  `tipo_pago_id` int(11) DEFAULT NULL COMMENT '1->Total 2->Parcial',
   `id_item` int(11) NOT NULL COMMENT '1->Acuerdo 2->Infraestructura 3->Multas',
   `id_obra_multa` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_pago_acuerdo1` (`acuerdo_id`),
-  KEY `fk_pago_tipo_pago1` (`tipo_pago_id`),
   KEY `fk_acuerdo_id` (`acuerdo_id`),
-  KEY `fk_tipo_pago` (`tipo_pago_id`),
-  CONSTRAINT `fk_acuerdo_id` FOREIGN KEY (`acuerdo_id`) REFERENCES `acuerdo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tipo_pago` FOREIGN KEY (`tipo_pago_id`) REFERENCES `tipo_pago` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+  CONSTRAINT `fk_acuerdo_id` FOREIGN KEY (`acuerdo_id`) REFERENCES `acuerdo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `pago`
 --
 
 /*!40000 ALTER TABLE `pago` DISABLE KEYS */;
-INSERT INTO `pago` (`id`,`monto_total`,`numero_abonos`,`monto_pagado`,`estado`,`acuerdo_id`,`tipo_pago_id`,`id_item`,`id_obra_multa`) VALUES 
- (25,8000,1,8000,1,18,1,1,0),
- (26,8000,4,4000,2,19,2,1,0),
- (27,2000,1,2000,1,18,1,3,3);
+INSERT INTO `pago` (`id`,`monto_total`,`numero_abonos`,`monto_pagado`,`estado`,`acuerdo_id`,`id_item`,`id_obra_multa`) VALUES 
+ (25,8000,1,8000,1,18,1,0),
+ (26,8000,4,8000,1,19,1,0),
+ (27,2000,1,2000,1,18,3,3),
+ (28,4000,1,4000,1,19,3,4),
+ (29,2000,1,-10212,1,18,3,5),
+ (30,2000,1,1300,2,19,3,6);
 /*!40000 ALTER TABLE `pago` ENABLE KEYS */;
 
 
@@ -341,27 +343,49 @@ DROP TABLE IF EXISTS `transaccion`;
 CREATE TABLE `transaccion` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `fecha_transaccion` datetime NOT NULL,
+  `monto_total` double NOT NULL,
   `valor` double NOT NULL,
   `pago_id` int(11) NOT NULL,
-  `tipo_pagado_id` int(11) NOT NULL,
+  `tipo_pago_id` int(11) NOT NULL,
   `eliminado` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `fk_transaccion_pago1` (`pago_id`),
   CONSTRAINT `fk_transaccion_pago1` FOREIGN KEY (`pago_id`) REFERENCES `pago` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `transaccion`
 --
 
 /*!40000 ALTER TABLE `transaccion` DISABLE KEYS */;
-INSERT INTO `transaccion` (`id`,`fecha_transaccion`,`valor`,`pago_id`,`tipo_pagado_id`,`eliminado`) VALUES 
- (1,'2017-04-05 00:00:00',8000,25,0,0),
- (2,'2017-04-05 00:00:00',1000,26,0,0),
- (4,'2017-04-10 00:00:00',1000,27,0,0),
- (5,'2017-04-10 00:00:00',1000,27,0,0),
- (6,'2017-04-10 00:00:00',1000,26,0,0),
- (7,'2017-04-10 00:00:00',2000,26,0,0);
+INSERT INTO `transaccion` (`id`,`fecha_transaccion`,`monto_total`,`valor`,`pago_id`,`tipo_pago_id`,`eliminado`) VALUES 
+ (1,'2017-04-05 00:00:00',0,8000,25,1,0),
+ (2,'2017-04-05 00:00:00',8000,1000,26,2,0),
+ (4,'2017-04-10 00:00:00',0,1000,27,2,0),
+ (5,'2017-04-10 00:00:00',0,1000,27,1,0),
+ (6,'2017-04-10 00:00:00',7000,1000,26,2,0),
+ (7,'2017-04-10 00:00:00',5000,2000,26,2,0),
+ (8,'2017-04-10 00:00:00',4000,1000,26,2,0),
+ (9,'2017-04-10 00:00:00',3000,1000,26,2,0),
+ (10,'2017-04-10 00:00:00',4000,1000,28,2,0),
+ (11,'2017-04-10 00:00:00',3000,1000,28,2,0),
+ (12,'2017-04-10 00:00:00',2000,1000,28,2,0),
+ (13,'2017-04-10 00:00:00',1000,1000,28,2,0),
+ (14,'2017-04-11 00:00:00',2000,500,30,2,0),
+ (15,'2017-04-11 00:00:00',1500,500,30,2,0),
+ (16,'2017-04-13 00:00:00',2000,500,29,2,0),
+ (17,'2017-04-13 00:00:00',1500,500,29,2,0),
+ (18,'2017-04-14 00:00:00',1000,1,29,2,0),
+ (19,'2017-04-14 00:00:00',999,1,29,2,0),
+ (20,'2017-04-14 00:00:00',998,10,29,2,0),
+ (21,'2017-04-14 00:00:00',988,100,29,2,0),
+ (22,'2017-04-14 00:00:00',888,100,29,2,0),
+ (23,'2017-04-14 00:00:00',788,1000,29,2,0),
+ (24,'2017-04-14 00:00:00',-212,10000,29,2,0),
+ (25,'2017-04-14 00:00:00',-10212,-10212,29,1,0),
+ (26,'2017-04-14 00:00:00',1000,100,30,2,0),
+ (27,'2017-04-14 00:00:00',900,100,30,2,0),
+ (28,'2017-04-14 00:00:00',800,100,30,2,0);
 /*!40000 ALTER TABLE `transaccion` ENABLE KEYS */;
 
 

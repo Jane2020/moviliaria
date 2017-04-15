@@ -166,41 +166,66 @@ class Pagos extends Conexion {
 		$pagos = $resultado_pago->fetch_row();
 		$monto_pago_deuda = $pagos[0]-$pagos[1];
 		if(isset($resultado)){
-			$html ="<table width='70%'>
-						<tr>
-							<td colspan=3>
-								<b>El Monto Adeudado es: $".$monto_pago_deuda."</b>
-								<input type='hidden' name='monto_pago_deuda' id='monto_pago_deuda' class='form-control' value=".$monto_pago_deuda.">
-								<br><br>		
-							</td>
-						</tr>
-						<tr>
-							<td>
-					 			<label class='control-label'>Tipo de Pago</label>
-								<select class='form-control border-input' name='tipo_pago' id='tipo_pago'>
-									<option value=''>Seleccione</option>";
+			$html ="<div class='form-group col-sm-12>
+						<div class='form-group col-sm-6'>
+							<label>							
+									<b>El Monto Adeudado es: $".$monto_pago_deuda."</b>
+							</label>				
+							<input type='hidden' name='monto_pago_deuda' id='monto_pago_deuda' class='form-control' value=".$monto_pago_deuda.">						
+						</div>
+					</div>				
+					<div class='form-group col-sm-12>	
+						<div class='form-group col-sm-6'>
+							<label class='control-label'>Tipo de Pago</label>
+							<select class='form-control border-input' name='tipo_pago' id='tipo_pago'>
+								<option value=''>Seleccione</option>";
 			while( $fila = $resultado->fetch_object() ){
 				$html .="<option value='".$fila->id."'>".$fila->nombre."</option>";
 			}
-			$html .="</select></td>
-					<tr>
-						<td>
-							<br>
-					 		<label class='control-label'>Valor de la Cuota</label>
+			$html .="</select></div></div>
+					<div class='form-group col-sm-12>
+						<div class='form-group col-sm-6'>
+							<label class='control-label'>Valor de la Cuota</label>
 							<input type='text'name='valor' class='form-control border-input' value='' id='valor'>
 							<input type='hidden' name='pago_id' class='form-control' value=".$pago_id.">
-						</td>
-					</tr>								
-					<tr>
-						<td colspan=3>
-							<br>
-					 		<button type='submit' name='guardar_pago' id='guardar_pago' class='btn btn-success btn-sm'>Guardar</button>
-							<button type='submit' name='cancelar_pago' id='cancelar_pago' class='btn btn-cancel btn-sm' data-dismiss='modal'>Cancelar</button>
-						</td>			
-					</tr>
-				</table>
+						</div>
+					</div>							
+					<div class='form-group col-sm-12>
+						<div class='form-group col-sm-6'>
+								<br>
+						 		<button type='submit' name='guardar_pago' id='guardar_pago' class='btn btn-success btn-sm'>Guardar</button>
+								<button type='submit' name='cancelar_pago' id='cancelar_pago' class='btn btn-cancel btn-sm' data-dismiss='modal'>Cancelar</button>									
+						</div>
+					</div>				
 				<script type='text/javascript'>
 					$(document).ready(function() {
+						$('#frmEnviarPago').formValidation({    	    
+							message: 'This value is not valid',
+							fields: {
+								tipo_pago: {
+									message: 'El tipo de pago no es válida',
+									validators: {
+										notEmpty: {
+											message: 'El Tipo de Pago no puede ser vacío.'
+										}
+									}
+								},
+								valor: {
+									message: 'El Valor no es válido',
+									validators: {
+										notEmpty: {
+											message: 'El Valor no puede ser vacío.'
+										},					
+										regexp: {
+											regexp: /^\d+(\.\d{1,2})?$/,
+											message: 'Ingrese un Valor válido.'
+										}
+									}
+								}									
+							}
+						});
+									
+									
 						$('#tipo_pago').change(function(){
 							var tipo_pago = jQuery('#tipo_pago').val();
 	    					var pago_id = jQuery('#pago_id').val();
@@ -258,8 +283,8 @@ class Pagos extends Conexion {
 										$('#pagoModal').modal('hide');
 										jQuery('#mensaje').html('');
 										jQuery('#mensaje').html(response);
-								      }
-							});						
+								}
+							});							
 						});
 					});
 				";
