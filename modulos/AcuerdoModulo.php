@@ -178,7 +178,11 @@ class Acuerdo extends Conexion {
 			$pagoId = $this->mysqli->insert_id;
 			$consulta_trans="INSERT INTO transaccion(fecha_transaccion,monto_total,valor,eliminado,pago_id,tipo_pago_id)
 							  VALUES ('".$fecha_ingreso."',".$valor_total.",". $valor_inicial .",". 0 .",". $pagoId.",". $tipo_pago_id.")";
-			$this->mysqli->query($consulta_trans);					
+			$this->mysqli->query($consulta_trans);			
+			
+			$consulta_lote = "UPDATE lote SET disponible=0 WHERE id =".$lote_id;
+			$this->mysqli->query($consulta_lote);
+			
 			$_SESSION ['message'] = "Datos almacenados correctamente.";
 		} catch ( Exception $e ) {
 			$_SESSION ['message'] = $e->getMessage ();
