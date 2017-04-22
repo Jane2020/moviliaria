@@ -30,7 +30,7 @@ class Pagos extends Conexion {
 	}
 	
 	/**
-	 * Función que obtiene el Listado de Lotes dada la Cédula
+	 * Función que obtiene el Listado de Pagos
 	 */
 	public function listarPagos($cedula, $acuerdo_id){
 		$resultado_pagos = $this->mysqli->query("SELECT p.id as pago_id , p.estado, tp.nombre as estado_nombre,id_item,t.monto_total, t.valor,date_format(t.fecha_transaccion, '%Y-%m-%d') as fecha_pago
@@ -349,5 +349,32 @@ class Pagos extends Conexion {
 		} catch ( Exception $e ) {
 			$_SESSION ['message'] = $e->getMessage ();
 		}		
+	}
+	
+	
+	/**
+	 * Función que obtiene el Listado de Lotes dada la Cédula de un cliente 
+	 */
+	public function listaPagosCliente($cedula){
+		$acuerdos = $this->mysqli->query("SELECT distinct(a.id), numero_lote
+					FROM acuerdo a
+					INNER JOIN usuario u on u.id=a.usuario_id
+					INNER JOIN lote l on l.id=a.lote_id
+					WHERE cedula='".$cedula."'");		
+		while( $fila = $acuerdos->fetch_object()){
+			$resultado_pagos = $this->mysqli->query("SELECT distinct(p.id) as pago_id , p.estado, tp.nombre as estado_nombre,id_item,t.monto_total, t.valor,
+					   date_format(t.fecha_transaccion, '%Y-%m-%d') as fecha_pago
+					   FROM pago p
+					   INNER JOIN transaccion t on p.id=t.pago_id
+					   INNER JOIN tipo_pago tp on tp.id=tipo_pago_id
+	                   where p.acuerdo_id=".$fila->id);
+			$fila->pagados = $resultado_pagos;
+			$resultado_sinpagos = $this->mysqli->query("SELECT p.id as pago_id , p.estado, id_item, monto_pagado, monto_total
+													FROM pago p
+													WHERE estado <>1 and p.acuerdo_id=".$fila->id);
+			$fila->sinpagados = $resultado_sinpagos;
+			$data[] = $fila;
+		}
+		return $data;
 	}
 }

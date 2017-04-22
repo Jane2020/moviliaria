@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -37,11 +38,33 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<div class="email">
 								<ul>
 									<li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i>Email: <a href="mailto:companiadonovilsa@gmail.com">companiadonovilsa@gmail.com</a> </li>
+									<?php if (!isset($_SESSION['SESSION_USER'])): ?>									
 									<li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="../vistas/seguridad/login.php" >Iniciar Sesión</a></li>
+									<?php endif; ?>
 								</ul>
-							</div>
+							</div>						
+							<?php if (isset($_SESSION['SESSION_USER'])): ?>
+							 <div class="collapse navbar-collapse" style="align: right">
+                    			<ul class="nav navbar-nav navbar-right">
+                        			<li class="dropdown">
+                              			<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    		<i class="ti-user"></i>
+												<p><?php echo  $_SESSION['SESSION_USER']->nombres; ?></p>
+												<b class="caret"></b>
+                            			</a>
+                              			<form id="form1" name="form1" action="../vistas/seguridad/accion.php" method="post"> 
+	                              			<input type="hidden" name="action" id="action" value="">
+    	                          		</form>
+        	                      		<ul class="dropdown-menu">
+            	                    		<li><a href="#" onclick="javascript:document.form1.action.value='cerrarSesion'; document.form1.submit();">Cerrar Sesión</a></li>                          
+                	              		</ul>
+                    	    		</li>
+								</ul>
+                			</div>
+                			<?php endif; ?>							
 						<div class="clearfix"></div>
 					</div>
+					
 					<nav class="navbar navbar-default">						
 					<!---Brand and toggle get grouped for better mobile display--->
 						<div class="navbar-brand" align="left">
@@ -64,7 +87,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<li class="<?php echo (strpos($url, '/index.php'))?'active':'';?>"><a href="index.php">Inicio <span class="sr-only">(current)</span></a></li>									
 								<li class="<?php echo (strpos($url, '/info.php'))?'active':'';?>"><a href="info.php">Quienes Somos</a></li>
 								<li class="<?php echo (strpos($url, '/galeria.php'))?'active':'';?>"><a href="galeria.php">Galería</a></li>
-								<li class="<?php echo (strpos($url, '/pagos/'))?'active':'';?>"><a href="../pagos/listar.php">Mis Pagos</a></li>
+								<?php if (isset($_SESSION['SESSION_USER'])): ?>
+									<li class="<?php echo (strpos($url, '/pagos.php'))?'active':'';?>"><a href="pagos.php">Mis Pagos</a></li>
+								<?php endif; ?>
 								<li class="<?php echo (strpos($url, '/contactos.php'))?'active':'';?>"><a href="contactos.php">Contactos</a></li>
 							</ul>
 						

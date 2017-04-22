@@ -23,7 +23,7 @@ class Seguridad extends Conexion {
 		$login = $this->limpiar($_POST['usuario']);
 		$password = $this->limpiar($_POST['contrasena']);
 		
-		$sql = "select id, nombres, apellidos, tipo_usuario_id
+		$sql = "select id, nombres, apellidos, tipo_usuario_id,cedula
 				from usuario
 				where cedula= '".$login."' and password = '".md5($password)."' and eliminado = 0";
 	
@@ -35,7 +35,12 @@ class Seguridad extends Conexion {
 				session_regenerate_id();
 				$_SESSION['SESSION_USER'] = $result;
 				session_write_close();
-				$redirect = "inicio.php";
+				if($result->tipo_usuario_id == 3){
+					$redirect = "../../web/index.php";
+				}				
+				else{
+					$redirect = "inicio.php";
+				}
 			}
 			 else {
 				$_SESSION ['message'] = "Credenciales Inválidas..";
@@ -48,9 +53,15 @@ class Seguridad extends Conexion {
 	
 	public function cerrarSesion(){
 		session_start();
+		$sesion = $_SESSION["SESSION_USER"];
 		unset($_SESSION["SESSION_USER"]);
 		session_destroy();
-		header("Location: ../seguridad/login.php");
+		if($sesion->tipo_usuario_id==3){
+			header("Location: ../../web/index.php");
+		}
+		else{
+			header("Location: ../seguridad/login.php");
+		}
 	}
 	
 	public function cambiarContrasena(){
