@@ -84,13 +84,20 @@ class Manzana extends Conexion {
 	 */
 	public function eliminarManzana() {
 		if(isset($_GET['id']) && $_GET['id'] >0){
-			$id= $_GET['id'];			
-			$consulta = "UPDATE manzana SET eliminado=1 WHERE id =".$id;
-			try {
-				$resultado = $this->mysqli->query($consulta);
-				$_SESSION ['message'] = "Datos eliminados correctamente.";
-			} catch ( Exception $e ) {
-				$_SESSION ['message'] = $e->getMessage ();
+			$id= $_GET['id'];	
+			$consulta_lote ="SELECT * FROM lote where manzana_id=".$id;
+			$resultado_lote = $this->mysqli->query($consulta_lote);
+			if($resultado_lote->num_rows == 0){								
+				$consulta = "UPDATE manzana SET eliminado=1 WHERE id =".$id;
+				try {
+					$resultado = $this->mysqli->query($consulta);
+					$_SESSION ['message'] = "Datos eliminados correctamente.";
+				} catch ( Exception $e ) {
+					$_SESSION ['message'] = $e->getMessage ();
+				}
+			}
+			else{
+				$_SESSION ['message'] = "No se puede eliminar la manzana, existen lotes relacionadas.";
 			}
 			header ( "Location:listar.php" );
 		}

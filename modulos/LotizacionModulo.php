@@ -72,13 +72,20 @@ class Lotizacion extends Conexion {
 	 */
 	public function eliminarLotizacion() {
 		if(isset($_GET['id']) && $_GET['id'] >0){
-			$id= $_GET['id'];			
-			$consulta = "UPDATE lotizacion SET eliminado=1 WHERE id =".$id;
-			try {
-				$resultado = $this->mysqli->query($consulta);
-				$_SESSION ['message'] = "Datos eliminados correctamente.";
-			} catch ( Exception $e ) {
-				$_SESSION ['message'] = $e->getMessage ();
+			$id= $_GET['id'];
+			$consulta_lote ="SELECT * FROM manzana where lotizacion_id=".$id;
+			$resultado_lote = $this->mysqli->query($consulta_lote);
+			if($resultado_lote->num_rows == 0){
+				$consulta = "UPDATE lotizacion SET eliminado=1 WHERE id =".$id;
+				try {
+					$resultado = $this->mysqli->query($consulta);
+					$_SESSION ['message'] = "Datos eliminados correctamente.";
+				} catch ( Exception $e ) {
+					$_SESSION ['message'] = $e->getMessage ();
+				}
+			}
+			else{
+				$_SESSION ['message'] = "No se puede eliminar la lotización, existen manzanas relacionadas.";
 			}
 			header ( "Location:listar.php" );
 		}

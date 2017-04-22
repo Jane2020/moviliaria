@@ -91,12 +91,19 @@ class Lote extends Conexion {
 	public function eliminarLote() {
 		if(isset($_GET['id']) && $_GET['id'] >0){
 			$id= $_GET['id'];			
-			$consulta = "UPDATE lote SET eliminado=1 WHERE id =".$id;
-			try {
-				$resultado = $this->mysqli->query($consulta);
-				$_SESSION ['message'] = "Datos eliminados correctamente.";
-			} catch ( Exception $e ) {
-				$_SESSION ['message'] = $e->getMessage ();
+			$consulta_lote ="SELECT * FROM acuerdo where lote_id=".$id;
+			$resultado_lote = $this->mysqli->query($consulta_lote);
+			if($resultado_lote->num_rows == 0){
+				$consulta = "UPDATE lote SET eliminado=1 WHERE id =".$id;
+				try {
+					$resultado = $this->mysqli->query($consulta);
+					$_SESSION ['message'] = "Datos eliminados correctamente.";
+				} catch ( Exception $e ) {
+					$_SESSION ['message'] = $e->getMessage ();
+				}
+			}
+			else{
+				$_SESSION ['message'] = "No se puede eliminar la lote, existen un acuerdo relacionado.";
 			}
 			header ( "Location:listar.php" );
 		}
