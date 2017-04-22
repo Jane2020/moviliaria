@@ -71,13 +71,20 @@ class Obras extends Conexion {
 	 */	
 	public function eliminarObra() {
 		if(isset($_GET['id']) && $_GET['id'] >0){
-			$id= $_GET['id'];			
-			$consulta = "UPDATE obras_infraestructura SET eliminado=1 WHERE id =".$id;
-			try {
-				$resultado = $this->mysqli->query($consulta);
-				$_SESSION ['message'] = "Datos eliminados correctamente.";
-			} catch ( Exception $e ) {
-				$_SESSION ['message'] = $e->getMessage ();
+			$id= $_GET['id'];		
+			$consulta_obra ="SELECT * FROM lote_infraestructura where infraestructura_id=".$id;
+			$resultado_obra = $this->mysqli->query($consulta_obra);
+			if($resultado_obra->num_rows == 0){						
+				$consulta = "UPDATE obras_infraestructura SET eliminado=1 WHERE id =".$id;
+				try {
+					$resultado = $this->mysqli->query($consulta);
+					$_SESSION ['message'] = "Datos eliminados correctamente.";
+				} catch ( Exception $e ) {
+					$_SESSION ['message'] = $e->getMessage ();
+				}
+			}
+			else{
+				$_SESSION ['message'] = "No se puede eliminar la obra, existen elementos relacionados.";
 			}
 			header ( "Location:listar.php" );
 		}

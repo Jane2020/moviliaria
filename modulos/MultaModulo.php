@@ -69,12 +69,19 @@ class Multa extends Conexion {
 	public function eliminarMulta() {
 		if(isset($_GET['id']) && $_GET['id'] >0){
 			$id= $_GET['id'];			
-			$consulta = "UPDATE multa SET eliminado=1 WHERE id =".$id;
-			try {
-				$resultado = $this->mysqli->query($consulta);
-				$_SESSION ['message'] = "Datos eliminados correctamente.";
-			} catch ( Exception $e ) {
-				$_SESSION ['message'] = $e->getMessage ();
+			$consulta_multa ="SELECT * FROM lote_multa where multa_id=".$id;
+			$resultado_multa = $this->mysqli->query($consulta_multa);
+			if($resultado_multa->num_rows == 0){					
+				$consulta = "UPDATE multa SET eliminado=1 WHERE id =".$id;
+				try {
+					$resultado = $this->mysqli->query($consulta);
+					$_SESSION ['message'] = "Datos eliminados correctamente.";
+				} catch ( Exception $e ) {
+					$_SESSION ['message'] = $e->getMessage ();
+				}
+			}
+			else{
+				$_SESSION ['message'] = "No se puede eliminar la multa, existen elementos relacionados.";
 			}
 			header ( "Location:listar.php" );
 		}
