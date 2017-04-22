@@ -78,6 +78,9 @@ class Usuario extends Conexion {
 				if($password != $this->patron){
 					$password = "password='".md5($password)."', ";
 				}
+				else {
+					$password =null;
+				}
 				$id = $_POST['id'];
 				$consulta = "UPDATE usuario SET cedula='".$cedula."', nombres='".$nombres."',apellidos='".$apellidos."', ".$password." email='".$email."' ,celular='".$celular."', tipo_usuario_id=".$tipo." WHERE id=".$_POST['id'];
 			}
