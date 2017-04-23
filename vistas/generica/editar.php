@@ -163,20 +163,23 @@ $(document).ready(function() {
 		        	"accion":1
 		        },
 		        success:function(data) {
-			        console.log(data);		        	
-		        	if(typeof data != 'undefined' && data != null){
-		        		$("#lotes").empty();
+			        if(data != -1){
+				        console.log('entra');
 			        	$.each(data, function (i, val) { 
 			        		$('#lotes').append('<input type="checkbox" name="lote_id[]" value='+val.id+ '> '+val.nombre+'<br>');		        		
-			        	});    		
-			        }   
+			        	});			            		
+			        }  
+			        else{
+			     
+			        	$('#lotes').append('<br><b><label>No existen lotes asignados en acuerdos. Presione <a href="../acuerdo/listar.php">aquí </a>para asignar.</b></label>');
+				    }
 		        	$('#frmLoteMulta').formValidation('addField', 'lote_id[]', {
 		                validators: {
 		                    notEmpty: {
 		                    	message: 'El lote no puede ser vacío.'
 		                        }
 		                }
-		            });     	
+		            });
 		        }
 		}).fail(function() {
 			$('#lotes').append('<input type="hidden" name="lote_id[]" value="">');	

@@ -18,15 +18,18 @@
 					$opciones = $loteMultaObra->obtenerValorObra($id);
 					break;
 			}
-			if(count($opciones) >0){
+			
+			if(count($opciones) >0){				
 				if($accion == 1){
-					$resultado = isset($opciones)?json_encode($opciones):null;
-					echo $resultado;
+					$resultado = json_encode($opciones);					
 				}else{
-					$resultado = $opciones[0]->valor;
-					echo $resultado;
+					$resultado = $opciones[0]->valor;					
 				}
 			}		
+			else{
+				$resultado =-1;
+			}
+			echo $resultado;
 		}
 		else{
 			$opciones = $loteMultaObra->listarManzanasByLotizacion($id);
