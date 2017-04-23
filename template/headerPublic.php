@@ -6,6 +6,7 @@
 <!---css--->
 <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
 <link href="css/style.css" rel='stylesheet' type='text/css' />
+
 <!---css--->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -26,9 +27,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="header-section">
 				<div class="container">
 					<div class="navbar-brand">
-						<img alt="" src="images/logo.png" style="height: 150px; margin-top: 10px; ">								
+						<img alt="" src="images/logo.png" style="height: 120px; margin-top: 10px; ">								
 					</div>
-					<div style="width: 85%; float: right;">
+					<div style="width: 88%; float: right;">
 						<div class="head-top">
 							<div class="social-icon">
 								<a href="#"><i class="icon"></i></a>
@@ -36,39 +37,27 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<a href="#"><i class="icon2"></i></a>							
 							</div>
 							<div class="email">
+							<form id="form1" name="form1" action="../vistas/seguridad/accion.php" method="post"> 
+	                              			<input type="hidden" name="action" id="action" value="">
+    	                          		</form>
 								<ul>
 									<li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i>Email: <a href="mailto:companiadonovilsa@gmail.com">companiadonovilsa@gmail.com</a> </li>
 									<?php if (!isset($_SESSION['SESSION_USER'])): ?>									
 									<li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="../vistas/seguridad/login.php" >Iniciar Sesión</a></li>
+									<?php else: ?>
+									
+									<li><b> <i class="glyphicon glyphicon-user" aria-hidden="true"></i> Usuario: <?php echo  $_SESSION['SESSION_USER']->nombres; ?> </b>| <i class="glyphicon glyphicon-log-in" aria-hidden="true"></i> <a href="#" onclick="javascript:document.form1.action.value='cerrarSesion'; document.form1.submit();">Cerrar Sesión</a></li>
 									<?php endif; ?>
 								</ul>
 							</div>						
-							<?php if (isset($_SESSION['SESSION_USER'])): ?>
-							 <div class="collapse navbar-collapse" style="align: right">
-                    			<ul class="nav navbar-nav navbar-right">
-                        			<li class="dropdown">
-                              			<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    		<i class="ti-user"></i>
-												<p><?php echo  $_SESSION['SESSION_USER']->nombres; ?></p>
-												<b class="caret"></b>
-                            			</a>
-                              			<form id="form1" name="form1" action="../vistas/seguridad/accion.php" method="post"> 
-	                              			<input type="hidden" name="action" id="action" value="">
-    	                          		</form>
-        	                      		<ul class="dropdown-menu">
-            	                    		<li><a href="#" onclick="javascript:document.form1.action.value='cerrarSesion'; document.form1.submit();">Cerrar Sesión</a></li>                          
-                	              		</ul>
-                    	    		</li>
-								</ul>
-                			</div>
-                			<?php endif; ?>							
+												
 						<div class="clearfix"></div>
 					</div>
 					
 					<nav class="navbar navbar-default">						
 					<!---Brand and toggle get grouped for better mobile display--->
 						<div class="navbar-brand" align="left">
-							<h3 style="color:#C6C7C7;font-family:'Righteous', cursive"> COMPANÍA NUEVO AMANECER DONOVILSA S.A.</h3>
+							<h3 style="color:#C6C7C7; font-size: 26px; font-style: italic;" > NUEVO AMANECER DONOVILSA S.A.</h3>
 						</div>
 						<div class="navbar-header">
 							<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">

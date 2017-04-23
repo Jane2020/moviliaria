@@ -27,11 +27,13 @@
 								</div>
 								<div class="about-right">
 									<h5>Misión</h5>
-									<p align="justify">La Compañía Nuevo Amanecer DONOVILSA S.A. tiene como actividad predominante el estudio, diseño, proyecto, ejecución de lotizaciones, parcelaciones, compra-venta de inmuebles, explotación y construcción de toda clase de obras civiles entre ellas canalización, agua potable, luz eléctrica y red telefónica. Parte de este  objeto social, tiene que ver todo cuanto tenga relación a elementos y bienes afines con la construcción, instalación de fábricas o talleres para elaborar estructuras prefabricadas metálicas para la construcción y afines.  Para  el cumplimiento de  su  cometido  dispone de personal  calificado y con amplio  conocimiento  en el campo de  la construcción.</p>
-									<br>
-									<h5>Visión</h5>		
+									<p align="justify">La Compañía Nuevo Amanecer DONOVILSA S.A. tiene como actividad predominante el estudio, diseño, proyecto, ejecución de lotizaciones, parcelaciones, compra-venta de inmuebles, explotación y construcción de toda clase de obras civiles entre ellas canalización, agua potable, luz eléctrica y red telefónica. Parte de este  objeto social, tiene que ver todo cuanto tenga relación a elementos y bienes afines con la construcción, instalación de fábricas o talleres para elaborar estructuras prefabricadas metálicas para la construcción y afines.  Para  el cumplimiento de  su  cometido  dispone de personal  calificado y con amplio  conocimiento  en el campo de  la construcción.</p>									<br>
+																
+								</div>
+								<div class="vision" style="margin-bottom: 20px;">
+								<h5>Visión</h5>		
 									<p align="justify">Seremos un ORGANISMO ESPECIALIZADO, en materia de construcción, consolidado sobre la base de una estructura empresarial, desarrollando políticas de marketing integral,  con  tecnología, creatividad, profesionalismo y ética.  Líder en la asesoría, estudio y formulación de planes, programas,  proyectos de desarrollo urbano, regional y nacional. Promoviendo y garantizando los principios de moralidad, libre competencia, imparcialidad, eficiencia, transparencia, economía, trato justo e igualitario de la gestión empresarial, aportando al crecimiento de nuestro país.
-									</p>							
+									</p>
 								</div>
 								<div class="clearfix"></div>
 							</div>
@@ -104,7 +106,7 @@
 								<img src="images/galeria/DSCN3288.JPG" class="img-responsive" alt="/">
 							</div>
 							<div class="col-md-4 agent-right">
-								<h5>Abg. Guido Vilema</h5
+								<h5>Abg. Guido Vilema</h5>
 								<label style="align:center"><b>PRESIDENTE</b></label>
 								<ul>
 									<li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i> Oficina : 032376393</li>

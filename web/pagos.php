@@ -8,24 +8,22 @@ $acuerdos= $pagos->listaPagosCliente($_SESSION['SESSION_USER']->cedula);
 ?>
 <div class="banner-section">
 			<div class="container">
-				<h2>Pagos</h2>
+				<h2>Mis Pagos</h2>
 			</div>
 </div>	
+
+
 <div class="content">
-	<div class="gallery-section">			
+			<div class="gallery-section">
+				<div class="container">
+		
 		<div style="overflow: auto;">
 			<?php  foreach ($acuerdos as $row){?>
 			<div class="form-group col-sm-12">
-				<div class="form-group col-sm-4">
+				
 					<div class='header'>
-						<h4>Número de Lote: <?php echo $row->numero_lote;?></h4>
-					</div>
-				</div>
-				<div class="form-group col-sm-6">
-					<div class='header'>
-        				<h4 class='title'>Pagos Realizados</h4>                              
-        			</div>        		
-				</div>
+						<h3>Pagos Realizados Lote: <?php echo $row->numero_lote;?></h3>
+					</div>			
 			</div>
 			<div class="form-group col-sm-12">					
 				<div class='card'>
@@ -67,9 +65,10 @@ $acuerdos= $pagos->listaPagosCliente($_SESSION['SESSION_USER']->cedula);
         					</table>
 						</div>
 				</div>
+				<?php if($row->sinpagados->num_rows > 0):?>
 				<div class='card'>
     					<div class='header'>
-        					<h4 class='title'>Cuentas por Pagar</h4>
+        					<h3 class='title'>Cuentas por Pagar Lote  <?php echo $row->numero_lote;?></h3>
         				</div>
         				<div class='content table-responsive table-full-width'>
         					<table class='table table-striped'>
@@ -104,8 +103,10 @@ $acuerdos= $pagos->listaPagosCliente($_SESSION['SESSION_USER']->cedula);
         					</table>
 						</div>
 					</div>		        		
+				<?php endif;?>
 				</div>	
 			<?php } ?>
 		</div>		
+	</div>
 	</div>
 </div>

@@ -45,72 +45,42 @@
 <!---banner--->
 	<div class="content">
 		
-			<div class="friend-agent">
+			<div class="services-section">
 				<div class="container">
-					<div class="friend-grids">
-						<div class="col-md-4 friend-grid">
-							<img src="images/p.png">
-							<h4>Search From Anywhere</h4>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis egestas rhoncus. Donec facilisis fermentum sem, ac viverra ante luctus vel.</p>
-						</div>
-						<div class="col-md-4 friend-grid">
-							<img src="images/p1.png">
-							<h4>Friendly Agents</h4>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis egestas rhoncus. Donec facilisis fermentum sem, ac viverra ante luctus vel.</p>
-						</div>
-						<div class="col-md-4 friend-grid">
-							<img src="images/p2.png">
-							<h4>Buy or Rent</h4>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis egestas rhoncus. Donec facilisis fermentum sem, ac viverra ante luctus vel.</p>
-						</div>
+<div class="main-service">
+						<h3>Nuestros Servicios</h3>
+						<div class="service-grids">
+							<div class="col-md-3 service-grid hvr-bounce-to-bottom">
+								<i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>
+								<h4>Lotizaciones</h4>
+								
+							</div>
+							<div class="col-md-3 service-grid hvr-bounce-to-bottom">
+								<i class="glyphicon glyphicon-user" aria-hidden="true"></i>
+								<h4>Ingenier&iacute;a</h4>
+								
+								
+							</div>
+							<div class="col-md-3 service-grid hvr-bounce-to-bottom">
+								<i class="glyphicon glyphicon-home" aria-hidden="true"></i>
+								<h4>Edificios</h4>
+								
+								
+							</div>
+							<div class="col-md-3 service-grid hvr-bounce-to-bottom">
+								<i class="glyphicon glyphicon-road" aria-hidden="true"></i>
+								<h4>Carreteras</h4>
+								
+								
+							</div>
 						<div class="clearfix"></div>
+						</div>
 					</div>
-				</div>
+			
 			</div>
-			
-			
+			</div>
 			<!---Featured Properties--->
-			<div class="membership">
-				<div class="container">
-					<h3>Membership Plans</h3>
-					<div class="membership-grids">
-						<div class="col-md-4 membership-grid">
-								<h4>Personal</h4>
-							<div class="membership1">
-								<h5>9.99 <span>USD</span></h5>
-								<h6>/ 1 month</h6>
-								<ul class="member">
-									<li>10 Listings</li>
-									<li>2 Featured Listings</li>
-								</ul>
-							</div>
-						</div>
-						<div class="col-md-4 membership-grid">
-								<h4>Professional</h4>
-							<div class="membership1">
-								<h5>49.99 <span>USD</span></h5>
-								<h6>/ 6 month</h6>
-								<ul class="member">
-									<li>40 Listings</li>
-									<li>10 Featured Listings</li>
-								</ul>
-							</div>
-						</div>
-						<div class="col-md-4 membership-grid">
-								<h4>Bussiness</h4>
-							<div class="membership1">
-								<h5>99.99 <span>USD</span></h5>
-								<h6>/ 1 year</h6>
-								<ul class="member">
-									<li>Unlimited Listings</li>
-									<li>20 Featured Listings</li>
-								</ul>
-							</div>
-						</div>
-						<div class="clearfix"></div>
-					</div>
-				</div>
-			</div>
+
 			<!---testimonials--->
 					<div class="testimonials">
 						<div class="container">

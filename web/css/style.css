@@ -124,16 +124,16 @@ body{
     margin-bottom: 0;
     border: none !important;
 	background: #333d47;
-	padding-top: 4em;
+	padding-top: 2em;
 }
 .navbar-nav {
     float: right;
     margin: 0;
-    width: 70%;
+   /* width: 70%;  */
 }
 div#bs-example-navbar-collapse-1 {
     float: right;
-    width: 76%;
+    width: 50%;
 }
 .phone {
     float: right;
@@ -158,7 +158,7 @@ div#bs-example-navbar-collapse-1 {
        color: #C6C7C7;
 }
 .navbar-nav > li > a {
-    padding: 1.2em .8em;
+    padding: 1.2em .7em;
     font-size: 1.15em;
 	font-family: 'PT Sans', sans-serif;
 }
@@ -708,12 +708,12 @@ div#owl-demo {
     float: left;
     width: 50%;
 }
-.about-right h5,.about-right1 h5{
+.about-right h5,.about-right1 h5, .vision h5{
 	font-size: 1.2em;
     font-family: 'Righteous', cursive;
     color: #000;
 }
-.about-right p {
+.about-right p, .vision p  {
     font-size: 1em;
     line-height: 1.8em;
     color: #777;
@@ -812,7 +812,7 @@ div#owl-demo {
     float: left;
     width: 50%;
 	background: #fff;
-	 padding: 2em 2em 1em;
+	 padding: 2em 1.2em 1em;
 }
 .agent-right h4{
 	font-size: 1.5em;
@@ -3939,3 +3939,11 @@ a.button5 {
 .login-right input[type="submit"] {
     font-size: 1.2em;
 }
+
+
+
+
+
+
+
+
