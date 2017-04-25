@@ -143,6 +143,9 @@
                          <li>
                           </i><a href="../acuerdo/listar.php"><p>Acuerdo</p></a>
                           </li>
+                          <li>
+                          <a href="../traspaso/editar.php"><p>Traspaso</p></a>
+                          </li> 
                          <li>
                           <a href="../pagos/listar.php"><p>Pagos</p></a>
                           </li>                    
