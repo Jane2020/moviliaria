@@ -3,18 +3,20 @@ $title = 'Reportes';
 require_once ("../../modulos/ReportesModulo.php");
 require_once ("../../template/header.php");
 ?>
- <div class="card">
- <div class="header">
+<div class="card">
+<div class="header">
 <?php if (isset($_SESSION['message'])&& ($_SESSION['message'] != '')):?>
 		<div class="alert alert-success fade in alert-dismissable">
 				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 				<?php echo $_SESSION['message'];$_SESSION['message'] = ''?>
-		</div>
+	</div>
 <?php endif;?>
-</p>
+<div class='header'>
+	<h5 class='title' align="center">Clientes Compañía Nuevo Amanecer DONOVILSA S.A</h5>                              
+</div>
 <table class="display table table-bordered table-stripe" cellspacing="0" width="100%">
 	<thead>
-          <tr>
+		  <tr>
                <th>N°</th>
                <th>NOMBRE</th>
                <th>APELLIDO</th>
@@ -32,7 +34,7 @@ require_once ("../../template/header.php");
                foreach ($listaLotes as $fila){             
      ?>
      	<tr>
-            <td colspan="7" align="center"><?php echo $fila->manzana ?></td>
+            <td colspan="7" align="center"><b><?php echo strtoupper($fila->manzana); ?></b></td>
         </tr>
         <?php
               foreach ($fila->lotes as $lote){               	

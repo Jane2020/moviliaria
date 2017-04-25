@@ -153,6 +153,26 @@
                      </ul>
                   </div>
             </li>				
+            <li class="<?php echo ((strpos($url, '/reportes/'))||(strpos($url, '/reportes/')))?'active':'';?>">
+               <a data-toggle="collapse" href="#formsPagos2">
+                	<i class="ti-view-list-alt"></i>
+                     <p>Reportes  &nbsp;<b class="caret"></b></p> 
+              </a>
+               <div class="collapse" id="formsPagos2">
+                     <ul class="nav" style="margin-top: 0px; margin-left: 30px">
+                         <li>
+                          </i><a href="../reportes/listar.php"><p>Reporte de Lotes</p></a>
+                          </li>
+                          <li>
+                          <a href="../reportes/editar.php"><p>Reporte de Clientes</p></a>
+                          </li> 
+                         <li>
+                          <a href="../reportes/listar.php"><p>Pagos</p></a>
+                          </li>                    
+                                              
+                     </ul>
+                  </div>
+            </li>
             </ul>
     	</div>
     </div>

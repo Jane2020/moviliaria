@@ -37,7 +37,7 @@ if(isset($_POST['nombre'])){
 			<div class="contact-section">
 				<div class="container">
 					<div class="google-map">
-						<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.1312839628504!2d-78.63933710857415!3d-1.6662439989832847!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMcKwMzknNTguNSJTIDc4wrAzOCcxNC40Ilc!5e0!3m2!1ses!2sec!4v1492904981646" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+						<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d249.25827016772956!2d-78.6406125705522!3d-1.6657309244571834!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sec!4v1493094309068" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
 					</div>
 					<div class="contact-grids">
 						<div class="col-md-8 contact-grid">
