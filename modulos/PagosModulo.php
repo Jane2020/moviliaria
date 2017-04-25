@@ -55,7 +55,8 @@ class Pagos extends Conexion {
 					                    <th>Nombre del Pago</th>
 					        			<th>Monto Total</th>
 				    	                <th>Monto Pagado</th>
-				        	            <th>Fecha de Pago</th> 
+				        	            <th>Fecha de Pago</th>
+										<th>Tipo de Pago</th>
 										<th>Estado</th>
                    					</tr>
                 				</thead>
@@ -76,6 +77,7 @@ class Pagos extends Conexion {
 		                        		<td>$".$fila->valor."</td>
 		                        		<td>".$fila->fecha_pago."</td>
 		                        		<td>".$fila->estado_nombre."</td>
+		                        		<td>Pendiente de Poner</td>		                        		
 	                    			</tr>
                 				";
 			}
@@ -171,7 +173,8 @@ class Pagos extends Conexion {
 							<label>							
 									<b>El Monto Adeudado es: $".$monto_pago_deuda."</b>
 							</label>				
-							<input type='hidden' name='monto_pago_deuda' id='monto_pago_deuda' class='form-control' value=".$monto_pago_deuda.">						
+							<input type='hidden' name='monto_pago_deuda' id='monto_pago_deuda' class='form-control' value=".$monto_pago_deuda.">
+							<input type='hidden' name='pagos_id' id='pagos_id' class='form-control' value=".$pago_id.">
 						</div>
 					</div>				
 					<div class='form-group col-sm-12>	
@@ -186,8 +189,7 @@ class Pagos extends Conexion {
 					<div class='form-group col-sm-12>
 						<div class='form-group col-sm-6'>
 							<label class='control-label'>Valor de la Cuota</label>
-							<input type='text'name='valor' class='form-control border-input' value='' id='valor'>
-							<input type='hidden' name='pago_id' class='form-control' value=".$pago_id.">
+							<input type='text'name='valor' class='form-control border-input' value='' id='valor'>							
 						</div>
 					</div>							
 					<div class='form-group col-sm-12>
@@ -228,14 +230,14 @@ class Pagos extends Conexion {
 									
 						$('#tipo_pago').change(function(){
 							var tipo_pago = jQuery('#tipo_pago').val();
-	    					var pago_id = jQuery('#pago_id').val();
+	    					var pago = jQuery('#pagos_id').val();
 							if(tipo_pago ==1){
 								jQuery.ajax({
 									type: 'GET',
 									url: 'ajax.php',		        
 									data: {
 											'tipo_pago':tipo_pago,
-											'pago_id':pago_id,
+											'pago_id':pago,
 									       	'accion':4
 									      },
 									      success:function(response) {
@@ -252,7 +254,8 @@ class Pagos extends Conexion {
 									
 						$('#guardar_pago').click(function(){
 							var tipo_pago = jQuery('#tipo_pago').val();
-	       					var pago_id = jQuery('#pago_id').val();
+	       					var pagos_id = jQuery('#pagos_id').val();
+					console.log(pagos_id);
 							var monto_pago_deuda = jQuery('#monto_pago_deuda').val();
 							var valor = jQuery('#valor').val();
 							jQuery.ajax({
@@ -261,7 +264,7 @@ class Pagos extends Conexion {
 								data: {
 										'tipo_pago':tipo_pago,
 										'valor':valor,
-										'pago_id':pago_id,
+										'pagos_id':pagos_id,
 								       	'accion':3
 								      },
 								      success:function(response) {

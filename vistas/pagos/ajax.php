@@ -31,10 +31,9 @@
 	if($accion == 3){
 		$tipo_pago = $_GET['tipo_pago'];
 		$valor= $_GET['valor'];
-		$pago_id = $_GET['pago_id'];
+		$pago_id = $_GET['pagos_id'];
 		$resultado = $pagos->guardarPago($pago_id, $tipo_pago, $valor);
-		echo $resultado;
-		
+		echo $resultado;		
 	}
 	if($accion == 4){
 		$pago_id = $_GET['pago_id'];
