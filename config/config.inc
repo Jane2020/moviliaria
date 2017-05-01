@@ -12,7 +12,7 @@
 	define('PATH_JS', PATH_BASE."/web/js");
 	define('PATH_IMAGES', PATH_BASE."/web/images");
 	define('PATH_TEMPLATE', PATH_ROOT."/template");
-	define('PATH_HELPERS', PATH_ROOT."/lib");
+	define('PATH_HELPERS', PATH_BASE."/lib");
 	define('PATH_FILES', PATH_ROOT."/public/web/files/");
 	
 	

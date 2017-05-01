@@ -32,9 +32,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div style="width: 88%; float: right;">
 						<div class="head-top">
 							<div class="social-icon">
-								<a href="https://www.facebook.com/Donovilsa/"><i class="icon"></i></a>
-								<a href="#"><i class="icon1"></i></a>
-								<a href="https://www.instagram.com/donovilsa/"><i class="icon2"></i></a>							
+								<a href="https://www.facebook.com/Donovilsa/" target="_blank"><i class="icon"></i></a>
+								<a href="https://twitter.com/Donovilsa_SA" target="_blank"><i class="icon1"></i></a>
+								<a href="https://www.instagram.com/donovilsa/" target="_blank"><i class="icon2"></i></a>							
 							</div>
 							<div class="email">
 							<form id="form1" name="form1" action="../vistas/seguridad/accion.php" method="post"> 

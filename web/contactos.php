@@ -63,22 +63,21 @@ if(isset($_POST['nombre'])){
 							</form>
 						</div>
 						<div class="col-md-4 contact-grid1">
-							<h4>Agente</h4>
+							<h4>Soporte Técnico</h4>
 							<div class="contact-top">
 								<div class="agent-img">
 									<img src="images/t1.png" class="img-responsive" alt="">
 								</div>
 								<div class="agent-info">
-									<h5>Johnson</h5>
-									<h6>Real Space Group</h6>
+									<h5>Alvaro Vilema</h5>
+									<h6>Tnlgo. en Informática</h6>
 								</div>
 								<div class="clearfix"></div>
 							</div>
 							<ul>
-									<li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i> Office : 0041-456-3692</li>
-									<li><i class="glyphicon glyphicon-phone" aria-hidden="true"></i> Mobile : 0200-123-4567</li>
-									<li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i> <a href="#"><a href="mailto:info@example.com">info@example.com</a></a></li>
-									<li><i class="glyphicon glyphicon-print" aria-hidden="true"></i> Fax : 0091-789-456100</li>
+									<li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i> Oficina : 032944444</li>
+									<li><i class="glyphicon glyphicon-phone" aria-hidden="true"></i> Celular : 0982706168</li>
+									<li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i> <a href="#"><a href="mailto:info@example.com">alvarovilemag1993@gmail.com</a></a></li>									
 								</ul>
 
 						</div>
