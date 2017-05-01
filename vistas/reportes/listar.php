@@ -18,13 +18,13 @@ require_once ("../../template/header.php");
 <table class="display table table-bordered table-stripe" cellspacing="0" width="100%">
 	<thead>
 		  <tr>
-               <th>N°</th>
-               <th>NOMBRE</th>
-               <th>APELLIDO</th>
-               <th>C.C.N</th>
-               <th>LOTE N°</th>
-               <th>VALOR</th>
-               <th>COD. PROMESA</th>               
+               <td><b>N°</b></td>
+               <td><b>NOMBRE</b></td>
+               <td><b>APELLIDO</b></td>
+               <td><b>C.C.N</b></td>
+               <td><b>LOTE N°</b></td>
+               <td><b>VALOR</b></td>
+               <td><b>COD. PROMESA</b></td>               
           </tr>
      </thead>
      <tbody>
