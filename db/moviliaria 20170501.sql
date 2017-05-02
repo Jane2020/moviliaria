@@ -35,14 +35,14 @@ CREATE TABLE `acuerdo` (
   `eliminado` int(11) NOT NULL DEFAULT '0',
   `usuario_id` int(11) NOT NULL,
   `lote_id` int(11) NOT NULL,
-  `tipo` int(11) DEFAULT NULL,
-  `estado` int(11) DEFAULT NULL,
+  `tipo` int(11) NOT NULL DEFAULT '1' COMMENT '1->Acuerdo 2->Traspaso',
+  `estado` int(11) NOT NULL DEFAULT '1' COMMENT '1->Activo 0->Inactivo',
   PRIMARY KEY (`id`),
   KEY `fk_venta_usuario1` (`usuario_id`),
   KEY `fk_venta_lote1` (`lote_id`),
   CONSTRAINT `fk_venta_lote1` FOREIGN KEY (`lote_id`) REFERENCES `lote` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_venta_usuario1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `acuerdo`
@@ -50,7 +50,9 @@ CREATE TABLE `acuerdo` (
 
 /*!40000 ALTER TABLE `acuerdo` DISABLE KEYS */;
 INSERT INTO `acuerdo` (`id`,`fecha_ingreso`,`valor_total`,`valor_inicial`,`cod_promesa`,`eliminado`,`usuario_id`,`lote_id`,`tipo`,`estado`) VALUES 
- (28,'2017-05-01',20000,20000,'2013-06-01-03',0,4,17,1,1);
+ (28,'2017-05-01',20000,20000,'2013-06-01-03',0,4,17,1,1),
+ (29,'2017-05-01',2000,2000,'ds',0,4,18,1,1),
+ (30,'2017-05-01',5000,1000,'asas',0,4,19,1,1);
 /*!40000 ALTER TABLE `acuerdo` ENABLE KEYS */;
 
 
@@ -80,8 +82,8 @@ CREATE TABLE `lote` (
 /*!40000 ALTER TABLE `lote` DISABLE KEYS */;
 INSERT INTO `lote` (`id`,`nombre`,`ubicacion`,`dimension`,`numero_lote`,`disponible`,`eliminado`,`manzana_id`) VALUES 
  (17,'Lote  1','Ubicación 1','200',1,0,0,6),
- (18,'Lote 2','Ubicación 2','300',2,1,0,6),
- (19,'Lote 3','Ubicación 3','300',3,1,0,6),
+ (18,'Lote 2','Ubicación 2','300',2,0,0,6),
+ (19,'Lote 3','Ubicación 3','300',3,0,0,6),
  (20,'Lote 4','Ubicación 4','400',4,1,0,7),
  (21,'Lote 5','Ubicación 5','500',5,1,0,7),
  (22,'Lote 6','Ubicación 6','600',6,1,0,9);
@@ -268,12 +270,12 @@ CREATE TABLE `pago` (
   `estado` int(11) NOT NULL DEFAULT '0' COMMENT '0->Sin Pago 1 -> Pagado  2->Pago Parcial',
   `acuerdo_id` int(11) NOT NULL,
   `id_item` int(11) NOT NULL COMMENT '1->Acuerdo 2->Infraestructura 3->Multas',
-  `id_obra_multa` int(11) NOT NULL,
+  `id_obra_multa` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `fk_pago_acuerdo1` (`acuerdo_id`),
   KEY `fk_acuerdo_id` (`acuerdo_id`),
   CONSTRAINT `fk_acuerdo_id` FOREIGN KEY (`acuerdo_id`) REFERENCES `acuerdo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `pago`
@@ -285,7 +287,9 @@ INSERT INTO `pago` (`id`,`monto_total`,`numero_abonos`,`monto_pagado`,`estado`,`
  (42,500,1,200,2,28,2,7),
  (43,1000,1,0,0,28,2,8),
  (44,800,1,0,0,28,2,9),
- (45,500,1,400,2,28,3,1);
+ (45,500,1,400,2,28,3,1),
+ (46,2000,1,2000,1,29,1,0),
+ (47,5000,1,1000,2,30,1,0);
 /*!40000 ALTER TABLE `pago` ENABLE KEYS */;
 
 
@@ -352,7 +356,7 @@ CREATE TABLE `transaccion` (
   PRIMARY KEY (`id`),
   KEY `fk_transaccion_pago1` (`pago_id`),
   CONSTRAINT `fk_transaccion_pago1` FOREIGN KEY (`pago_id`) REFERENCES `pago` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `transaccion`
@@ -362,7 +366,9 @@ CREATE TABLE `transaccion` (
 INSERT INTO `transaccion` (`id`,`fecha_transaccion`,`monto_total`,`valor`,`pago_id`,`tipo_pago_id`,`eliminado`) VALUES 
  (44,'2017-05-01 00:00:00',20000,20000,41,1,0),
  (45,'2017-05-01 00:00:00',500,200,42,2,0),
- (46,'2017-05-01 00:00:00',500,400,45,2,0);
+ (46,'2017-05-01 00:00:00',500,400,45,2,0),
+ (47,'2017-05-01 00:00:00',2000,2000,46,1,0),
+ (48,'2017-05-01 00:00:00',5000,1000,47,2,0);
 /*!40000 ALTER TABLE `transaccion` ENABLE KEYS */;
 
 
