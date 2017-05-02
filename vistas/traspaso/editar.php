@@ -18,7 +18,7 @@ $tipos_pago = $acuerdo->listarTipoPago();
 	 
  ?>
 		<div class="alert alert-success fade in alert-dismissable">
-				<button type="button" class="close" data-dismiss="alert" aria-hidden="true" style="right: 0;">&times;</button>
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true" >&times;</button>
 				<?php echo 'Datos almacenados correctamente.';?>
 		</div>
 <?php } ?>

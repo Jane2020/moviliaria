@@ -260,7 +260,12 @@ $(document).ready(function() {
 						regexp: {
 							regexp: /^([0-9])*[.]?[0-9]*$/,
 							message: 'Ingrese un valor de venta válido.'
-						}
+						},
+						between: {
+                            min: 0,
+                            max: 'valor_total',
+                            message: 'El valor inicial no puede ser mayor que el valor total del terreno'
+                        }
 					}
 				},
 				cod_promesa: {

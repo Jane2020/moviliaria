@@ -93,4 +93,9 @@ input[type="search"] {
 .radios .icons {
 	display: none;
 }	
+
+
+.alert-dismissable .close {
+	right: 0px;
+} 
 	

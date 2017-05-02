@@ -176,7 +176,8 @@ class Pagos extends Conexion {
 							<input type='hidden' name='monto_pago_deuda' id='monto_pago_deuda' class='form-control' value=".$monto_pago_deuda.">
 							<input type='hidden' name='pagos_id' id='pagos_id' class='form-control' value=".$pago_id.">
 						</div>
-					</div>				
+					</div>	
+					<form id='frmEnviarPago' name='' action='' method='post' >
 					<div class='form-group col-sm-12>	
 						<div class='form-group col-sm-6'>
 							<label class='control-label'>Tipo de Pago</label>
@@ -198,7 +199,8 @@ class Pagos extends Conexion {
 						 		<button type='submit' name='guardar_pago' id='guardar_pago' class='btn btn-success btn-sm'>Guardar</button>
 								<button type='submit' name='cancelar_pago' id='cancelar_pago' class='btn btn-cancel btn-sm' data-dismiss='modal'>Cancelar</button>									
 						</div>
-					</div>				
+					</div>		
+					</form>
 				<script type='text/javascript'>
 					$(document).ready(function() {
 						$('#frmEnviarPago').formValidation({    	    
@@ -221,11 +223,57 @@ class Pagos extends Conexion {
 										regexp: {
 											regexp: /^\d+(\.\d{1,2})?$/,
 											message: 'Ingrese un Valor válido.'
-										}
+										},
+										between: {
+				                            min: 0,
+				                            max: ".$monto_pago_deuda.",
+				                            message: 'El valor no puede ser mayor que el valor del pago'
+				                        }
 									}
 								}									
 							}
-						});
+						}).on('success.form.fv', function(e) {
+				            // Prevent form submission
+				            e.preventDefault();				
+				         		                            		
+				            var tipo_pago = jQuery('#tipo_pago').val();
+	       					var pagos_id = jQuery('#pagos_id').val();
+					
+							var monto_pago_deuda = jQuery('#monto_pago_deuda').val();
+							var valor = jQuery('#valor').val();
+							jQuery.ajax({
+								type: 'GET',
+								url: 'ajax.php',		        
+								data: {
+										'tipo_pago':tipo_pago,
+										'valor':valor,
+										'pagos_id':pagos_id,
+								       	'accion':3
+								},
+								success:function(response) {
+									var cedula = jQuery('#cedula').val();
+									var lote_id = jQuery('#lote_numero').val();
+									  jQuery.ajax({
+									        type: 'GET',
+									        url: 'ajax.php',		        
+									        data: {
+									        	'cedula': cedula,
+									        	'lote_id':lote_id,
+									        	'accion':1
+									        },
+									        success:function(response) {
+									        	jQuery('#pagados').html('');
+									        	jQuery('#pagados').html(response);		        	  
+									        }
+									});
+									$('#pagoModal').modal('hide');
+									jQuery('#mensaje').html('');
+									jQuery('#mensaje').html(response);
+								}
+							});	              		
+				                            		
+				                            		
+				        });
 									
 									
 						$('#tipo_pago').change(function(){
@@ -252,43 +300,7 @@ class Pagos extends Conexion {
 							}
 						});
 									
-						$('#guardar_pago').click(function(){
-							var tipo_pago = jQuery('#tipo_pago').val();
-	       					var pagos_id = jQuery('#pagos_id').val();
-					console.log(pagos_id);
-							var monto_pago_deuda = jQuery('#monto_pago_deuda').val();
-							var valor = jQuery('#valor').val();
-							jQuery.ajax({
-								type: 'GET',
-								url: 'ajax.php',		        
-								data: {
-										'tipo_pago':tipo_pago,
-										'valor':valor,
-										'pagos_id':pagos_id,
-								       	'accion':3
-								      },
-								      success:function(response) {
-										  var cedula = jQuery('#cedula').val();
-										  var lote_id = jQuery('#lote_numero').val();
-										  jQuery.ajax({
-										        type: 'GET',
-										        url: 'ajax.php',		        
-										        data: {
-										        	'cedula': cedula,
-										        	'lote_id':lote_id,
-										        	'accion':1
-										        },
-										        success:function(response) {
-										        	jQuery('#pagados').html('');
-										        	jQuery('#pagados').html(response);		        	  
-										        }
-										});
-										$('#pagoModal').modal('hide');
-										jQuery('#mensaje').html('');
-										jQuery('#mensaje').html(response);
-								}
-							});							
-						});
+						
 					});
 				";
 			return $html;
