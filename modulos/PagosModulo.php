@@ -33,7 +33,8 @@ class Pagos extends Conexion {
 	 * Función que obtiene el Listado de Pagos
 	 */
 	public function listarPagos($cedula, $acuerdo_id){
-		$resultado_pagos = $this->mysqli->query("SELECT p.id as pago_id , p.estado, tp.nombre as estado_nombre,id_item,t.monto_total, t.valor,date_format(t.fecha_transaccion, '%Y-%m-%d') as fecha_pago
+		$resultado_pagos = $this->mysqli->query("SELECT p.id as pago_id , p.estado, tp.nombre as estado_nombre,id_item,t.monto_total, t.valor,
+												date_format(t.fecha_transaccion, '%Y-%m-%d') as fecha_pago,p.estado as estado_pago
 												FROM pago p
 												INNER JOIN transaccion t on p.id=t.pago_id
 				 								INNER JOIN tipo_pago tp on tp.id=tipo_pago_id
@@ -70,6 +71,11 @@ class Pagos extends Conexion {
 				else{
 					$item_nombre = "Obra de Infraestructura";
 				}
+				if($fila->estado_pago == 1){
+					$estado_pago = "Pago Completo";
+				}else{
+					$estado_pago = "Pago Incompleto";
+				}
 			$html .="				<tr>
 		                    			<td>".$fila->pago_id."</td>
 		                        		<td>".$item_nombre."</td>
@@ -77,7 +83,7 @@ class Pagos extends Conexion {
 		                        		<td>$".$fila->valor."</td>
 		                        		<td>".$fila->fecha_pago."</td>
 		                        		<td>".$fila->estado_nombre."</td>
-		                        		<td>Pendiente de Poner</td>		                        		
+		                        		<td>".$estado_pago."</td>		                        		
 	                    			</tr>
                 				";
 			}
