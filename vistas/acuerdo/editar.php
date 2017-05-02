@@ -11,6 +11,8 @@ if($item->id>0){
 $title = (($item->id>0)?'Editar ':'Nuevo ').'Acuerdo';
 require_once ("../../template/header.php");
 
+
+
 if (isset($_POST['guardar'])){
 	$acuerdo->guardarAcuerdo();	
 }

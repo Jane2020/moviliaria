@@ -11,10 +11,17 @@ require_once ("../../template/header.php");
 				<?php echo $_SESSION['message'];$_SESSION['message'] = ''?>
 	</div>
 <?php endif;?>
-<a href="accion.php?id=1" target="_blank">Descargar</a>
-<div class='header'>
-	<h5 class='title' align='center'>Listado de Clientes</h5>	
+
+<div class="icon-container">
+	<span class="ti-download"></span><span class="icon-name">
+		<a href="accion.php?id=1" target="_blank">Descargar</a>
+	</span>
 </div>
+<br>
+<div class='header'>
+		<h5 class='title' align='center'>Listado de Clientes</h5>	
+</div>
+
 <table class="display table table-bordered table-stripe" cellspacing="0" width="100%">
 	<thead>
 		  <tr>

@@ -151,10 +151,9 @@ class Traspaso extends Conexion {
 							 VALUES ('".$usuario_id."','".$lote_id."','".$fecha_ingreso."',".$valor_total.",".$valor_inicial.",'".$cod_promesa."', 2)";
 			$this->mysqli->query($consulta);
 			
-			$acuerdo = new LoteMultaObraModulo();
-			$acuerdoId = $acuerdo->obtenerAcuerdoId($lote_id);			
-			$consulta_pago = "INSERT INTO pago(monto_total,numero_abonos,monto_pagado,estado,acuerdo_id,id_item)
-							  VALUES (".$valor_total.",". $num_cuotas .",". $valor_inicial .",".$estado.",". $acuerdoId.",". 1 .")";
+			$acuerdoId = $this->mysqli->insert_id;
+			$consulta_pago = "INSERT INTO pago(monto_total,numero_abonos,monto_pagado,estado,acuerdo_id,id_item,id_obra_multa)
+							  VALUES (".$valor_total.",". $num_cuotas .",". $valor_inicial .",".$estado.",". $acuerdoId.",1,0)";
 			$this->mysqli->query($consulta_pago);
 				
 			$pagoId = $this->mysqli->insert_id;
