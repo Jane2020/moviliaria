@@ -18,7 +18,7 @@ class Pagos extends Conexion {
 											FROM acuerdo a
 											INNER JOIN usuario u ON a.usuario_id=u.id
 											INNER JOIN lote l ON l.id=a.lote_id
-											WHERE l.eliminado=0 and u.cedula='".$cedula."'");		
+											WHERE a.estado=1 and l.eliminado=0 and u.cedula='".$cedula."'");		
 		if($resultado != null){
 			while( $fila = $resultado->fetch_object() ){
 				$data[] = $fila;
@@ -363,7 +363,7 @@ class Pagos extends Conexion {
 					FROM acuerdo a
 					INNER JOIN usuario u on u.id=a.usuario_id
 					INNER JOIN lote l on l.id=a.lote_id
-					WHERE cedula='".$cedula."'");		
+					WHERE a.estado=1 and cedula='".$cedula."'");		
 		while( $fila = $acuerdos->fetch_object()){
 			$resultado_pagos = $this->mysqli->query("SELECT distinct(p.id) as pago_id , p.estado, tp.nombre as estado_nombre,id_item,t.monto_total, t.valor,
 					   date_format(t.fecha_transaccion, '%Y-%m-%d') as fecha_pago

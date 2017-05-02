@@ -45,9 +45,23 @@ if (isset($_POST['guardar'])){
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6 row6">
+			<label class="control-label">Teléfono</label> <input type='text'
+			name='telefono' class='form-control border-input'
+			value="<?php echo $item->telefono; ?>" id="telefono">	
+		</div>
+	</div>
+	<div class="form-group col-sm-12">
+		<div class="form-group col-sm-6 row6">
 			<label class="control-label">Celular</label> <input type='text'
 			name='celular' class='form-control border-input'
 			value="<?php echo $item->celular; ?>" id="celular">	
+		</div>
+	</div>
+	<div class="form-group col-sm-12">
+		<div class="form-group col-sm-6 row6">
+			<label class="control-label">Dirección</label> <input type='text'
+			name='direccion' class='form-control border-input' 
+			value="<?php echo $item->direccion; ?>" id="direccion">
 		</div>
 	</div>
 	<div class="form-group col-sm-12">	
@@ -194,6 +208,31 @@ $(document).ready(function() {
 							}
 					
 				},	
+				telefono: {
+					message: 'El Teléfono no es válido',
+					validators: {
+								notEmpty: {
+									message: 'El Número de Teléfono no puede ser vacío.'
+								},					
+								regexp: {
+									regexp: /^(?:\+)?\d{10}$/,
+									message: 'Ingrese un Número de Teléfono válido.'
+								}
+							}
+					
+				},
+				direccion: {
+					message: 'La dirección no es válida',
+					validators: {
+						notEmpty: {
+							message: 'La Dirección no puede ser vacía.'
+						},					
+						regexp: {
+							regexp: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\.\,\_\-\s]+$/,
+							message: 'Ingrese una Dirección válido.'
+						}
+					}
+				},
 				email: {
 					message: 'El email no es válida',
 					validators: {

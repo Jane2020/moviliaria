@@ -23,7 +23,7 @@ class Reportes extends Conexion {
 		$manzanas = $this->mysqli->query("SELECT distinct(m.id) as manzana_id, m.nombre as manzana, null as lotes
 					FROM acuerdo a
 					INNER JOIN lote l ON a.lote_id=l.id
-					INNER JOIN manzana m ON l.manzana_id=m.id");
+					INNER JOIN manzana m ON l.manzana_id=m.id WHERE a.estado=1");
 		if($manzanas != null){
 			while( $fila = $manzanas->fetch_object() ){
 				$data=[];					
@@ -32,7 +32,7 @@ class Reportes extends Conexion {
 													INNER JOIN usuario u ON a.usuario_id=u.id
 													INNER JOIN lote l ON a.lote_id=l.id
 													INNER JOIN manzana m ON l.manzana_id=m.id
-													WHERE m.id=".$fila->manzana_id);		
+													WHERE a.estado=1 and m.id=".$fila->manzana_id);		
 				if($lotes != null){					
 					while( $fila1 = $lotes->fetch_object() ){						
 						$data[]= $fila1;
@@ -42,7 +42,9 @@ class Reportes extends Conexion {
 				$data1[] = $fila;
 			}
 		}
-		return $data1;
+		if(isset($data1)){
+			return $data1;
+		}
 	}	
 	
 	/**
@@ -150,7 +152,7 @@ class Reportes extends Conexion {
 		$manzanas = $this->mysqli->query("SELECT distinct(m.id) as manzana_id, m.nombre as manzana, null as lotes
 					FROM acuerdo a
 					INNER JOIN lote l ON a.lote_id=l.id
-					INNER JOIN manzana m ON l.manzana_id=m.id");
+					INNER JOIN manzana m ON l.manzana_id=m.id WHERE a.estado=1");
 		if($manzanas != null){
 			while( $fila = $manzanas->fetch_object() ){
 				$data=[];
@@ -159,7 +161,7 @@ class Reportes extends Conexion {
 													INNER JOIN usuario u ON a.usuario_id=u.id
 													INNER JOIN lote l ON a.lote_id=l.id
 													INNER JOIN manzana m ON l.manzana_id=m.id
-													WHERE m.id=".$fila->manzana_id);
+													WHERE a.estado=1 and m.id=".$fila->manzana_id);
 				if($lotes != null){
 					while( $fila1 = $lotes->fetch_object() ){
 						$data[]= $fila1;

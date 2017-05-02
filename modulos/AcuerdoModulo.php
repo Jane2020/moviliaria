@@ -20,7 +20,7 @@ class Acuerdo extends Conexion {
 											FROM acuerdo a 
 											INNER JOIN usuario u ON u.id= a.usuario_id
 											INNER JOIN lote l ON l.id= a.lote_id
-											WHERE a.eliminado=0");		
+											WHERE a.eliminado=0 and estado=1");		
 		if($resultado != null){
 			while( $fila = $resultado->fetch_object() ){
 				$data[] = $fila;
@@ -141,7 +141,7 @@ class Acuerdo extends Conexion {
 												INNER JOIN lote l ON l.id= a.lote_id
 												INNER JOIN manzana m ON m.id = l.manzana_id
 												INNER JOIN lotizacion lz ON lz.id = m.lotizacion_id
-												WHERE a.id=".$id);
+												WHERE a.estado=1 and a.id=".$id);
 			$data =  $resultado->fetch_object();					  	
 		}
 		else{
@@ -165,8 +165,8 @@ class Acuerdo extends Conexion {
 		$estado = $tipo_pago_id ==1?1:2;
 		
 		try {
-			$consulta = "INSERT INTO acuerdo(usuario_id,lote_id, fecha_ingreso,valor_total,valor_inicial,cod_promesa)
-							 VALUES ('".$usuario_id."','".$lote_id."','".$fecha_ingreso."',".$valor_total.",".$valor_inicial.",'".$cod_promesa."')";
+			$consulta = "INSERT INTO acuerdo(usuario_id,lote_id, fecha_ingreso,valor_total,valor_inicial,cod_promesa,tipo,estado)
+							 VALUES ('".$usuario_id."','".$lote_id."','".$fecha_ingreso."',".$valor_total.",".$valor_inicial.",'".$cod_promesa."',1,1)";
 			$this->mysqli->query($consulta);
 			
 			$acuerdo = new LoteMultaObraModulo();

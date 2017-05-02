@@ -171,7 +171,7 @@ class InfraestructuraLote extends Conexion {
 		}
 		$fecha_ingreso = $_POST['fecha_ingreso'];
 		
-		$consulta_acuerdo = "SELECT id FROM acuerdo where lote_id=".$lote_id;
+		$consulta_acuerdo = "SELECT id FROM acuerdo where estado=1 and lote_id=".$lote_id;
 		$acuerdoId = $this->mysqli->query($consulta_acuerdo);
 		$acuerdoId = $acuerdoId->fetch_object()->id;
 		

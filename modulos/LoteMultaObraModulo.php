@@ -55,7 +55,7 @@ class LoteMultaObraModulo extends Conexion {
 		$resultado = $this->mysqli->query ( "SELECT l.id, l.nombre FROM lote l 
 					INNER JOIN acuerdo a on l.id=a.lote_id
 					INNER JOIN usuario u on u.id=a.usuario_id				
-					WHERE a.eliminado=0 and manzana_id=" . $id );
+					WHERE a.eliminado=0 and estado=0 and manzana_id=" . $id );
 		if ($resultado != null) {
 			while ( $fila = $resultado->fetch_object () ) {
 				$data [] = $fila;
@@ -163,7 +163,7 @@ class LoteMultaObraModulo extends Conexion {
 	 * Función que obtiene el id del acuerdo
 	 */
 	public function obtenerAcuerdoId($lote){
-		$consulta = "SELECT id FROM acuerdo where lote_id=".$lote;
+		$consulta = "SELECT id FROM acuerdo where estado=1 and lote_id=".$lote;
 		$resultado = $this->mysqli->query($consulta);
 		while ( $fila = $resultado->fetch_object () ) {
 			$data [] = $fila;

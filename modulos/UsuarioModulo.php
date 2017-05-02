@@ -51,7 +51,7 @@ class Usuario extends Conexion {
 			$data =  $resultado->fetch_object();					  	
 		}
 		else{
-			$data = (object) array('id'=>0,'cedula'=>'','nombres' =>'','apellidos'=>'','email'=>'','celular'=>'','password'=>'','tipo_usuario_id'=>0);
+			$data = (object) array('id'=>0,'cedula'=>'','nombres' =>'','apellidos'=>'','email'=>'','celular'=>'','direccion'=>'','telefono'=>'','password'=>'','tipo_usuario_id'=>0);
 		}
 		$data->password = $this->patron;
 		return $data;
@@ -66,14 +66,16 @@ class Usuario extends Conexion {
 		$apellidos = $_POST['apellidos'];		
 		$password = trim($_POST['password']);
 		$email = $_POST['email'];
-		$celular = $_POST['celular'];		
+		$celular = $_POST['celular'];
+		$telefono = $_POST['telefono'];
+		$direccion = $_POST['direccion'];
 		$tipo = $_POST['tipo'];
 		
 		if($this->validarUsuario($cedula, $tipo, $_POST['id'])){
 
 			if ($_POST['id'] == 0){
-				$consulta = "INSERT INTO usuario(cedula,nombres,apellidos,password,email,celular,tipo_usuario_id)
-						 VALUES ('".$cedula."','".$nombres."','".$apellidos."', '".md5($password)."',  '".$email."','".$celular."',".$tipo.")";
+				$consulta = "INSERT INTO usuario(cedula,nombres,apellidos,password,email,celular,telefono,direccion,tipo_usuario_id)
+						 VALUES ('".$cedula."','".$nombres."','".$apellidos."', '".md5($password)."',  '".$email."','".$celular."','".$telefono."','".$direccion."',".$tipo.")";
 			} else {
 				if($password != $this->patron){
 					$password = "password='".md5($password)."', ";
@@ -82,7 +84,7 @@ class Usuario extends Conexion {
 					$password =null;
 				}
 				$id = $_POST['id'];
-				$consulta = "UPDATE usuario SET cedula='".$cedula."', nombres='".$nombres."',apellidos='".$apellidos."', ".$password." email='".$email."' ,celular='".$celular."', tipo_usuario_id=".$tipo." WHERE id=".$_POST['id'];
+				$consulta = "UPDATE usuario SET cedula='".$cedula."', nombres='".$nombres."',apellidos='".$apellidos."', ".$password." email='".$email."' ,celular='".$celular."' ,telefono='".$telefono."' ,direccion='".$direccion."', tipo_usuario_id=".$tipo." WHERE id=".$_POST['id'];
 			}
 			try {
 				$resultado = $this->mysqli->query($consulta);
