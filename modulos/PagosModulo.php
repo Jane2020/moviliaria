@@ -128,7 +128,7 @@ class Pagos extends Conexion {
 		                    				  <input type='hidden' id='pago_id' value=".$fila->pago_id."></td>
 		                        		<td>".$item_nombre."</td>
 		                        		<td>$".$fila->monto_pagado."</td>
-		                    			<td>".$deuda."</td>
+		                    			<td>$".$deuda."</td>
 		                        		<td>
 											<a href='javascript: loadModal(".$fila->pago_id.")' class='btn btn-success btn-sm' title='Pagar' >
 													Pagar
