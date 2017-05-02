@@ -39,7 +39,7 @@ require_once ("../../template/header.php");
 		            <tr><td>TELÉFONO</td><td><?php echo $lote->telefono ?></tr>
 		            <tr><td>CELULAR</td><td><?php echo $lote->celular ?></tr>
 		            <tr><td>DIRECCIÓN</td><td><?php echo $lote->direccion ?></tr>            
-		            <tr><td>CORREO ELECTRÓNICO</td><td><?php echo $lote->email ?></tr>
+		            <tr><td>EMAIL</td><td><?php echo $lote->email ?></tr>
 		            <tr><td colspan="2" align="center" style='background-color:#FF00FF'><b>DATOS DEL TERRENO</b></td></tr>
 		            <tr><td>URBANIZACIÓN</td><td><?php echo $lote->urbanizacion ?></tr>
 		            <tr><td>NÚMERO DE LOTE</td><td><?php echo $lote->numero_lote ?></tr>
