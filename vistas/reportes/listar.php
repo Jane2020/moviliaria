@@ -37,18 +37,19 @@ require_once ("../../template/header.php");
      <tbody>
      <?php
           $reportes = new Reportes();
+          $contador = 1;
           $listaLotes = $reportes->listarLotesByManzana();
           if(count($listaLotes) > 0){
                foreach ($listaLotes as $fila){             
      ?>
      	<tr>
-            <td colspan="7" align="center"><b><?php echo strtoupper($fila->manzana); ?></b></td>
+            <td colspan="7" align="center" style='background-color:yellow'><b><?php echo strtoupper($fila->manzana); ?></b></td>
         </tr>
         <?php
               foreach ($fila->lotes as $lote){               	
      	?>    
      	<tr>
-            <td><?php echo $lote->id ?></td>
+            <td><?php echo $contador ?></td>
             <td><?php echo $lote->nombres ?></td>
             <td><?php echo $lote->apellidos ?></td>
             <td><?php echo $lote->cedula?></td>
@@ -57,6 +58,7 @@ require_once ("../../template/header.php");
             <td><?php echo $lote->cod_promesa ?></td>
         </tr>
       	<?php
+      			$contador++;
               }
             }
         }

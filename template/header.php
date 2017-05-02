@@ -163,13 +163,10 @@
                          <li>
                           </i><a href="../reportes/listar.php"><p>Reporte de Lotes</p></a>
                           </li>
-                          <li>
-                          <a href="../reportes/editar.php"><p>Reporte de Clientes</p></a>
+                          <li><a href="../reportes/listar_cliente.php"><p>Reporte de Clientes</p></a>
                           </li> 
-                         <li>
-                          <a href="../reportes/listar.php"><p>Pagos</p></a>
-                          </li>                    
-                                              
+                          <li><a href="../reportes/listar.php"><p>Reporte</p></a>
+                          </li>               
                      </ul>
                   </div>
             </li>

@@ -173,4 +173,38 @@ class Reportes extends Conexion {
 		}
 		return $data1;
 	}
+	
+	/**
+	 * Función que obtiene el Listado de Lotes por cada cliente
+	 */
+	public function listarLotesByCliente(){
+		$resultado = $this->mysqli->query("SELECT u.id, nombres,apellidos,cedula,telefono,direccion,email,celular,
+											l.id as lote_id,numero_lote,lo.nombre as urbanizacion
+											FROM usuario as u
+											INNER JOIN acuerdo a ON u.id=a.usuario_id
+											INNER JOIN lote l ON l.id=a.lote_id
+											INNER JOIN manzana m ON m.id=l.manzana_id
+											INNER JOIN lotizacion lo ON lo.id=m.lotizacion_id
+											where tipo_usuario_id=3 and a.estado=1");
+		
+		if($resultado != null){
+			while( $fila = $resultado->fetch_object() ){
+				$data=[];
+				$obras = $this->mysqli->query("SELECT li.id, nombre,li.valor
+												FROM lote_infraestructura li
+												INNER JOIN obras_infraestructura o on o.id= li.infraestructura_id
+												where li.eliminado = 0 and lote_id=".$fila->lote_id);
+				if($obras != null){
+					while( $fila1 = $obras->fetch_object() ){
+						$data[]= $fila1;
+					}
+				}
+				$fila->obras = $data;
+				$data1[] = $fila;
+			}
+		}
+		if(isset($data1)){
+			return $data1;
+		}
+	}	
 }

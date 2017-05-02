@@ -7,5 +7,8 @@
 		if($id==1){
 			$reportes->pdfLotesByManzana();	
 		}		
+		if($id==2){
+			$reportes->pdfLotesByCliente();
+		}
 	}
 ?>
