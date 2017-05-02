@@ -38,7 +38,8 @@ class Seguridad extends Conexion {
 				if($result->tipo_usuario_id == 3){
 					$redirect = "../../web/index.php";
 				}				
-				else{
+				else{				
+					
 					$redirect = "inicio.php";
 				}
 			}
@@ -121,4 +122,26 @@ class Seguridad extends Conexion {
 	public function error500(){
 		require_once PATH_VISTAS."/Seguridad/vista.error500.php";
 	}
+	
+	
+	public function getEstadisticas(){
+		$resultado = $this->mysqli->query("SELECT count(id) as total FROM lotizacion");
+		$fila = $resultado->fetch_object();
+		$datos['lotizaciones'] = $fila->total;
+		
+		$resultado = $this->mysqli->query("SELECT count(id) as total FROM lote");
+		$fila = $resultado->fetch_object();
+		$datos['lotes'] = $fila->total;
+		$resultado = $this->mysqli->query("SELECT count(id) as total FROM lote where disponible = 1");
+		$fila = $resultado->fetch_object();
+		$datos['lotes_disponibles'] = $fila->total;
+		$resultado = $this->mysqli->query("SELECT count(id) as total FROM usuario where tipo_usuario_id = 3");
+		$fila = $resultado->fetch_object();
+		$datos['clientes'] = $fila->total;
+		
+		return $datos;
+	}
+	
+	
+	
 }

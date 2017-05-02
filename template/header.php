@@ -54,8 +54,8 @@
 
     	<div class="sidebar-wrapper">
             <div class="logo">
-                <a href="#" class="simple-text">
-                    Creative Tim
+                <a href="../seguridad/inicio.php" class="simple-text">
+                    DonoVilsa S.A.
                 </a>
             </div>
 			<?php $url = $_SERVER["REQUEST_URI"];?>

@@ -2,6 +2,10 @@
 $title = 'Inicio';
 require("../../modulos/SeguridadModulo.php");
 require_once ("../../template/header.php");
+
+$obj = new Seguridad();
+$datos = $obj->getEstadisticas();
+
 ?>
  <div class="row">
                     <div class="col-lg-3 col-sm-6">
@@ -15,15 +19,15 @@ require_once ("../../template/header.php");
                                     </div>
                                     <div class="col-xs-7">
                                         <div class="numbers">
-                                            <p>Capacity</p>
-                                            105GB
+                                            <p>Lotizaciones</p>
+                                            <?php echo $datos['lotizaciones'];?>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="footer">
                                     <hr />
                                     <div class="stats">
-                                        <i class="ti-reload"></i> Updated now
+                                        <i class="ti-reload"></i> <a href="../lotizacion/listar.php">Ver m&aacute;s</a>  
                                     </div>
                                 </div>
                             </div>
@@ -35,20 +39,20 @@ require_once ("../../template/header.php");
                                 <div class="row">
                                     <div class="col-xs-5">
                                         <div class="icon-big icon-success text-center">
-                                            <i class="ti-wallet"></i>
+                                            <i class="ti-map"></i>
                                         </div>
                                     </div>
                                     <div class="col-xs-7">
                                         <div class="numbers">
-                                            <p>Revenue</p>
-                                            $1,345
+                                            <p>Predios</p>
+                                            <?php echo $datos['lotes'];?>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="footer">
                                     <hr />
                                     <div class="stats">
-                                        <i class="ti-calendar"></i> Last day
+                                        <i class="ti-calendar"></i> <a href="../lote/listar.php">Ver m&aacute;s</a> 
                                     </div>
                                 </div>
                             </div>
@@ -60,20 +64,20 @@ require_once ("../../template/header.php");
                                 <div class="row">
                                     <div class="col-xs-5">
                                         <div class="icon-big icon-danger text-center">
-                                            <i class="ti-pulse"></i>
+                                            <i class="ti-map-alt"></i>
                                         </div>
                                     </div>
                                     <div class="col-xs-7">
                                         <div class="numbers">
-                                            <p>Errors</p>
-                                            23
+                                            <p>Predios Disponibles</p>
+                                            <?php echo $datos['lotes_disponibles'];?>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="footer">
                                     <hr />
                                     <div class="stats">
-                                        <i class="ti-timer"></i> In the last hour
+                                        <i class="ti-timer"></i>  <a href="../acuerdo/listar.php">Realizar acuerdo</a> 
                                     </div>
                                 </div>
                             </div>
@@ -85,20 +89,20 @@ require_once ("../../template/header.php");
                                 <div class="row">
                                     <div class="col-xs-5">
                                         <div class="icon-big icon-info text-center">
-                                            <i class="ti-twitter-alt"></i>
+                                            <i class="ti-user"></i>
                                         </div>
                                     </div>
                                     <div class="col-xs-7">
                                         <div class="numbers">
-                                            <p>Followers</p>
-                                            +45
+                                            <p>Clientes</p>
+                                            <?php echo $datos['clientes'];?>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="footer">
                                     <hr />
                                     <div class="stats">
-                                        <i class="ti-reload"></i> Updated now
+                                        <i class="ti-reload"></i> <a href="../usuario/listar.php">Ver m&aacute;s</a> 
                                     </div>
                                 </div>
                             </div>
@@ -111,7 +115,16 @@ require_once ("../../template/header.php");
                         <div class="card">
                             <div class="header">
                                 <h4 class="title">Bienvenido <?php echo  $_SESSION['SESSION_USER']->nombres ." ". $_SESSION['SESSION_USER']->apellidos;?></h4>
-                                <p class="category">24 Hours performance</p>
+                                <p class="category">Sistema de Control de Predios</p>
+                                
+                                <div class="row" style="margin: 0 auto; ">
+                                
+                                	<img alt="" src="../../web/images/banner1.jpg" style="margin: 50px 0;">
+                                
+                                	
+                                </div>
+                                
+                                
                             </div>
                             
                         </div>
