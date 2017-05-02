@@ -18,7 +18,9 @@ $acuerdos= $pagos->listaPagosCliente($_SESSION['SESSION_USER']->cedula);
 				<div class="container">
 		
 		<div style="overflow: auto;">
-			<?php  foreach ($acuerdos as $row){?>
+			<?php
+				if(count($acuerdos) >0 ){
+				foreach ($acuerdos as $row){?>
 			<div class="form-group col-sm-12">
 				
 					<div class='header'>
@@ -60,7 +62,8 @@ $acuerdos= $pagos->listaPagosCliente($_SESSION['SESSION_USER']->cedula);
 		                        		<td><?php echo $fila->fecha_pago; ?></td>
 		                        		<td><?php echo $fila->estado_nombre; ?></td>
 	                    			</tr>
-                				<?php } ?>
+                				<?php } 
+								}?>
 							</tbody>
         					</table>
 						</div>

@@ -396,6 +396,8 @@ class Pagos extends Conexion {
 			$fila->sinpagados = $resultado_sinpagos;
 			$data[] = $fila;
 		}
-		return $data;
+		if(isset($data)){
+			return $data;
+		}
 	}
 }
