@@ -51,7 +51,7 @@ class Reportes extends Conexion {
 	 * Función que obtiene el Pdf de Lotes por Manzanas
 	 */
 	public function pdfLotesByManzana(){
-		$manzanas = $this->mysqli->query("SELECT distinct(m.id) as manzana_id, m.nombre as manzana, null as lotes
+		/*$manzanas = $this->mysqli->query("SELECT distinct(m.id) as manzana_id, m.nombre as manzana, null as lotes
 					FROM acuerdo a
 					INNER JOIN lote l ON a.lote_id=l.id
 					INNER JOIN manzana m ON l.manzana_id=m.id");
@@ -72,8 +72,8 @@ class Reportes extends Conexion {
 				$fila->lotes = $data;
 				$data1[] = $fila;
 			}
-		}
-		//return $data1;
+		}*/
+		$data1 =self::listarLotesByManzana();
 		$html = "<html>
 				<head>				
 					<link href='http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'/>
@@ -206,5 +206,81 @@ class Reportes extends Conexion {
 		if(isset($data1)){
 			return $data1;
 		}
-	}	
+	}
+	
+	/**
+	 * Función que obtiene el Listado de Lotes por cada cliente
+	 */
+	public function pdfLotesByCliente(){
+		$listaClientes =self::listarLotesByCliente();
+		$html = "<html>
+					<head>
+						<link href='http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'/>
+						<style>
+						body {
+						margin: 20px 20px 20px 50px;
+						}
+						table{
+						border-collapse: collapse; width: 100%;
+						}
+						
+						td{
+						border:1px solid #ccc; padding:1px;
+						font-size:9pt;
+						}
+						</style>
+					</head>
+				<body>
+					<h5 class='title' align='center'>COMPAÑÍA NUEVO AMANECER DONOVILSA S.A</h5>
+					<table class='display table table-stripe' cellspacing='0' width= 100%>
+					<tbody>";
+					$contador = 0;
+					if(count($listaClientes) > 0){
+						foreach ($listaClientes as $lote){						
+		     				if ($contador == 0){
+		     					$html .= "<tr>";
+		     				}
+		           		$html .= "<td colspan='7' align='center' width='50%' height='100px'>
+		            	<table border=1>
+		            		<tr><td colspan='2' align='center' style='background-color:#FF00FF'><b>DATOS DEL CLIENTE N°".$lote->id."</b></td></tr>
+		            		<tr><td>NOMBRES</td><td>". $lote->nombres."</tr>
+				            <tr><td>APELLIDOS</td> <td>". $lote->apellidos."</td></tr>
+				            <tr><td>CÉDULA</td><td>". $lote->cedula."</td></tr>
+				            <tr><td>TELÉFONO</td><td>". $lote->telefono."</tr>
+				            <tr><td>CELULAR</td><td>". $lote->celular."</tr>
+				            <tr><td>DIRECCIÓN</td><td>". $lote->direccion."</tr>            
+				            <tr><td>EMAIL</td><td>".$lote->email."</tr>
+				            <tr><td colspan='2' align='center' style='background-color:#FF00FF'><b>DATOS DEL TERRENO</b></td></tr>
+				            <tr><td>URBANIZACIÓN</td><td>". $lote->urbanizacion."</tr>
+				            <tr><td>NÚMERO DE LOTE</td><td>". $lote->numero_lote."</tr>";
+								foreach ($lote->obras as $obra){               				
+		     				$html .= "<tr><td>".strtoupper($obra->nombre)."</td><td>".$obra->valor."</tr>";
+		     					}		      				
+		            	$html .= "</table><br><br></td>";            
+		         if ($contador == 1){
+		         	$html .= "</tr>";     
+		         }
+		        else
+			     {
+			      	$contador = 0;
+			     }
+		        $contador++;
+		       }
+		    }
+		$html .="    	</tbody>										
+					</table>
+				</body>
+				</html>";
+		$options = new Options();
+		$options->set('isHtml5ParserEnabled', true);
+		$dompdf = new Dompdf($options);		
+		$dompdf->load_html($html);
+		
+		$dompdf->render();
+		$canvas = $dompdf->get_canvas();
+		$font = FontMetrics::getFont("helvetica", "bold");
+		$canvas->page_text(550, 750, "Pág. {PAGE_NUM}/{PAGE_COUNT}", $font, 6, array(0,0,0)); //header
+		$canvas->page_text(270, 770, "Copyright © 2017", $font, 6, array(0,0,0)); //footer			
+		$dompdf->stream('clientes', array("Attachment"=>false));
+	}
 }
