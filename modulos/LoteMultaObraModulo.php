@@ -55,7 +55,7 @@ class LoteMultaObraModulo extends Conexion {
 		$resultado = $this->mysqli->query ( "SELECT l.id, l.nombre FROM lote l 
 					INNER JOIN acuerdo a on l.id=a.lote_id
 					INNER JOIN usuario u on u.id=a.usuario_id				
-					WHERE a.eliminado=0 and estado=1 and manzana_id=" . $id );
+					WHERE a.eliminado=0 and a.estado=1 and manzana_id=" . $id );
 		if ($resultado != null) {
 			while ( $fila = $resultado->fetch_object () ) {
 				$data [] = $fila;
