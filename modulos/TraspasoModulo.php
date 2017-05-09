@@ -147,8 +147,8 @@ class Traspaso extends Conexion {
 			$updateEstado = "UPDATE acuerdo SET estado=0, tipo=1 WHERE id =".$acuerdo_id;
 			$this->mysqli->query($updateEstado);
 			
-			$consulta = "INSERT INTO acuerdo(usuario_id,lote_id, fecha_ingreso,valor_total,valor_inicial,cod_promesa,tipo)
-							 VALUES ('".$usuario_id."','".$lote_id."','".$fecha_ingreso."',".$valor_total.",".$valor_inicial.",'".$cod_promesa."', 2)";
+			$consulta = "INSERT INTO acuerdo(usuario_id,lote_id, fecha_ingreso,valor_total,valor_inicial,cod_promesa,tipo,estado)
+							 VALUES ('".$usuario_id."','".$lote_id."','".$fecha_ingreso."',".$valor_total.",".$valor_inicial.",'".$cod_promesa."', 2,1)";
 			$this->mysqli->query($consulta);
 			
 			$acuerdoId = $this->mysqli->insert_id;

@@ -108,7 +108,9 @@ $acuerdos= $pagos->listaPagosCliente($_SESSION['SESSION_USER']->cedula);
 					</div>		        		
 				<?php endif;?>
 				</div>	
-			<?php } ?>
+			<?php } else {
+				echo "<h3>No existe informaci&oacute;n relacionada!</h3>";
+			}?>
 		</div>		
 	</div>
 	</div>
