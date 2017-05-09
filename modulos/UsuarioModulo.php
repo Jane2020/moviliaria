@@ -133,15 +133,27 @@ class Usuario extends Conexion {
 	 */
 	public function eliminarUsuario() {
 		if(isset($_GET['id']) && $_GET['id'] >0){
-			$id= $_GET['id'];			
-			$consulta = "UPDATE usuario SET eliminado=1 WHERE id =".$id;
-			try {
-				$resultado = $this->mysqli->query($consulta);
-				$_SESSION ['message'] = "Datos eliminados correctamente.";
-			} catch ( Exception $e ) {
-				$_SESSION ['message'] = $e->getMessage ();
+			$id= $_GET['id'];		
+			$usuario_sesion = $_SESSION['SESSION_USER']->id;
+			if( $id != $usuario_sesion){
+				$consulta_usuario ="SELECT * FROM acuerdo where estado=1 and usuario_id=".$id;
+				$resultado_usuario = $this->mysqli->query($consulta_usuario);
+				if($resultado_usuario->num_rows == 0){					
+					$consulta = "UPDATE usuario SET eliminado=1 WHERE id =".$id;
+					try {
+						$resultado = $this->mysqli->query($consulta);
+						$_SESSION ['message'] = "Datos eliminados correctamente.";
+					} catch ( Exception $e ) {
+						$_SESSION ['message'] = $e->getMessage ();
+					}
+				}
+				else{
+					$_SESSION ['message'] = "No se puede eliminar el cliente, existen items relacionados.";
+				}
 			}
-			
+			else{
+				$_SESSION ['message'] = "No se puede eliminar el usuario, actualmente es el usuario activo.";
+			}
 		}
 		header ( "Location:listar.php" );
 	}
