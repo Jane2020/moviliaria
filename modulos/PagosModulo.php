@@ -65,14 +65,20 @@ class Pagos extends Conexion {
 			while( $fila = $resultado_pagos->fetch_object() ){
 				if($fila->id_item == 1){
 					$item_nombre = "Acuerdo";
-					
 				}else if($fila->id_item == 3){
-					$item_nombre = "Multa";
-					
+					$consulta_multa ="SELECT m.nombre FROM multa m
+   									  INNER JOIN lote_multa lm ON m.id=lm.multa_id
+									  WHERE lm.id = ".$fila->id_obra_multa;
+					$resultado_multa = $this->mysqli->query($consulta_multa);
+					$item_nombre = $resultado_multa->fetch_row()[0];
 				}
 				else{
-					$item_nombre = "Obra de Infraestructura";
-					
+					$consulta_obra ="SELECT oi.nombre
+									 FROM lote_infraestructura li
+									 INNER JOIN obras_infraestructura oi ON oi.id=li.infraestructura_id
+									 WHERE li.id=".$fila->id_obra_multa;
+					$resultado_obra = $this->mysqli->query($consulta_obra);
+					$item_nombre = $resultado_obra->fetch_row()[0];
 				}
 				if($fila->estado_pago == 1){
 					$estado_pago = "Pago Completo";
@@ -402,7 +408,7 @@ class Pagos extends Conexion {
 					   INNER JOIN tipo_pago tp on tp.id=tipo_pago_id
 	                   where p.acuerdo_id=".$fila->id);
 			$fila->pagados = $resultado_pagos;
-			$resultado_sinpagos = $this->mysqli->query("SELECT p.id as pago_id , p.estado, id_item, monto_pagado, monto_total
+			$resultado_sinpagos = $this->mysqli->query("SELECT p.id as pago_id , p.estado, id_item, monto_pagado, monto_total,id_obra_multa
 													FROM pago p
 													WHERE estado <>1 and p.acuerdo_id=".$fila->id);
 			$fila->sinpagados = $resultado_sinpagos;
