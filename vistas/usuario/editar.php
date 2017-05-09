@@ -215,7 +215,7 @@ $(document).ready(function() {
 									message: 'El Número de Teléfono no puede ser vacío.'
 								},					
 								regexp: {
-									regexp: /^(?:\+)?\d{10}$/,
+									regexp: /^(?:\+)?\d{9}$/,
 									message: 'Ingrese un Número de Teléfono válido.'
 								}
 							}
