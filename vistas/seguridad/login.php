@@ -41,8 +41,8 @@ session_start();
 							<div class="form-wrap">
 								<div class="row">
 									<div class="col-xs-12 col-sm-3 brand animated fadeInUp" data-animation="fadeInUp">
-										<h2>Moviliaria</h2>
-										<p>Nombre Moviliaria</p>
+										<h2>COMPAÑÍA</h2>
+										<p>NUEVO AMANECER DONOVILSA S.A.</p>
 									</div>
 									<div class="col-sm-1 hidden-xs">
 										<div class="horizontal-divider"></div>
