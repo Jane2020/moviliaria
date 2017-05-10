@@ -164,9 +164,7 @@
                           </i><a href="../reportes/listar.php"><p>Reporte de Lotes</p></a>
                           </li>
                           <li><a href="../reportes/listar_cliente.php"><p>Reporte de Clientes</p></a>
-                          </li> 
-                          <li><a href="../reportes/listar.php"><p>Reporte</p></a>
-                          </li>               
+                          </li>         
                      </ul>
                   </div>
             </li>

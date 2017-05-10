@@ -1,6 +1,11 @@
 <?php
-
+use Dompdf\Options;
+use Dompdf\Dompdf;
+use Dompdf\FontMetrics;
 require_once 'Conexion.php';
+require_once 'lib/dompdf/autoload.inc.php';
+require_once 'lib/dompdf/src/FontMetrics.php';
+
 class Pagos extends Conexion {
 	private $mysqli;
 	private $data;
@@ -48,6 +53,11 @@ class Pagos extends Conexion {
     					<div class='header'>
         					<h4 class='title'>Pagos Realizados</h4>                              
         				</div>
+						<div class='icon-container'>
+							<span class='ti-download'></span><span class='icon-name'>
+								<a href='accion.php?ced=".$cedula;
+					$html .="' target='_blank'>Descargar</a></span>
+							</div>
         				<div class='content table-responsive table-full-width'>
         					<table class='table table-striped'>
             					<thead>
@@ -417,5 +427,182 @@ class Pagos extends Conexion {
 		if(isset($data)){
 			return $data;
 		}
+	}
+	
+	/**
+	 * Función que obtiene el Listado de Lotes dada la Cédula de un cliente
+	 */
+	public function listaPagosClientePdf($cedula){
+		$consulta ="SELECT nombres, apellidos FROM usuario WHERE cedula='".$cedula."'";
+		$resultado = $this->mysqli->query($consulta);
+		$items= $resultado->fetch_row();
+		
+		$acuerdos = $this->listaPagosCliente($cedula);
+		$html = "<html>
+					<head>
+						<link href='http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'/>
+						<style>
+						body {
+						margin: 20px 20px 20px 50px;
+						}
+						table{
+						border-collapse: collapse; width: 100%;
+						}
+						
+						td{
+						border:1px solid #ccc; padding:1px;
+						font-size:9pt;
+						}
+						</style>
+					</head>
+				<body>
+					<table>
+						<tr>
+							<td height=50px align=center width= 25%>
+							logo
+							</td>
+							<td height=50px align='center'><b>COMPAÑÍA NUEVO AMANECER DONOVILSA S.A</b></td>						
+						</tr>	
+						<tr>
+							<td width= 25%>
+								<b>Cédula del Cliente:</b>										
+							</td>
+							<td>
+								 ".$cedula."										
+							</td>
+						</tr>
+						<tr>
+							<td width= 25%>
+								<b>Nombre del Cliente:</b>
+							</td>
+							<td>
+								".$items[0]." ".$items[1]."		
+							</td>
+						</tr>
+					</table>	
+					
+			<div class='gallery-section'>
+				<div class='container'>				
+					<div style='overflow: auto;'>";
+				if(count($acuerdos) >0 ){
+					foreach ($acuerdos as $row){
+		$html .="<div class='form-group col-sm-12'>
+					<div class='header'>
+						<h5>Pagos Realizados Lote:".$row->numero_lote."</h5>
+					</div>			
+				</div>
+				<div class='form-group col-sm-12'>					
+					<div class='card'>
+    					<div class='content table-responsive table-full-width'>
+        					<table class='table table-striped'>
+            					<thead>
+                					<tr>
+				                		<td><b>ID</b></td>
+					                    <td><b>Nombre del Pago</b></td>
+					        			<td><b>Monto Total</b></td>
+				    	                <td><b>Monto Pagado</b></td>
+				        	            <td><b>Fecha de Pago</b></td> 
+										<td><b>Estado</b></td>
+                   					</tr>
+                				</thead>
+                				<tbody>";
+										$item_nombre = null;
+										while( $fila = $row->pagados->fetch_object() ){											
+											if($fila->id_item == 1){
+												$item_nombre = "Acuerdo";
+											}else if($fila->id_item == 3){
+												$consulta_multa ="SELECT m.nombre FROM multa m
+							   									  INNER JOIN lote_multa lm ON m.id=lm.multa_id
+																  WHERE lm.id = ".$fila->id_obra_multa;
+												$resultado_multa = $this->mysqli->query($consulta_multa);
+												$item_nombre = $resultado_multa->fetch_row()[0];
+											}
+											else{
+												$consulta_obra ="SELECT oi.nombre
+																 FROM lote_infraestructura li
+																 INNER JOIN obras_infraestructura oi ON oi.id=li.infraestructura_id
+																 WHERE li.id=".$fila->id_obra_multa;
+												$resultado_obra = $this->mysqli->query($consulta_obra);
+												$item_nombre = $resultado_obra->fetch_row()[0];
+											}
+				$html .="			<tr>
+		                    			<td>".$fila->pago_id."</td>
+		                    			<td>".$item_nombre."</td>
+		                    			<td>".$fila->monto_total."</td>
+		                    			<td>".$fila->valor."</td>
+		                        		<td>".$fila->fecha_pago."</td>
+		                        		<td>".$fila->estado_nombre."</td>
+	                    			</tr>";
+                					} 
+								}
+				$html .="		</tbody>
+        					</table>
+						</div>
+				</div>";
+				if($row->sinpagados->num_rows > 0){
+				$html .="<div class='card'>
+    					<div class='header'>
+        					<h5 class='title'>Cuentas por Pagar Lote:".$row->numero_lote."</h5>
+        				</div>
+        				<div class='content table-responsive table-full-width'>
+        					<table class='table table-striped'>
+            					<thead>
+                					<tr>
+				                		<td><b>ID</b></td>
+					                    <td><b>Nombre del Pago</b></td>
+				    	                <td><b>Monto Pagado</b></th>
+				        	            <td><b>Monto por Pagar</b></td>
+                   					</tr>
+                				</thead>
+                				<tbody>";
+										while( $fila = $row->sinpagados->fetch_object() ){
+										if($fila->id_item == 1){
+											$item_nombre = "Acuerdo";
+										}else if($fila->id_item == 3){
+											$consulta_multa ="SELECT m.nombre FROM multa m
+   									 						  INNER JOIN lote_multa lm ON m.id=lm.multa_id
+									  						  WHERE lm.id = ".$fila->id_obra_multa;
+											$resultado_multa = $this->mysqli->query($consulta_multa);
+											$item_nombre = $resultado_multa->fetch_row()[0];
+										}
+										else{
+											$consulta_obra ="SELECT oi.nombre
+															 FROM lote_infraestructura li
+															 INNER JOIN obras_infraestructura oi ON oi.id=li.infraestructura_id
+															 WHERE li.id=".$fila->id_obra_multa;
+											$resultado_obra = $this->mysqli->query($consulta_obra);
+											$item_nombre = $resultado_obra->fetch_row()[0];
+										}
+										$deuda = $fila->monto_total - $fila->monto_pagado;
+									
+						$html .="	<tr>
+										<td>".$fila->pago_id."</td>
+										<td>".$item_nombre."</td>
+			                       		<td>".$fila->monto_pagado."</td>
+			                       		<td>".$deuda."</td>			                       		
+			                		</tr>";
+									}
+						$html .="</tbody>
+        					</table>
+						</div>
+					</div>";        		
+					}
+		$html .="</div>";	
+			} else {
+				echo "<h3>No existe informaci&oacute;n relacionada!</h3>";
+			}
+		$html .="</div>		
+				</div></div></body></html>";
+		$options = new Options();
+		$options->set('isHtml5ParserEnabled', true);
+		$dompdf = new Dompdf($options);
+		$dompdf->load_html($html);
+		
+		$dompdf->render();
+		$canvas = $dompdf->get_canvas();
+		$font = FontMetrics::getFont("helvetica", "bold");
+		$canvas->page_text(550, 750, "Pág. {PAGE_NUM}/{PAGE_COUNT}", $font, 6, array(0,0,0)); //header
+		$canvas->page_text(270, 770, "Copyright © 2017", $font, 6, array(0,0,0)); //footer
+		$dompdf->stream('general', array("Attachment"=>false));
 	}
 }
