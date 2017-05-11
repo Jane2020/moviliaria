@@ -76,19 +76,23 @@ class Pagos extends Conexion {
 				if($fila->id_item == 1){
 					$item_nombre = "Acuerdo";
 				}else if($fila->id_item == 3){
-					$consulta_multa ="SELECT m.nombre FROM multa m
-   									  INNER JOIN lote_multa lm ON m.id=lm.multa_id
-									  WHERE lm.id = ".$fila->id_obra_multa;
-					$resultado_multa = $this->mysqli->query($consulta_multa);
-					$item_nombre = $resultado_multa->fetch_row()[0];
+					if(isset($fila->id_obra_multa)){
+						$consulta_multa ="SELECT m.nombre FROM multa m
+	   									  INNER JOIN lote_multa lm ON m.id=lm.multa_id
+										  WHERE lm.id = ".$fila->id_obra_multa;
+						$resultado_multa = $this->mysqli->query($consulta_multa);
+						$item_nombre = $resultado_multa->fetch_row()[0];
+					}
 				}
 				else{
-					$consulta_obra ="SELECT oi.nombre
+					if(isset($fila->id_obra_multa)){
+						$consulta_obra ="SELECT oi.nombre
 									 FROM lote_infraestructura li
 									 INNER JOIN obras_infraestructura oi ON oi.id=li.infraestructura_id
 									 WHERE li.id=".$fila->id_obra_multa;
-					$resultado_obra = $this->mysqli->query($consulta_obra);
-					$item_nombre = $resultado_obra->fetch_row()[0];
+						$resultado_obra = $this->mysqli->query($consulta_obra);
+						$item_nombre = $resultado_obra->fetch_row()[0];
+					}
 				}
 				if($fila->estado_pago == 1){
 					$estado_pago = "Pago Completo";
@@ -136,19 +140,23 @@ class Pagos extends Conexion {
 				if($fila->id_item == 1){
 					$item_nombre = "Acuerdo";
 				}else if($fila->id_item == 3){
-					$consulta_multa ="SELECT m.nombre FROM multa m
-   									  INNER JOIN lote_multa lm ON m.id=lm.multa_id
-									  WHERE lm.id = ".$fila->id_obra_multa;
-					$resultado_multa = $this->mysqli->query($consulta_multa);
-					$item_nombre = $resultado_multa->fetch_row()[0];
+					if(isset($fila->id_obra_multa)){
+						$consulta_multa ="SELECT m.nombre FROM multa m
+	   									  INNER JOIN lote_multa lm ON m.id=lm.multa_id
+										  WHERE lm.id = ".$fila->id_obra_multa;
+						$resultado_multa = $this->mysqli->query($consulta_multa);
+						$item_nombre = $resultado_multa->fetch_row()[0];
+					}
 				}
 				else{
-					$consulta_obra ="SELECT oi.nombre
-									 FROM lote_infraestructura li
-									 INNER JOIN obras_infraestructura oi ON oi.id=li.infraestructura_id
-									 WHERE li.id=".$fila->id_obra_multa;
-					$resultado_obra = $this->mysqli->query($consulta_obra);
-					$item_nombre = $resultado_obra->fetch_row()[0];	
+					if(isset($fila->id_obra_multa)){
+						$consulta_obra ="SELECT oi.nombre
+										 FROM lote_infraestructura li
+										 INNER JOIN obras_infraestructura oi ON oi.id=li.infraestructura_id
+										 WHERE li.id=".$fila->id_obra_multa;
+						$resultado_obra = $this->mysqli->query($consulta_obra);
+						$item_nombre = $resultado_obra->fetch_row()[0];
+					}
 				}
 				$deuda = $fila->monto_total - $fila->monto_pagado;
 				$html .="				<tr>
@@ -511,19 +519,23 @@ class Pagos extends Conexion {
 											if($fila->id_item == 1){
 												$item_nombre = "Acuerdo";
 											}else if($fila->id_item == 3){
-												$consulta_multa ="SELECT m.nombre FROM multa m
-							   									  INNER JOIN lote_multa lm ON m.id=lm.multa_id
-																  WHERE lm.id = ".$fila->id_obra_multa;
-												$resultado_multa = $this->mysqli->query($consulta_multa);
-												$item_nombre = $resultado_multa->fetch_row()[0];
+												if(isset($fila->id_obra_multa)){
+													$consulta_multa ="SELECT m.nombre FROM multa m
+								   									  INNER JOIN lote_multa lm ON m.id=lm.multa_id
+																	  WHERE lm.id = ".$fila->id_obra_multa;
+													$resultado_multa = $this->mysqli->query($consulta_multa);
+													$item_nombre = $resultado_multa->fetch_row()[0];
+												}
 											}
 											else{
-												$consulta_obra ="SELECT oi.nombre
-																 FROM lote_infraestructura li
-																 INNER JOIN obras_infraestructura oi ON oi.id=li.infraestructura_id
-																 WHERE li.id=".$fila->id_obra_multa;
-												$resultado_obra = $this->mysqli->query($consulta_obra);
-												$item_nombre = $resultado_obra->fetch_row()[0];
+												if(isset($fila->id_obra_multa)){
+													$consulta_obra ="SELECT oi.nombre
+																	 FROM lote_infraestructura li
+																	 INNER JOIN obras_infraestructura oi ON oi.id=li.infraestructura_id
+																	 WHERE li.id=".$fila->id_obra_multa;
+													$resultado_obra = $this->mysqli->query($consulta_obra);
+													$item_nombre = $resultado_obra->fetch_row()[0];
+												}
 											}
 				$html .="			<tr>
 		                    			<td>".$fila->pago_id."</td>
@@ -559,19 +571,23 @@ class Pagos extends Conexion {
 										if($fila->id_item == 1){
 											$item_nombre = "Acuerdo";
 										}else if($fila->id_item == 3){
-											$consulta_multa ="SELECT m.nombre FROM multa m
-   									 						  INNER JOIN lote_multa lm ON m.id=lm.multa_id
-									  						  WHERE lm.id = ".$fila->id_obra_multa;
-											$resultado_multa = $this->mysqli->query($consulta_multa);
-											$item_nombre = $resultado_multa->fetch_row()[0];
+											if(isset($fila->id_obra_multa)){
+												$consulta_multa ="SELECT m.nombre FROM multa m
+	   									 						  INNER JOIN lote_multa lm ON m.id=lm.multa_id
+										  						  WHERE lm.id = ".$fila->id_obra_multa;
+												$resultado_multa = $this->mysqli->query($consulta_multa);
+												$item_nombre = $resultado_multa->fetch_row()[0];
+											}
 										}
 										else{
-											$consulta_obra ="SELECT oi.nombre
-															 FROM lote_infraestructura li
-															 INNER JOIN obras_infraestructura oi ON oi.id=li.infraestructura_id
-															 WHERE li.id=".$fila->id_obra_multa;
-											$resultado_obra = $this->mysqli->query($consulta_obra);
-											$item_nombre = $resultado_obra->fetch_row()[0];
+											if(isset($fila->id_obra_multa)){
+												$consulta_obra ="SELECT oi.nombre
+																 FROM lote_infraestructura li
+																 INNER JOIN obras_infraestructura oi ON oi.id=li.infraestructura_id
+																 WHERE li.id=".$fila->id_obra_multa;
+												$resultado_obra = $this->mysqli->query($consulta_obra);
+												$item_nombre = $resultado_obra->fetch_row()[0];
+											}
 										}
 										$deuda = $fila->monto_total - $fila->monto_pagado;
 									
