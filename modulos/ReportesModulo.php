@@ -20,10 +20,13 @@ class Reportes extends Conexion {
 	 * Función que obtiene el Listado de Lotes por Manzanas
 	 */
 	public function listarLotesByManzana(){	
-		$manzanas = $this->mysqli->query("SELECT distinct(m.id) as manzana_id, m.nombre as manzana, null as lotes
+		$manzanas = $this->mysqli->query("SELECT distinct(m.id) as manzana_id,lt.nombre as lotizacion,
+				    m.nombre as manzana, null as lotes
 					FROM acuerdo a
 					INNER JOIN lote l ON a.lote_id=l.id
-					INNER JOIN manzana m ON l.manzana_id=m.id WHERE a.estado=1");
+					INNER JOIN manzana m ON l.manzana_id=m.id
+					INNER JOIN lotizacion lt ON lt.id=m.lotizacion_id				
+				    WHERE a.estado=1");
 		if($manzanas != null){
 			while( $fila = $manzanas->fetch_object() ){
 				$data=[];					
@@ -71,12 +74,18 @@ class Reportes extends Conexion {
 				</head>
 				<body>
 					<h5 class='title' align='center'>COMPAÑÍA NUEVO AMANECER DONOVILSA S.A</h5>
-					<center><label style='font-size:10px'><b>Urbanización DONOVILSA I</b></label></center><br>
-					<center><label style='font-size:10px'><b>Listado de Clientes</b></label></center><br>
-					<table width= 100%>
+					<center><label style='font-size:10px'><b>Listado de Clientes</b></label></center><br>";
+				if(count($data1) > 0){
+               foreach ($data1 as $fila){          
+			   $html .="<table width= 100%>
 						<thead>
-							  <tr>
-					               <td><b>N°</b></td>
+			   				<tr>
+		  						<td colspan='7' align='center'>
+		  							<b>URBANIZACIÓN ".strtoupper($fila->lotizacion)."</b>
+		  						</td>
+		  					</tr>
+							<tr>
+			   		               <td><b>N°</b></td>
 					               <td><b>NOMBRE</b></td>
 					               <td><b>APELLIDO</b></td>
 					               <td><b>C.C.N</b></td>
@@ -85,10 +94,8 @@ class Reportes extends Conexion {
 					               <td><b>COD. PROMESA</b></td>               
 					          </tr>
 					     </thead>
-					     <tbody>";				
-          if(count($data1) > 0){
-               foreach ($data1 as $fila){             
-					$html .="    <tr>
+					     <tbody>				
+          		         <tr>
             						<td colspan='7' align='center' style='background-color:yellow'><b>".strtoupper($fila->manzana)."</b></td>
         						</tr>";
               foreach ($fila->lotes as $lote){               	
@@ -103,13 +110,10 @@ class Reportes extends Conexion {
 	        					</tr>";
       	
               }
+              $html .="</tbody></table>";
             }
         }
-      
-		$html .="    	</tbody>										
-					</table>
-				</body>
-				</html>";
+        $html .="</body></html>";
 		$options = new Options();
 		$options->set('isHtml5ParserEnabled', true);
 		$dompdf = new Dompdf($options);		
