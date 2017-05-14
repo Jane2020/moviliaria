@@ -60,12 +60,14 @@ $acuerdos= $pagos->listaPagosCliente($_SESSION['SESSION_USER']->cedula);
 												$item_nombre = $resultado_multa->fetch_row()[0];
 											}
 											else{
-												$consulta_obra ="SELECT oi.nombre
-																 FROM lote_infraestructura li
-																 INNER JOIN obras_infraestructura oi ON oi.id=li.infraestructura_id
-																 WHERE li.id=".$fila->id_obra_multa;
-												$resultado_obra = $mysqli->query($consulta_obra);
-												$item_nombre = $resultado_obra->fetch_row()[0];
+												if(isset($fila->id_obra_multa)){
+													$consulta_obra ="SELECT oi.nombre
+																	 FROM lote_infraestructura li
+																	 INNER JOIN obras_infraestructura oi ON oi.id=li.infraestructura_id
+																	 WHERE li.id=".$fila->id_obra_multa;
+													$resultado_obra = $mysqli->query($consulta_obra);
+													$item_nombre = $resultado_obra->fetch_row()[0];
+												}
 											}
 										?>											
 									<tr>

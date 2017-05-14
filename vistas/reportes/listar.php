@@ -21,10 +21,21 @@ require_once ("../../template/header.php");
 <div class='header'>
 		<h5 class='title' align='center'>Listado de Clientes</h5>	
 </div>
-
+<?php
+          $reportes = new Reportes();
+          $contador = 1;
+          $listaLotes = $reportes->listarLotesByManzana();
+          if(count($listaLotes) > 0){
+               foreach ($listaLotes as $fila){             
+?>
 <table class="display table table-bordered table-stripe" cellspacing="0" width="100%">
 	<thead>
 		  <tr>
+		  		<td colspan="7" align="center">
+		  			<b>URBANIZACIÓN <?php echo strtoupper($fila->lotizacion); ?></b>
+		  		</td>
+		  </tr>	
+		  <tr>		  
                <td><b>N°</b></td>
                <td><b>NOMBRE</b></td>
                <td><b>APELLIDO</b></td>
@@ -35,14 +46,7 @@ require_once ("../../template/header.php");
           </tr>
      </thead>
      <tbody>
-     <?php
-          $reportes = new Reportes();
-          $contador = 1;
-          $listaLotes = $reportes->listarLotesByManzana();
-          if(count($listaLotes) > 0){
-               foreach ($listaLotes as $fila){             
-     ?>
-     	<tr>
+        <tr>
             <td colspan="7" align="center" style='background-color:yellow'><b><?php echo strtoupper($fila->manzana); ?></b></td>
         </tr>
         <?php
@@ -59,12 +63,14 @@ require_once ("../../template/header.php");
         </tr>
       	<?php
       			$contador++;
-              }
-            }
-        }
+              }        
       ?>
      </tbody>
-</table>	
+</table>
+<?php
+      	}
+	}
+?>	
  </div>    
  </div>
 <?php

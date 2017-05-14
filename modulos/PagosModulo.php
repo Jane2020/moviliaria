@@ -38,14 +38,13 @@ class Pagos extends Conexion {
 	 * Función que obtiene el Listado de Pagos
 	 */
 	public function listarPagos($cedula, $acuerdo_id){
-		$resultado_pagos = $this->mysqli->query("SELECT p.id as pago_id , p.estado, tp.nombre as estado_nombre,id_item,t.monto_total, t.valor,
-												date_format(t.fecha_transaccion, '%Y-%m-%d') as fecha_pago,p.estado as estado_pago
+		$resultado_pagos = $this->mysqli->query("SELECT p.id as pago_id , p.estado, tp.nombre as estado_nombre,p.id_item,t.monto_total, t.valor,
+												date_format(t.fecha_transaccion, '%Y-%m-%d') as fecha_pago,p.estado as estado_pago, id_obra_multa
 												FROM pago p
 												INNER JOIN transaccion t on p.id=t.pago_id
 				 								INNER JOIN tipo_pago tp on tp.id=tipo_pago_id
 												WHERE p.acuerdo_id =".$acuerdo_id);
-		
-		$resultado_sinpagos = $this->mysqli->query("SELECT p.id as pago_id , p.estado, id_item, monto_pagado, monto_total,id_obra_multa
+		$resultado_sinpagos = $this->mysqli->query("SELECT p.id as pago_id , p.estado, p.id_item, monto_pagado, monto_total,id_obra_multa
 												FROM pago p
 												WHERE estado <>1 and p.acuerdo_id=".$acuerdo_id);		
 		if(isset($resultado_pagos)){
@@ -72,10 +71,10 @@ class Pagos extends Conexion {
                    					</tr>
                 				</thead>
                 				<tbody>";
-			while( $fila = $resultado_pagos->fetch_object() ){
-				if($fila->id_item == 1){
+			while( $fila = $resultado_pagos->fetch_object() ){				
+				if($fila->id_item == 1){					
 					$item_nombre = "Acuerdo";
-				}else if($fila->id_item == 3){
+				}else if($fila->id_item == 3){						
 					if(isset($fila->id_obra_multa)){
 						$consulta_multa ="SELECT m.nombre FROM multa m
 	   									  INNER JOIN lote_multa lm ON m.id=lm.multa_id

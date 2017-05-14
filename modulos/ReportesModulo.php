@@ -74,7 +74,7 @@ class Reportes extends Conexion {
 				</head>
 				<body>
 					<h5 class='title' align='center'>COMPAÑÍA NUEVO AMANECER DONOVILSA S.A</h5>
-					<center><label style='font-size:10px'><b>Listado de Clientes</b></label></center><br>";
+					<center><label style='font-size:13px'><b>Listado de Clientes</b></label></center><br>";
 				if(count($data1) > 0){
                foreach ($data1 as $fila){          
 			   $html .="<table width= 100%>

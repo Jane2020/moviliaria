@@ -75,7 +75,7 @@ if(isset($_POST['nombre'])){
 								<div class="clearfix"></div>
 							</div>
 							<ul>
-									<li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i> Oficina : 032944444</li>
+									<li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i> Oficina :032 376-393</li>
 									<li><i class="glyphicon glyphicon-phone" aria-hidden="true"></i> Celular : 0982706168</li>
 									<li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i> <a href="#"><a href="mailto:info@example.com">alvarovilemag1993@gmail.com</a></a></li>									
 								</ul>
