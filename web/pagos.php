@@ -25,11 +25,20 @@ $acuerdos= $pagos->listaPagosCliente($_SESSION['SESSION_USER']->cedula);
 		<div style="overflow: auto;">
 			<?php
 				if(count($acuerdos) >0 ){
-				foreach ($acuerdos as $row){?>
+?>
+<div class="icon-container">
+<span class="ti-download"></span><span class="glyphicon glyphicon-download-alt">
+<a href="../vistas/pagos/accion.php?ced=<?php echo $_SESSION['SESSION_USER']->cedula; ?>" target="_blank">Descargar</a>
+</span>
+</div>
+<br>
+<?php 
+				foreach ($acuerdos as $row):?>
 			<div class="form-group col-sm-12">
 				
 					<div class='header'>
-						<h3>Pagos Realizados Lote: <?php echo $row->numero_lote;?></h3>
+					<h3>Lote <?php echo $row->numero_lote;?></h3><br>
+						<h5>Pagos Realizados </h5>
 					</div>			
 			</div>
 			<div class="form-group col-sm-12">					
@@ -79,15 +88,16 @@ $acuerdos= $pagos->listaPagosCliente($_SESSION['SESSION_USER']->cedula);
 		                        		<td><?php echo $fila->estado_nombre; ?></td>
 	                    			</tr>
                 				<?php } 
-								}?>
+								?>
 							</tbody>
         					</table>
 						</div>
-				</div>
+					</div>
+				
 				<?php if($row->sinpagados->num_rows > 0):?>
 				<div class='card'>
     					<div class='header'>
-        					<h3 class='title'>Cuentas por Pagar Lote  <?php echo $row->numero_lote;?></h3>
+        					<h5 class='title'>Cuentas por Pagar</h5>
         				</div>
         				<div class='content table-responsive table-full-width'>
         					<table class='table table-striped'>
@@ -133,7 +143,9 @@ $acuerdos= $pagos->listaPagosCliente($_SESSION['SESSION_USER']->cedula);
 					</div>		        		
 				<?php endif;?>
 				</div>	
-			<?php } else {
+			<?php 
+			endforeach;
+				} else {
 				echo "<h3>No existe informaci&oacute;n relacionada!</h3>";
 			}?>
 		</div>		

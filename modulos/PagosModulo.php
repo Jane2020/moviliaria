@@ -463,16 +463,21 @@ class Pagos extends Conexion {
 						</style>
 					</head>
 				<body>
-					<table>
+					<table width= 100% border=0>
 						<tr>
-							<td height=50px align=center width= 25%>
-							logo
+							<td width= 10% align='center'>
+								<img src='".PATH_FILES."/images/logo.jpg' style='height: 80px; margin-bottom: 5px;'>
+								
 							</td>
-							<td height=50px align='center'><b>COMPAÑÍA NUEVO AMANECER DONOVILSA S.A</b></td>						
-						</tr>	
+							<td>
+										<h3 class='title' align='center'>COMPAÑÍA NUEVO AMANECER DONOVILSA S.A</h3>
+					
+							</td>
+						</tr> </table>
+										<table width= 100% border=0>			
 						<tr>
 							<td width= 25%>
-								<b>Cédula del Cliente:</b>										
+								<b><h3 style='margin: 0; padding: 0px;'>Cédula del Cliente:</h3></b>										
 							</td>
 							<td>
 								 ".$cedula."										
@@ -480,7 +485,7 @@ class Pagos extends Conexion {
 						</tr>
 						<tr>
 							<td width= 25%>
-								<b>Nombre del Cliente:</b>
+								<b><h3 style='margin: 0;  padding: 0px;'>Nombre del Cliente:</h3></b>		
 							</td>
 							<td>
 								".$items[0]." ".$items[1]."		
@@ -495,7 +500,8 @@ class Pagos extends Conexion {
 					foreach ($acuerdos as $row){
 		$html .="<div class='form-group col-sm-12'>
 					<div class='header'>
-						<h5>Pagos Realizados Lote:".$row->numero_lote."</h5>
+						<h3>Lote:".$row->numero_lote."</h3>
+						<h5>Pagos Realizados </h5>
 					</div>			
 				</div>
 				<div class='form-group col-sm-12'>					
@@ -545,7 +551,7 @@ class Pagos extends Conexion {
 		                        		<td>".$fila->estado_nombre."</td>
 	                    			</tr>";
                 					} 
-								}
+								
 				$html .="		</tbody>
         					</table>
 						</div>
@@ -553,7 +559,7 @@ class Pagos extends Conexion {
 				if($row->sinpagados->num_rows > 0){
 				$html .="<div class='card'>
     					<div class='header'>
-        					<h5 class='title'>Cuentas por Pagar Lote:".$row->numero_lote."</h5>
+        					<h5 class='title'>Cuentas por Pagar</h5>
         				</div>
         				<div class='content table-responsive table-full-width'>
         					<table class='table table-striped'>
@@ -602,12 +608,14 @@ class Pagos extends Conexion {
 						</div>
 					</div>";        		
 					}
+					}
 		$html .="</div>";	
 			} else {
 				echo "<h3>No existe informaci&oacute;n relacionada!</h3>";
 			}
 		$html .="</div>		
 				</div></div></body></html>";
+		
 		$options = new Options();
 		$options->set('isHtml5ParserEnabled', true);
 		$dompdf = new Dompdf($options);
