@@ -46,7 +46,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="../vistas/seguridad/login.php" >Iniciar Sesión</a></li>
 									<?php else: ?>
 									
-									<li><b> <i class="glyphicon glyphicon-user" aria-hidden="true"></i> Usuario: <?php echo  $_SESSION['SESSION_USER']->nombres; ?> </b>| <i class="glyphicon glyphicon-log-in" aria-hidden="true"></i> <a href="#" onclick="javascript:document.form1.action.value='cerrarSesion'; document.form1.submit();">Cerrar Sesión</a></li>
+									<li><a href="cambio.php" title="Cambiar Contraseña" ><b> <i class="glyphicon glyphicon-user" aria-hidden="true"></i> Usuario: <?php echo  $_SESSION['SESSION_USER']->nombres; ?> </b></a>| <i class="glyphicon glyphicon-log-in" aria-hidden="true"></i> <a href="#" onclick="javascript:document.form1.action.value='cerrarSesion'; document.form1.submit();">Cerrar Sesión</a></li>
 									<?php endif; ?>
 								</ul>
 							</div>						

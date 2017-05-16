@@ -69,7 +69,7 @@ class Seguridad extends Conexion {
 		header("Location: ../seguridad/cambio.php");
 	}
 	
-	public function cambiarContraseñaDatos(){
+	public function cambiarContraseñaDatos($back=true){
 		$passwd["p1"] = $_POST['passwordAnterior'];
 		$passwd["p2"] = $_POST['password'];
 		$passwd["p3"] = $_POST['password1'];
@@ -84,8 +84,10 @@ class Seguridad extends Conexion {
 		} else {
 			$_SESSION['message'] = $message;
 		}
-
+	if($back){
 		header("Location: ../seguridad/cambio.php");
+	} 
+		
 	}
 	
 	private function validarContrasenas($passwd,$user,$band = true){
