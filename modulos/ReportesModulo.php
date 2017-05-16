@@ -73,8 +73,19 @@ class Reportes extends Conexion {
 					</style>
 				</head>
 				<body>
-					<h5 class='title' align='center'>COMPAÑÍA NUEVO AMANECER DONOVILSA S.A</h5>
-					<center><label style='font-size:13px'><b>Listado de Clientes</b></label></center><br>";
+				<table width= 100% border=0 >
+						<tr>
+							<td width= 10% align='center'>
+								<img src='".PATH_FILES."/images/logo.jpg' style='height: 80px; margin-bottom: 5px;'>
+								
+							</td>
+							<td>
+										<h3 class='title' align='center'>COMPAÑÍA NUEVO AMANECER DONOVILSA S.A</h3>
+					<center><label style='font-size:13px'><b>Listado de Clientes</b></label></center><br>
+							</td>
+						</tr>					
+								
+					</table>";
 				if(count($data1) > 0){
                foreach ($data1 as $fila){          
 			   $html .="<table width= 100%>
@@ -114,6 +125,8 @@ class Reportes extends Conexion {
             }
         }
         $html .="</body></html>";
+
+        
 		$options = new Options();
 		$options->set('isHtml5ParserEnabled', true);
 		$dompdf = new Dompdf($options);		
@@ -213,7 +226,21 @@ class Reportes extends Conexion {
 						</style>
 					</head>
 				<body>
-					<h5 class='title' align='center'>COMPAÑÍA NUEVO AMANECER DONOVILSA S.A</h5>
+				
+				<table width= 100% border=0 >
+						<tr>
+							<td width= 10% align='center'>
+								<img src='".PATH_FILES."/images/logo.jpg' style='height: 80px; margin-bottom: 5px;'>
+								
+							</td>
+							<td>
+										<h3 class='title' align='center'>COMPAÑÍA NUEVO AMANECER DONOVILSA S.A</h3>
+					
+							</td>
+						</tr>					
+								
+					</table>
+					
 					<table class='display table table-stripe' cellspacing='0' width= 100%>
 					<tbody>";
 					$contador = 0;
