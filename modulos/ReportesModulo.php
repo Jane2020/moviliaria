@@ -193,7 +193,7 @@ class Reportes extends Conexion {
 						
 			FROM lote_infraestructura li
 			INNER JOIN obras_infraestructura oi ON oi.id=li.infraestructura_id
-			INNER JOIN pago p ON p.id_obra_multa = li.id
+			INNER JOIN pago p ON p.id_obra_multa = li.id and p.id_item = 2
 			INNER JOIN lote l on l.id=li.lote_id
 			INNER JOIN manzana m on m.id=l.manzana_id
 			INNER JOIN lotizacion lo on lo.id=m.lotizacion_id
@@ -210,7 +210,6 @@ class Reportes extends Conexion {
 			$data = [];
 			$i = 0;
 			while( $fila = $resultado->fetch_object() ){
-	
 	
 				if($i == 0){
 					$manzana = $fila->manzana_id;
@@ -299,35 +298,66 @@ class Reportes extends Conexion {
 								
 					</table>";
 		if(count($listaObras) > 0){
-			foreach ($listaObras as $fila){
-				$html .="<table width= 100%>
-						<thead>
-							 <tr>
-							 	<td colspan=4 align=center>
-							  			<b>URBANIZACIÓN".strtoupper($fila->lotizacion)."</b>
+			
+			$html .="<table class='display table table-bordered table-stripe' cellspacing='0' width='100%'>";
+				
+				foreach ($listaObras as $fila){
+						
+					if(array_key_exists ( 'lotizacion' , $fila )):
+						
+					$html .="<tr>
+							 	<td colspan='5' align='center'>
+							  			<b>URBANIZACIÓN ".strtoupper($fila["lotizacion"])."</b>
 							  	</td>
-							 </tr>
-							 <tr>
-								<td align=center><b>Lote</b></td>";
-				foreach ($fila->obras as $val){
-					$html .="<td align=center><b>".$val->obra."</b></td>";
+							 </tr>";							
+					
+							endif;
+							if(array_key_exists ( 'manzana' , $fila )):
+						
+							$html .="<tr>
+								            <td colspan='5' align='center' style='background-color:yellow'>Manzana <b>".strtoupper($fila["manzana"])."</b></td>
+								        </tr> ";
+										
+										
+						endif;
+						
+						if(array_key_exists ( 'obras' , $fila )):
+						$obras = $fila["obras"];
+						
+						$html .= "<tr>
+							<td>LOTE</td>";
+							
+				              foreach ($fila["obras"] as $val){               	
+				     		
+				              	$html .= "<td>".$val->nombre."</td>";				     	    
+				      	      }        
+				      	      $html .= "</tr>";
+				      	      		
+						endif;
+								
+								if(array_key_exists ( 'lote' , $fila )):
+						
+								$html .= "<tr>
+								<td>".$fila["lote"][0]."</td>";
+							
+				              foreach ($obras as $val){  
+				              	$lote = 0;
+				              	if(isset($fila["lote"][$val->id])){
+				              		$lote = $fila["lote"][$val->id];
+				              	}
+				              	$html .= "
+								<td>".$lote ."</td>";
+				     	    
+				      	      }        
+				      	      $html .= "</tr>";
+				      	      		
+								endif;
 				}
-				$html .="</tr>
-					     </thead>
-					     <tbody>
-					        <tr>
-					            <td colspan=4 align=center style='background-color:yellow'><b>".strtoupper($fila->manzana)."</b></td>
-					        </tr>
-					      	<tr>
-					     		<td>".$fila->numero_lote."</td>";
-				foreach ($fila->obras as $val){
-					$html .="<td>".$val->monto_pagado."</td>";
-				}
-				$html .="
-					        </tr>
-					     </tbody>
-					</table>";
-			}
+								
+					
+				$html .= "</table>";     	
+				
+				
 		}
 		$options = new Options();
 		$options->set('isHtml5ParserEnabled', true);

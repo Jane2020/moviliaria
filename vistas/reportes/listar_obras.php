@@ -50,7 +50,7 @@ require_once ("../../template/header.php");
 		
 			?>
 						 <tr>
-				            <td colspan="7" align="center" style='background-color:yellow'>MAnzana<b><?php echo strtoupper($fila["manzana"]); ?></b></td>
+				            <td colspan="7" align="center" style='background-color:yellow'>Manzana <b><?php echo strtoupper($fila["manzana"]); ?></b></td>
 				        </tr> 
 						
 				<?php		
@@ -74,14 +74,15 @@ require_once ("../../template/header.php");
 				
 				
 				if(array_key_exists ( 'lote' , $fila )):
-		
+				
 		?>
 			<tr>
 			<td><?php echo $fila["lote"][0]?></td>
+			
 			<?php
               foreach ($obras as $val){               	
      		?> 
-				<td><?php echo isset($fila["lote"][$val->nombre])?$fila["lote"][$val->nombre]:0; ?></td>
+				<td><?php echo isset($fila["lote"][$val->id])?$fila["lote"][$val->id]:0; ?></td>
      	    <?php
       	      }        
       	      ?>
