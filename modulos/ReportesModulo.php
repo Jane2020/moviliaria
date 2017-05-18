@@ -100,7 +100,9 @@ class Reportes extends Conexion {
 								
 					</table>";
 				if(count($data1) > 0){
-               foreach ($data1 as $fila){          
+               foreach ($data1 as $fila){       
+               	
+               	
 			   $html .="<table width= 100%>
 						<thead>
 			   				<tr>
@@ -118,12 +120,13 @@ class Reportes extends Conexion {
 					               <td><b>COD. PROMESA</b></td>               
 					          </tr>
 					     </thead>
-					     <tbody>				
-          		         <tr>
-            						<td colspan='7' align='center' style='background-color:yellow'><b>".strtoupper($fila->manzana)."</b></td>
+					     <tbody>";
+              			foreach ($fila->manzanas as $manz){               	
+     	  		       $html .="  <tr>
+            						<td colspan='7' align='center' style='background-color:yellow'><b>".strtoupper($manz->manzana)."</b></td>
         						</tr>";
-              foreach ($fila->lotes as $lote){               	
-              	$html .="    	<tr>
+              				foreach ($manz->lotes as $lote){               	
+              		   $html .="   	<tr>
 					            	<td>".$lote->id."</td>
 						            <td>".$lote->nombres."</td>
 						            <td>".$lote->apellidos."</td>
@@ -132,9 +135,9 @@ class Reportes extends Conexion {
 						            <td>".$lote->valor_total."</td>            
 						            <td>".$lote->cod_promesa."</td>
 	        					</tr>";
-      	
+              				}
               }
-              $html .="</tbody></table>";
+              $html .="</tbody></table><br><br>";
             }
         }
         $html .="</body></html>";
