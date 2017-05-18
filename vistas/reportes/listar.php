@@ -26,7 +26,8 @@ require_once ("../../template/header.php");
           $contador = 1;
           $listaLotes = $reportes->listarLotesByManzana();
           if(count($listaLotes) > 0){
-               foreach ($listaLotes as $fila){             
+               foreach ($listaLotes as $fila){   
+               	
 ?>
 <table class="display table table-bordered table-stripe" cellspacing="0" width="100%">
 	<thead>
@@ -46,11 +47,14 @@ require_once ("../../template/header.php");
           </tr>
      </thead>
      <tbody>
+        <?php
+              foreach ($fila->manzanas as $manz){               	
+     	?>
         <tr>
-            <td colspan="7" align="center" style='background-color:yellow'><b><?php echo strtoupper($fila->manzana); ?></b></td>
+            <td colspan="7" align="center" style='background-color:yellow'><b><?php echo strtoupper($manz->manzana); ?></b></td>
         </tr>
         <?php
-              foreach ($fila->lotes as $lote){               	
+              foreach ($manz->lotes as $lote){               	
      	?>    
      	<tr>
             <td><?php echo $contador ?></td>
@@ -64,6 +68,7 @@ require_once ("../../template/header.php");
       	<?php
       			$contador++;
               }        
+           }
       ?>
      </tbody>
 </table>

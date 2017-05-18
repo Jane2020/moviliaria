@@ -19,34 +19,47 @@ class Reportes extends Conexion {
 	/**
 	 * Función que obtiene el Listado de Lotes por Manzanas
 	 */
-	public function listarLotesByManzana(){	
-		$manzanas = $this->mysqli->query("SELECT distinct(m.id) as manzana_id,lt.nombre as lotizacion,
-				    m.nombre as manzana, null as lotes
+	public function listarLotesByManzana(){
+		$lotizaciones = $this->mysqli->query("SELECT distinct(lt.id) as lotizacion_id,lt.nombre as lotizacion,
+				    null as manzanas
 					FROM acuerdo a
 					INNER JOIN lote l ON a.lote_id=l.id
 					INNER JOIN manzana m ON l.manzana_id=m.id
-					INNER JOIN lotizacion lt ON lt.id=m.lotizacion_id				
+					INNER JOIN lotizacion lt ON lt.id=m.lotizacion_id
 				    WHERE a.estado=1");
-		if($manzanas != null){
-			while( $fila = $manzanas->fetch_object() ){
-				$data=[];					
-				$lotes = $this->mysqli->query("SELECT a.id , u.nombres, u.apellidos,u.cedula,l.numero_lote, a.valor_total,a.cod_promesa
-													FROM acuerdo a
-													INNER JOIN usuario u ON a.usuario_id=u.id
-													INNER JOIN lote l ON a.lote_id=l.id
-													INNER JOIN manzana m ON l.manzana_id=m.id
-													WHERE a.estado=1 and m.id=".$fila->manzana_id);		
-				if($lotes != null){					
-					while( $fila1 = $lotes->fetch_object() ){						
-						$data[]= $fila1;
+		if($lotizaciones != null){
+			$data=[];
+			while( $fila = $lotizaciones->fetch_object() ){		
+				$manzanas = $this->mysqli->query("SELECT distinct(m.id) as manzana_id,m.nombre as manzana, null as lotes
+							FROM acuerdo a
+							INNER JOIN lote l ON a.lote_id=l.id
+							INNER JOIN manzana m ON l.manzana_id=m.id
+							INNER JOIN lotizacion lt ON lt.id=m.lotizacion_id				
+						    WHERE a.estado=1 and lt.id=".$fila->lotizacion_id);
+				if($manzanas != null){
+					$data1=[];
+					while( $fila1 = $manzanas->fetch_object() ){
+						$lotes = $this->mysqli->query("SELECT a.id , u.nombres, u.apellidos,u.cedula,l.numero_lote, a.valor_total,a.cod_promesa
+															FROM acuerdo a
+															INNER JOIN usuario u ON a.usuario_id=u.id
+															INNER JOIN lote l ON a.lote_id=l.id
+															INNER JOIN manzana m ON l.manzana_id=m.id
+															WHERE a.estado=1 and m.id=".$fila1->manzana_id);
+						if($lotes != null){
+							while( $fila2 = $lotes->fetch_object() ){
+								$data2[]= $fila2;
+							}
+						}
+						$fila1->lotes = $data2;
+						$data1[]= $fila1;
 					}					
+					$fila->manzanas = $data1;
+					$data[] = $fila;
 				}
-				$fila->lotes = $data;
-				$data1[] = $fila;
 			}
 		}
-		if(isset($data1)){
-			return $data1;
+		if(isset($data)){
+			return $data;
 		}
 	}	
 	
@@ -81,7 +94,7 @@ class Reportes extends Conexion {
 							</td>
 							<td>
 										<h3 class='title' align='center'>COMPAÑÍA NUEVO AMANECER DONOVILSA S.A</h3>
-					<center><label style='font-size:13px'><b>Listado de Clientes</b></label></center><br>
+					<center><label style='font-size:13px'><b>REPORTE DE CLIENTES</b></label></center><br>
 							</td>
 						</tr>					
 								
