@@ -189,36 +189,76 @@ class Reportes extends Conexion {
 	 * Función que obtiene el Listado de Obras Pagadas
 	 */
 	public function listarObrasPagadas(){
-		$resultado = $this->mysqli->query("SELECT distinct(m.id) as manzana_id, m.nombre as manzana, lo.id as lotizacion_id, lo.nombre as lotizacion, l.numero_lote
-											FROM lote_infraestructura li
-											INNER JOIN obras_infraestructura oi ON oi.id=li.infraestructura_id
-											INNER JOIN pago p ON p.id_obra_multa = li.id
-											INNER JOIN lote l on l.id=li.lote_id
-											INNER JOIN manzana m on m.id=l.manzana_id
-											INNER JOIN lotizacion lo on lo.id=m.lotizacion_id
-											WHERE lo.eliminado=0");
+		$resultado = $this->mysqli->query("SELECT distinct(m.id) as manzana_id, m.nombre as manzana, lo.id as lotizacion_id, lo.nombre as lotizacion, l.numero_lote, oi.id, p.monto_pagado
+						
+			FROM lote_infraestructura li
+			INNER JOIN obras_infraestructura oi ON oi.id=li.infraestructura_id
+			INNER JOIN pago p ON p.id_obra_multa = li.id
+			INNER JOIN lote l on l.id=li.lote_id
+			INNER JOIN manzana m on m.id=l.manzana_id
+			INNER JOIN lotizacion lo on lo.id=m.lotizacion_id
+		WHERE lo.eliminado=0
+        order by manzana_id, lotizacion_id, numero_lote, oi.id");
+	
+		$obras = $this->mysqli->query("SELECT * FROM moviliaria.obras_infraestructura where eliminado=0 order by id");
+		$obrasArray = array();
+		while( $obra = $obras->fetch_object() ){
+			$obrasArray[] = $obra;
+		}
+	
 		if($resultado != null){
+			$data = [];
+			$i = 0;
 			while( $fila = $resultado->fetch_object() ){
-				$data=[];
-				$obras = $this->mysqli->query("SELECT oi.id,oi.nombre as obra, p.monto_pagado
-												FROM lote_infraestructura li
-												INNER JOIN obras_infraestructura oi ON oi.id=li.infraestructura_id
-												INNER JOIN pago p ON p.id_obra_multa = li.id
-												INNER JOIN lote l on l.id=li.lote_id
-												INNER JOIN manzana m on m.id=l.manzana_id
-												INNER JOIN lotizacion lo on lo.id=m.lotizacion_id
-												where lo.id=".$fila->lotizacion_id);
-				if($obras != null){
-					while( $fila1 = $obras->fetch_object() ){
-						$data[]= $fila1;
+	
+	
+				if($i == 0){
+					$manzana = $fila->manzana_id;
+					$lote = $fila->numero_lote;
+					$lotizacion = $fila->lotizacion_id;
+					array_push ( $data , array('lotizacion' => $fila->lotizacion));
+					array_push ( $data , array('manzana' => $fila->manzana));
+					array_push ( $data , array('obras'=> $obrasArray));
+					$row = array(0 => $fila->numero_lote,$fila->id => $fila->monto_pagado);
+					$i = $i + 1;
+				}
+	
+				if($lotizacion != $fila->lotizacion_id){
+					array_push ( $data , array('lote'=> $row));
+					array_push ( $data , array('lotizacion'=> $fila->lotizacion));
+					array_push ( $data , array('manzana'=> $fila->manzana));
+					array_push ( $data , array('obras', $obrasArray));
+						
+					$row = array(0 => $fila->numero_lote,$fila->id => $fila->monto_pagado);
+					$manzana = $fila->manzana_id;
+					$lote = $fila->numero_lote;
+					$lotizacion = $fila->lotizacion_id;
+						
+				} else {
+					if($manzana != $fila->manzana_id){
+						array_push ( $data , array('lote'=> $row));
+						array_push ( $data , array('manzana'=> $fila->manzana));
+						array_push ( $data , array('obras' => $obrasArray));
+	
+						$row = array(0 => $fila->numero_lote,$fila->id => $fila->monto_pagado);
+						$manzana = $fila->manzana_id;
+						$lote = $fila->numero_lote;
+					} else {
+						if($lote != $fila->numero_lote){
+							array_push ( $data , array('lote'=> $row));
+							$row = array(0 => $fila->numero_lote,$fila->id => $fila->monto_pagado);
+							$lote = $fila->numero_lote;
+						} else  {
+							$row[$fila->id] = $fila->monto_pagado;
+						}
 					}
 				}
-				$fila->obras = $data;
-				$data1[] = $fila;
 			}
+			array_push ( $data , array('lote'=> $row));
 		}
-		if(isset($data1)){
-			return $data1;
+		if(isset($data)){
+	
+			return $data;
 		}
 	}
 	

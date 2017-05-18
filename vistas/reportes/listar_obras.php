@@ -25,45 +25,76 @@ require_once ("../../template/header.php");
           $reportes = new Reportes();
           $listaObras = $reportes->listarObrasPagadas();
           if(count($listaObras) > 0){
-               foreach ($listaObras as $fila){             
+                        
 ?>
 
 <table class="display table table-bordered table-stripe" cellspacing="0" width="100%">
-	<thead>
-		 <tr>
-		 	<td colspan="7" align="center">
-		  			<b>URBANIZACIÓN <?php echo strtoupper($fila->lotizacion); ?></b>
-		  	</td>
-		 </tr>
-		 <tr>	
-			<td><b>Lote</b></td>
+
+<?php  
+
+
+		foreach ($listaObras as $fila){   
+			
+			if(array_key_exists ( 'lotizacion' , $fila )):
+			
+			?>
+			<tr>
+			 	<td colspan="7" align="center">
+			  			<b>URBANIZACIÓN <?php echo strtoupper($fila["lotizacion"]); ?></b>
+			  	</td>
+			 </tr>
+			
+	<?php		
+			endif;
+			if(array_key_exists ( 'manzana' , $fila )):
+		
+			?>
+						 <tr>
+				            <td colspan="7" align="center" style='background-color:yellow'>MAnzana<b><?php echo strtoupper($fila["manzana"]); ?></b></td>
+				        </tr> 
+						
+				<?php		
+		endif;
+		
+		if(array_key_exists ( 'obras' , $fila )):
+		$obras = $fila["obras"];
+		?>
+			<tr>
+			<td>LOTE</td>
 			<?php
-              foreach ($fila->obras as $val){               	
-     	  	?>    
-	        <td><?php echo $val->obra ?></td>
-	        <?php
-              }               	
-     	 	 ?>     
-	     </tr>
-     </thead>
-     <tbody>
-        <tr>
-            <td colspan="7" align="center" style='background-color:yellow'><b><?php echo strtoupper($fila->manzana); ?></b></td>
-        </tr>    
-      	<tr>
-     		<td><?php echo $fila->numero_lote ?></td>
-     		<?php
-              foreach ($fila->obras as $val){               	
-     		?>        
-     	    <td><?php echo $val->monto_pagado ?></td>
+              foreach ($fila["obras"] as $val){               	
+     		?> 
+				<td><?php echo $val->nombre ?></td>
      	    <?php
       	      }        
-      	?>                       
-        </tr>      	
-     </tbody>
+      	      ?>
+      	      				</tr>
+      	      		<?php 
+				endif;
+				
+				
+				if(array_key_exists ( 'lote' , $fila )):
+		
+		?>
+			<tr>
+			<td><?php echo $fila["lote"][0]?></td>
+			<?php
+              foreach ($obras as $val){               	
+     		?> 
+				<td><?php echo isset($fila["lote"][$val->nombre])?$fila["lote"][$val->nombre]:0; ?></td>
+     	    <?php
+      	      }        
+      	      ?>
+      	      				</tr>
+      	      		<?php 
+				endif;
+		}
+				?>
+
+	
 </table>      	
 <?php
- 	}
+ 	
  }
 require_once ("../../template/footer.php");
 ?>
