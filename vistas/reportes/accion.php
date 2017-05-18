@@ -8,7 +8,7 @@
 			$reportes->pdfLotesByManzana();	
 		}		
 		if($id==2){
-			$reportes->pdfLotesByCliente();
+			$reportes->pdfObrasPagadas();
 		}
 	}
 ?>

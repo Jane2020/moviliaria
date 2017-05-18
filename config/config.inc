@@ -1,7 +1,7 @@
 <?php 	
 	define('HOSTNAME_DATABASE', 'localhost');
 	define('USERNAME', 'root');
-	define('PASSWORD', 'sistemas');
+	define('PASSWORD', '123456');
 	define('DATABASE', 'moviliaria'); 	 
 	define('URL_BASE', '/moviliaria/');
 	define('PATH_MODELS', PATH_ROOT."/app/models");

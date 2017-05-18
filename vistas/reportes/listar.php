@@ -19,7 +19,7 @@ require_once ("../../template/header.php");
 </div>
 <br>
 <div class='header'>
-		<h5 class='title' align='center'>Listado de Clientes</h5>	
+	<h5 class='title' align='center'>REPORTE DE CLIENTES</h5>
 </div>
 <?php
           $reportes = new Reportes();

@@ -134,7 +134,7 @@ class Reportes extends Conexion {
 		
 		$dompdf->render();
 		$canvas = $dompdf->get_canvas();
-		$font = FontMetrics::getFont("helvetica", "bold");
+		// $font = FontMetrics::getFont("helvetica", "bold");
 		$canvas->page_text(550, 750, "Pág. {PAGE_NUM}/{PAGE_COUNT}", $font, 6, array(0,0,0)); //header
 		$canvas->page_text(270, 770, "Copyright © 2017", $font, 6, array(0,0,0)); //footer			
 		$dompdf->stream('general', array("Attachment"=>false));
@@ -170,25 +170,28 @@ class Reportes extends Conexion {
 	}
 	
 	/**
-	 * Función que obtiene el Listado de Lotes por cada cliente
+	 * Función que obtiene el Listado de Obras Pagadas
 	 */
-	public function listarLotesByCliente(){
-		$resultado = $this->mysqli->query("SELECT u.id, nombres,apellidos,cedula,telefono,direccion,email,celular,
-											l.id as lote_id,numero_lote,lo.nombre as urbanizacion
-											FROM usuario as u
-											INNER JOIN acuerdo a ON u.id=a.usuario_id
-											INNER JOIN lote l ON l.id=a.lote_id
-											INNER JOIN manzana m ON m.id=l.manzana_id
-											INNER JOIN lotizacion lo ON lo.id=m.lotizacion_id
-											where tipo_usuario_id=3 and a.estado=1");
-		
+	public function listarObrasPagadas(){
+		$resultado = $this->mysqli->query("SELECT distinct(m.id) as manzana_id, m.nombre as manzana, lo.id as lotizacion_id, lo.nombre as lotizacion, l.numero_lote
+											FROM lote_infraestructura li
+											INNER JOIN obras_infraestructura oi ON oi.id=li.infraestructura_id
+											INNER JOIN pago p ON p.id_obra_multa = li.id
+											INNER JOIN lote l on l.id=li.lote_id
+											INNER JOIN manzana m on m.id=l.manzana_id
+											INNER JOIN lotizacion lo on lo.id=m.lotizacion_id
+											WHERE lo.eliminado=0");
 		if($resultado != null){
 			while( $fila = $resultado->fetch_object() ){
 				$data=[];
-				$obras = $this->mysqli->query("SELECT li.id, nombre,li.valor
+				$obras = $this->mysqli->query("SELECT oi.id,oi.nombre as obra, p.monto_pagado
 												FROM lote_infraestructura li
-												INNER JOIN obras_infraestructura o on o.id= li.infraestructura_id
-												where li.eliminado = 0 and lote_id=".$fila->lote_id);
+												INNER JOIN obras_infraestructura oi ON oi.id=li.infraestructura_id
+												INNER JOIN pago p ON p.id_obra_multa = li.id
+												INNER JOIN lote l on l.id=li.lote_id
+												INNER JOIN manzana m on m.id=l.manzana_id
+												INNER JOIN lotizacion lo on lo.id=m.lotizacion_id
+												where lo.id=".$fila->lotizacion_id);
 				if($obras != null){
 					while( $fila1 = $obras->fetch_object() ){
 						$data[]= $fila1;
@@ -204,10 +207,10 @@ class Reportes extends Conexion {
 	}
 	
 	/**
-	 * Función que obtiene el Listado de Lotes por cada cliente
+	 * Función que obtiene el Listado de Obras Pagadas
 	 */
-	public function pdfLotesByCliente(){
-		$listaClientes =self::listarLotesByCliente();
+	public function pdfObrasPagadas(){
+		$listaObras =self::listarObrasPagadas();
 		$html = "<html>
 					<head>
 						<link href='http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'/>
@@ -218,7 +221,7 @@ class Reportes extends Conexion {
 						table{
 						border-collapse: collapse; width: 100%;
 						}
-						
+	
 						td{
 						border:1px solid #ccc; padding:1px;
 						font-size:9pt;
@@ -226,8 +229,7 @@ class Reportes extends Conexion {
 						</style>
 					</head>
 				<body>
-				
-				<table width= 100% border=0 >
+					<table width= 100% border=0 >
 						<tr>
 							<td width= 10% align='center'>
 								<img src='".PATH_FILES."/images/logo.jpg' style='height: 80px; margin-bottom: 5px;'>
@@ -239,57 +241,48 @@ class Reportes extends Conexion {
 							</td>
 						</tr>					
 								
-					</table>
-					
-					<table class='display table table-stripe' cellspacing='0' width= 100%>
-					<tbody>";
-					$contador = 0;
-					if(count($listaClientes) > 0){
-						foreach ($listaClientes as $lote){						
-		     				if ($contador == 0){
-		     					$html .= "<tr>";
-		     				}
-		           		$html .= "<td colspan='7' align='center' width='50%' height='100px'>
-		            	<table border=1>
-		            		<tr><td colspan='2' align='center' style='background-color:#FF00FF'><b>DATOS DEL CLIENTE N°".$lote->id."</b></td></tr>
-		            		<tr><td>NOMBRES</td><td>". $lote->nombres."</tr>
-				            <tr><td>APELLIDOS</td> <td>". $lote->apellidos."</td></tr>
-				            <tr><td>CÉDULA</td><td>". $lote->cedula."</td></tr>
-				            <tr><td>TELÉFONO</td><td>". $lote->telefono."</tr>
-				            <tr><td>CELULAR</td><td>". $lote->celular."</tr>
-				            <tr><td>DIRECCIÓN</td><td>". $lote->direccion."</tr>            
-				            <tr><td>EMAIL</td><td>".$lote->email."</tr>
-				            <tr><td colspan='2' align='center' style='background-color:#FF00FF'><b>DATOS DEL TERRENO</b></td></tr>
-				            <tr><td>URBANIZACIÓN</td><td>". $lote->urbanizacion."</tr>
-				            <tr><td>NÚMERO DE LOTE</td><td>". $lote->numero_lote."</tr>";
-								foreach ($lote->obras as $obra){               				
-		     				$html .= "<tr><td>".strtoupper($obra->nombre)."</td><td>".$obra->valor."</tr>";
-		     					}		      				
-		            	$html .= "</table><br><br></td>";            
-		         if ($contador == 1){
-		         	$html .= "</tr>";     
-		         }
-		        else
-			     {
-			      	$contador = 0;
-			     }
-		        $contador++;
-		       }
-		    }
-		$html .="    	</tbody>										
-					</table>
-				</body>
-				</html>";
+					</table>";
+		if(count($listaObras) > 0){
+			foreach ($listaObras as $fila){
+				$html .="<table width= 100%>
+						<thead>
+							 <tr>
+							 	<td colspan=4 align=center>
+							  			<b>URBANIZACIÓN".strtoupper($fila->lotizacion)."</b>
+							  	</td>
+							 </tr>
+							 <tr>
+								<td align=center><b>Lote</b></td>";
+				foreach ($fila->obras as $val){
+					$html .="<td align=center><b>".$val->obra."</b></td>";
+				}
+				$html .="</tr>
+					     </thead>
+					     <tbody>
+					        <tr>
+					            <td colspan=4 align=center style='background-color:yellow'><b>".strtoupper($fila->manzana)."</b></td>
+					        </tr>
+					      	<tr>
+					     		<td>".$fila->numero_lote."</td>";
+				foreach ($fila->obras as $val){
+					$html .="<td>".$val->monto_pagado."</td>";
+				}
+				$html .="
+					        </tr>
+					     </tbody>
+					</table>";
+			}
+		}
 		$options = new Options();
 		$options->set('isHtml5ParserEnabled', true);
-		$dompdf = new Dompdf($options);		
+		$dompdf = new Dompdf($options);
 		$dompdf->load_html($html);
-		
+	
 		$dompdf->render();
-		$canvas = $dompdf->get_canvas();
-		$font = FontMetrics::getFont("helvetica", "bold");
+		$canvas = $dompdf->getCanvas();
+		//$font = FontMetrics::getFont("helvetica", "bold");
 		$canvas->page_text(550, 750, "Pág. {PAGE_NUM}/{PAGE_COUNT}", $font, 6, array(0,0,0)); //header
-		$canvas->page_text(270, 770, "Copyright © 2017", $font, 6, array(0,0,0)); //footer			
+		$canvas->page_text(270, 770, "Copyright © 2017", $font, 6, array(0,0,0)); //footer
 		$dompdf->stream('clientes', array("Attachment"=>false));
 	}
 }

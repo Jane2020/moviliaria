@@ -412,11 +412,15 @@ class Pagos extends Conexion {
 	 * Función que obtiene el Listado de Lotes dada la Cédula de un cliente 
 	 */
 	public function listaPagosCliente($cedula){
-		$acuerdos = $this->mysqli->query("SELECT distinct(a.id), numero_lote
+		$acuerdos = $this->mysqli->query("SELECT distinct(a.id), numero_lote, lt.nombre as lotizacion, m.nombre as manzana
 					FROM acuerdo a
 					INNER JOIN usuario u on u.id=a.usuario_id
 					INNER JOIN lote l on l.id=a.lote_id
-					WHERE a.estado=1 and cedula='".$cedula."'");		
+					inner join manzana as m on l.manzana_id = m.id
+					inner join lotizacion as lt on lt.id = m.lotizacion_id
+					WHERE a.estado=1 and cedula='".$cedula."'");	
+	
+		
 		while( $fila = $acuerdos->fetch_object()){
 			$resultado_pagos = $this->mysqli->query("SELECT distinct(p.id) as pago_id , p.estado, tp.nombre as estado_nombre,id_item,t.monto_total, t.valor,
 					   date_format(t.fecha_transaccion, '%Y-%m-%d') as fecha_pago
@@ -500,9 +504,10 @@ class Pagos extends Conexion {
 					foreach ($acuerdos as $row){
 		$html .="<div class='form-group col-sm-12'>
 					<div class='header'>
-						<h3>Lote:".$row->numero_lote."</h3>
+						<h4>Lotizacion :".$row->lotizacion."</h4>
+					   <h4>Manzana: ".$row->manzana." - Lote:".$row->numero_lote."</h4>
 						<h5>Pagos Realizados </h5>
-					</div>			
+					</div>		 	
 				</div>
 				<div class='form-group col-sm-12'>					
 					<div class='card'>
@@ -623,7 +628,7 @@ class Pagos extends Conexion {
 		
 		$dompdf->render();
 		$canvas = $dompdf->get_canvas();
-		$font = FontMetrics::getFont("helvetica", "bold");
+		// $font = FontMetrics::getFont("helvetica", "bold");
 		$canvas->page_text(550, 750, "Pág. {PAGE_NUM}/{PAGE_COUNT}", $font, 6, array(0,0,0)); //header
 		$canvas->page_text(270, 770, "Copyright © 2017", $font, 6, array(0,0,0)); //footer
 		$dompdf->stream('general', array("Attachment"=>false));
