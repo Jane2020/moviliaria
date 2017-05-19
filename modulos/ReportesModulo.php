@@ -315,7 +315,7 @@ class Reportes extends Conexion {
 							if(array_key_exists ( 'manzana' , $fila )):
 						
 							$html .="<tr>
-								            <td colspan='5' align='center' style='background-color:yellow'>Manzana <b>".strtoupper($fila["manzana"])."</b></td>
+								            <td colspan='5' align='center' style='background-color:yellow'><b>MANZANA ".strtoupper($fila["manzana"])."</b></td>
 								        </tr> ";
 										
 										
@@ -325,11 +325,11 @@ class Reportes extends Conexion {
 						$obras = $fila["obras"];
 						
 						$html .= "<tr>
-							<td>LOTE</td>";
+							<td align=center><b>Lote</b></td>";
 							
 				              foreach ($fila["obras"] as $val){               	
 				     		
-				              	$html .= "<td>".$val->nombre."</td>";				     	    
+				              	$html .= "<td align=center><b>".$val->nombre."</b></td>";				     	    
 				      	      }        
 				      	      $html .= "</tr>";
 				      	      		
@@ -355,7 +355,7 @@ class Reportes extends Conexion {
 				}
 								
 					
-				$html .= "</table>";     	
+				$html .= "</table><label style=font-size:11px><br><b>Fecha:</b>".date("d/m/Y")."<br><b>Realizado por:</b>Lcdo. Luis Donoso<br><b>Responsable:</b>Gerente General";     	
 				
 				
 		}

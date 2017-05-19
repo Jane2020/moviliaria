@@ -50,7 +50,7 @@ require_once ("../../template/header.php");
 		
 			?>
 						 <tr>
-				            <td colspan="7" align="center" style='background-color:yellow'>Manzana <b><?php echo strtoupper($fila["manzana"]); ?></b></td>
+				            <td colspan="7" align="center" style='background-color:yellow'><b>MANZANA <?php echo strtoupper($fila["manzana"]); ?></b></td>
 				        </tr> 
 						
 				<?php		
@@ -60,11 +60,11 @@ require_once ("../../template/header.php");
 		$obras = $fila["obras"];
 		?>
 			<tr>
-			<td>LOTE</td>
+			<td align="center"><b>Lote</b></td>
 			<?php
               foreach ($fila["obras"] as $val){               	
      		?> 
-				<td><?php echo $val->nombre ?></td>
+				<td align="center"><b><?php echo $val->nombre ?></b></td>
      	    <?php
       	      }        
       	      ?>
@@ -91,7 +91,7 @@ require_once ("../../template/header.php");
 				endif;
 		}
 				?>
-
+			
 	
 </table>      	
 <?php
