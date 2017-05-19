@@ -422,7 +422,7 @@ class Pagos extends Conexion {
 	
 		
 		while( $fila = $acuerdos->fetch_object()){
-			$resultado_pagos = $this->mysqli->query("SELECT distinct(p.id) as pago_id , p.estado, tp.nombre as estado_nombre,id_item,t.monto_total, t.valor,
+			$resultado_pagos = $this->mysqli->query("SELECT distinct(p.id) as pago_id , p.estado, tp.nombre as estado_nombre,id_item,t.monto_total, t.valor,id_obra_multa,
 					   date_format(t.fecha_transaccion, '%Y-%m-%d') as fecha_pago
 					   FROM pago p
 					   INNER JOIN transaccion t on p.id=t.pago_id
@@ -444,7 +444,7 @@ class Pagos extends Conexion {
 	 * Función que obtiene el Listado de Lotes dada la Cédula de un cliente
 	 */
 	public function listaPagosClientePdf($cedula){
-		$consulta ="SELECT nombres, apellidos FROM usuario WHERE cedula='".$cedula."'";
+		$consulta ="SELECT nombres, apellidos,celular,telefono FROM usuario WHERE cedula='".$cedula."'";
 		$resultado = $this->mysqli->query($consulta);
 		$items= $resultado->fetch_row();
 		
@@ -471,31 +471,25 @@ class Pagos extends Conexion {
 						<tr>
 							<td width= 10% align='center'>
 								<img src='".PATH_FILES."/images/logo.jpg' style='height: 80px; margin-bottom: 5px;'>
-								
 							</td>
 							<td>
-										<h3 class='title' align='center'>COMPAÑÍA NUEVO AMANECER DONOVILSA S.A</h3>
-					
+								<h3 class='title' align='center'>COMPAÑÍA NUEVO AMANECER DONOVILSA S.A</h3>
 							</td>
-						</tr> </table>
-										<table width= 100% border=0>			
+						</tr> 
+					</table>
+					<table class='table table-striped'>
+						<tr><td colspan=4 align=center><b>DATOS DEL CLIENTE</b></td></tr>
 						<tr>
-							<td width= 25%>
-								<b><h3 style='margin: 0; padding: 0px;'>Cédula del Cliente:</h3></b>										
-							</td>
-							<td>
-								 ".$cedula."										
-							</td>
+							<td width=20%><b>Cédula:</b></td><td colspan=3>".$cedula."</td>						
 						</tr>
 						<tr>
-							<td width= 25%>
-								<b><h3 style='margin: 0;  padding: 0px;'>Nombre del Cliente:</h3></b>		
-							</td>
-							<td>
-								".$items[0]." ".$items[1]."		
-							</td>
+							<td width=20%><b>Nombre:</b></td><td colspan=3>".$items[0]." ".$items[1]."</td>
 						</tr>
-					</table>	
+						<tr>
+							<td width=20%><b>Teléfono:</b></td><td width=25%>".$items[2]."</td>
+							<td width=20%><b>Celular:</b></td><td>".$items[3]."</td>
+						</tr>
+					</table><br>
 					
 			<div class='gallery-section'>
 				<div class='container'>				
@@ -503,12 +497,23 @@ class Pagos extends Conexion {
 				if(count($acuerdos) >0 ){
 					foreach ($acuerdos as $row){
 		$html .="<div class='form-group col-sm-12'>
-					<div class='header'>
-						<h4>Lotizacion :".$row->lotizacion."</h4>
-					   <h4>Manzana: ".$row->manzana." - Lote:".$row->numero_lote."</h4>
-						<h5>Pagos Realizados </h5>
-					</div>		 	
+					<div class='header'>							
+						<h5>Pagos Realizados</h5>				
+					</div>
+					<table class='table table-striped'>
+						<tr>
+							<td>
+								<b>Lotizacion</b> :".$row->lotizacion."
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<b>Manzana: </b> ".$row->manzana." - <b>Lote: </b>".$row->numero_lote."
+							</td>
+						</tr>											
+					</table>							 	
 				</div>
+				<br>
 				<div class='form-group col-sm-12'>					
 					<div class='card'>
     					<div class='content table-responsive table-full-width'>
@@ -611,7 +616,7 @@ class Pagos extends Conexion {
 						$html .="</tbody>
         					</table>
 						</div>
-					</div>";        		
+					</div><br>";        		
 					}
 					}
 		$html .="</div>";	
