@@ -107,7 +107,7 @@ class Reportes extends Conexion {
 						<thead>
 			   				<tr>
 		  						<td colspan='7' align='center'>
-		  							<b>URBANIZACIÓN ".strtoupper($fila->lotizacion)."</b>
+		  							<b>Urbanizaci&oacute;n ".($fila->lotizacion)."</b>
 		  						</td>
 		  					</tr>
 							<tr>
@@ -123,7 +123,7 @@ class Reportes extends Conexion {
 					     <tbody>";
               			foreach ($fila->manzanas as $manz){               	
      	  		       $html .="  <tr>
-            						<td colspan='7' align='center' style='background-color:yellow'><b>".strtoupper($manz->manzana)."</b></td>
+            						<td colspan='7' align='center' style='background-color:yellow'><b>".($manz->manzana)."</b></td>
         						</tr>";
               				foreach ($manz->lotes as $lote){               	
               		   $html .="   	<tr>
@@ -307,7 +307,7 @@ class Reportes extends Conexion {
 						
 					$html .="<tr>
 							 	<td colspan='5' align='center'>
-							  			<b>URBANIZACIÓN ".strtoupper($fila["lotizacion"])."</b>
+							  			<b>Urbanizaci&oacute;n ".($fila["lotizacion"])."</b>
 							  	</td>
 							 </tr>";							
 					
@@ -315,7 +315,7 @@ class Reportes extends Conexion {
 							if(array_key_exists ( 'manzana' , $fila )):
 						
 							$html .="<tr>
-								            <td colspan='5' align='center' style='background-color:yellow'><b>MANZANA ".strtoupper($fila["manzana"])."</b></td>
+								            <td colspan='5' align='center' style='background-color:yellow'><b>MANZANA ".($fila["manzana"])."</b></td>
 								        </tr> ";
 										
 										

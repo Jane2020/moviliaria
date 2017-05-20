@@ -40,7 +40,7 @@ require_once ("../../template/header.php");
 			?>
 			<tr>
 			 	<td colspan="7" align="center">
-			  			<b>URBANIZACIÓN <?php echo strtoupper($fila["lotizacion"]); ?></b>
+			  			<b>Urbanizaci&oacute;n <?php echo ($fila["lotizacion"]); ?></b>
 			  	</td>
 			 </tr>
 			
@@ -50,7 +50,7 @@ require_once ("../../template/header.php");
 		
 			?>
 						 <tr>
-				            <td colspan="7" align="center" style='background-color:yellow'><b>MANZANA <?php echo strtoupper($fila["manzana"]); ?></b></td>
+				            <td colspan="7" align="center" style='background-color:yellow'><b>MANZANA <?php echo ($fila["manzana"]); ?></b></td>
 				        </tr> 
 						
 				<?php		

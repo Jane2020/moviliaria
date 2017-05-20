@@ -38,8 +38,8 @@ $acuerdos= $pagos->listaPagosCliente($_SESSION['SESSION_USER']->cedula);
 				
 					<div class='header'>
 					
-						<h4>Lotizacion :".$row->lotizacion."</h4>
-					   <h5><b>Manzana:</b> <?php echo $row->manzana; ?> &nbps; &nbps; <b>Lote:</b> <?php echo $row->numero_lote; ?></h5>
+						<h4>Lotizacion :<?php echo $row->lotizacion ?></h4>
+					   <h5><b>Manzana:</b> <?php echo $row->manzana; ?>  &nbsp;&nbsp; <b>Lote:</b> <?php echo $row->numero_lote; ?></h5>
 						<h5>Pagos Realizados </h5>
 					</div>			
 			</div>

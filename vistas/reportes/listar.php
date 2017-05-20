@@ -33,7 +33,7 @@ require_once ("../../template/header.php");
 	<thead>
 		  <tr>
 		  		<td colspan="7" align="center">
-		  			<b>URBANIZACIÓN <?php echo strtoupper($fila->lotizacion); ?></b>
+		  			<b>Urbanizaci&oacute;n <?php echo ($fila->lotizacion); ?></b>
 		  		</td>
 		  </tr>	
 		  <tr>		  
@@ -51,7 +51,7 @@ require_once ("../../template/header.php");
               foreach ($fila->manzanas as $manz){               	
      	?>
         <tr>
-            <td colspan="7" align="center" style='background-color:yellow'><b><?php echo strtoupper($manz->manzana); ?></b></td>
+            <td colspan="7" align="center" style='background-color:yellow'><b><?php echo ($manz->manzana); ?></b></td>
         </tr>
         <?php
               foreach ($manz->lotes as $lote){               	

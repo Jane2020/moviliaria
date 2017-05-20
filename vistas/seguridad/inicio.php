@@ -69,7 +69,7 @@ $datos = $obj->getEstadisticas();
                                     </div>
                                     <div class="col-xs-7">
                                         <div class="numbers">
-                                            <p>Predios Disponibles</p>
+                                            <p>Disponibles</p>
                                             <?php echo $datos['lotes_disponibles'];?>
                                         </div>
                                     </div>
