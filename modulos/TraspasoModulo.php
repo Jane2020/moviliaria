@@ -142,32 +142,38 @@ class Traspaso extends Conexion {
 		$acuerdo_id = $_POST['acuerdo_id'];
 		$estado = $tipo_pago_id ==1?1:2;
 		
-		try {
-			
-			$updateEstado = "UPDATE acuerdo SET estado=0, tipo=1 WHERE id =".$acuerdo_id;
-			$this->mysqli->query($updateEstado);
-			
-			$consulta = "INSERT INTO acuerdo(usuario_id,lote_id, fecha_ingreso,valor_total,valor_inicial,cod_promesa,tipo,estado)
-							 VALUES ('".$usuario_id."','".$lote_id."','".$fecha_ingreso."',".$valor_total.",".$valor_inicial.",'".$cod_promesa."', 2,1)";
-			$this->mysqli->query($consulta);
-			
-			$acuerdoId = $this->mysqli->insert_id;
-			$consulta_pago = "INSERT INTO pago(monto_total,numero_abonos,monto_pagado,estado,acuerdo_id,id_item,id_obra_multa)
-							  VALUES (".$valor_total.",". $num_cuotas .",". $valor_inicial .",".$estado.",". $acuerdoId.",1,0)";
-			$this->mysqli->query($consulta_pago);
+		$consulta_traspaso = $this->mysqli->query("SELECT id FROM pago where monto_total <> monto_pagado and acuerdo_id =".$acuerdo_id);
+		$items= $consulta_traspaso->fetch_row();
+		if(count($items) == 0){
+			try {
 				
-			$pagoId = $this->mysqli->insert_id;
-			$consulta_trans="INSERT INTO transaccion(fecha_transaccion,monto_total,valor,eliminado,pago_id,tipo_pago_id)
-							  VALUES ('".$fecha_ingreso."',".$valor_total.",". $valor_inicial .",". 0 .",". $pagoId.",". $tipo_pago_id.")";
-			$this->mysqli->query($consulta_trans);			
-			
-			$consulta_lote = "UPDATE lote SET disponible=0 WHERE id =".$lote_id;
-			$this->mysqli->query($consulta_lote);
-			
-			
-		} catch ( Exception $e ) {
-			$_SESSION ['message'] = $e->getMessage ();
+				$updateEstado = "UPDATE acuerdo SET estado=0, tipo=1 WHERE id =".$acuerdo_id;
+				$this->mysqli->query($updateEstado);
+				
+				$consulta = "INSERT INTO acuerdo(usuario_id,lote_id, fecha_ingreso,valor_total,valor_inicial,cod_promesa,tipo,estado)
+								 VALUES ('".$usuario_id."','".$lote_id."','".$fecha_ingreso."',".$valor_total.",".$valor_inicial.",'".$cod_promesa."', 2,1)";
+				$this->mysqli->query($consulta);
+				
+				$acuerdoId = $this->mysqli->insert_id;
+				$consulta_pago = "INSERT INTO pago(monto_total,numero_abonos,monto_pagado,estado,acuerdo_id,id_item,id_obra_multa)
+								  VALUES (".$valor_total.",". $num_cuotas .",". $valor_inicial .",".$estado.",". $acuerdoId.",1,0)";
+				$this->mysqli->query($consulta_pago);
+					
+				$pagoId = $this->mysqli->insert_id;
+				$consulta_trans="INSERT INTO transaccion(fecha_transaccion,monto_total,valor,eliminado,pago_id,tipo_pago_id)
+								  VALUES ('".$fecha_ingreso."',".$valor_total.",". $valor_inicial .",". 0 .",". $pagoId.",". $tipo_pago_id.")";
+				$this->mysqli->query($consulta_trans);			
+				
+				$consulta_lote = "UPDATE lote SET disponible=0 WHERE id =".$lote_id;
+				$this->mysqli->query($consulta_lote);
+				$_SESSION ['message'] = "Datos almacenados correctamente.";				
+				
+			} catch ( Exception $e ) {
+				$_SESSION ['message'] = $e->getMessage ();
+			}
 		}
-		
+		else{
+			$_SESSION ['message'] = "No se puede realizar el traspaso existen pagos pendientes.";
+		}
 	}
 }

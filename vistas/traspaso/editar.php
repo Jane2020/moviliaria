@@ -14,12 +14,11 @@ $tipos_pago = $acuerdo->listarTipoPago();
  <?php
  
 	 if (isset($_POST['guardar'])){
-	 	$acuerdo->guardarAcuerdo();
-	 
+	 	$acuerdo->guardarAcuerdo();	 
  ?>
 		<div class="alert alert-success fade in alert-dismissable">
 				<button type="button" class="close" data-dismiss="alert" aria-hidden="true" >&times;</button>
-				<?php echo 'Datos almacenados correctamente.';?>
+				<?php echo $_SESSION['message'];$_SESSION['message'] = ''?>				
 		</div>
 <?php } ?>
 <form id="frmAcuerdo" method="post" action="">
