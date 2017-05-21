@@ -15,7 +15,7 @@ class InfraestructuraLote extends Conexion {
 	 * Función que obtiene el Listado de Lote de Multas
 	 */
 	public function listarLoteInfra(){		
-		$resultado = $this->mysqli->query("SELECT li.id, l.nombre as lote,oi.nombre as infra, li.valor,
+		$resultado = $this->mysqli->query("SELECT li.id, l.nombre as lote,oi.nombre as infra, li.valor,l.numero_lote,
 										   p.monto_pagado
 										   FROM lote_infraestructura li
 										   INNER JOIN lote l ON l.id = li.lote_id
@@ -172,6 +172,7 @@ class InfraestructuraLote extends Conexion {
 		$fecha_ingreso = $_POST['fecha_ingreso'];
 		
 		$consulta_acuerdo = "SELECT id FROM acuerdo where estado=1 and lote_id=".$lote_id;
+		
 		$acuerdoId = $this->mysqli->query($consulta_acuerdo);
 		$acuerdoId = $acuerdoId->fetch_object()->id;
 		

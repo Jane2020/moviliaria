@@ -163,7 +163,7 @@ class LoteMultaObraModulo extends Conexion {
 	 * Función que obtiene el id del acuerdo
 	 */
 	public function obtenerAcuerdoId($lote){
-		$consulta = "SELECT id FROM acuerdo where lote_id=".$lote;
+		$consulta = "SELECT id FROM acuerdo where estado=1 and lote_id=".$lote;
 		$resultado = $this->mysqli->query($consulta);
 		while ( $fila = $resultado->fetch_object () ) {
 			$data [] = $fila;

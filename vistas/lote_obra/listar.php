@@ -21,6 +21,7 @@ require_once ("../../template/header.php");
           <tr>
                <th>ID</th>
                <th>Nombre del Lote</th>
+                <th>Número de Lote</th>
                <th>Obra de Infraestructura</th>
                <th>Valor de la Infraestructura</th>
                <th>Acción</th>               
@@ -36,6 +37,7 @@ require_once ("../../template/header.php");
      	<tr>
             <td><?php echo $row->id ?></td>
             <td><?php echo $row->lote ?></td>
+            <td><?php echo $row->numero_lote ?></td>
             <td><?php echo $row->infra ?></td>
             <td><?php echo $row->valor ?></td>
             <td style="text-align: left;">
