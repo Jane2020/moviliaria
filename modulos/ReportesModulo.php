@@ -202,13 +202,16 @@ class Reportes extends Conexion {
 	
 		$obras = $this->mysqli->query("SELECT * FROM moviliaria.obras_infraestructura where eliminado=0 order by id");
 		$obrasArray = array();
+		$sumatoria[] = array();
 		while( $obra = $obras->fetch_object() ){
 			$obrasArray[] = $obra;
+			$sumatoria[$obra->id] = 0;
 		}
 	
 		if($resultado != null){
 			$data = [];
 			$i = 0;
+			
 			while( $fila = $resultado->fetch_object() ){
 	
 				if($i == 0){
@@ -219,6 +222,8 @@ class Reportes extends Conexion {
 					array_push ( $data , array('manzana' => $fila->manzana));
 					array_push ( $data , array('obras'=> $obrasArray));
 					$row = array(0 => $fila->numero_lote,$fila->id => $fila->monto_pagado);
+					$sumatoria[0] = 'Total';
+					$sumatoria[$fila->id] = $sumatoria[$fila->id] + $fila->monto_pagado;
 					$i = $i + 1;
 				}
 	
@@ -229,6 +234,7 @@ class Reportes extends Conexion {
 					array_push ( $data , array('obras', $obrasArray));
 						
 					$row = array(0 => $fila->numero_lote,$fila->id => $fila->monto_pagado);
+					$sumatoria[$fila->id] = $sumatoria[$fila->id] + $fila->monto_pagado;
 					$manzana = $fila->manzana_id;
 					$lote = $fila->numero_lote;
 					$lotizacion = $fila->lotizacion_id;
@@ -240,20 +246,24 @@ class Reportes extends Conexion {
 						array_push ( $data , array('obras' => $obrasArray));
 	
 						$row = array(0 => $fila->numero_lote,$fila->id => $fila->monto_pagado);
+						$sumatoria[$fila->id] = $sumatoria[$fila->id] + $fila->monto_pagado;
 						$manzana = $fila->manzana_id;
 						$lote = $fila->numero_lote;
 					} else {
 						if($lote != $fila->numero_lote){
 							array_push ( $data , array('lote'=> $row));
 							$row = array(0 => $fila->numero_lote,$fila->id => $fila->monto_pagado);
+							$sumatoria[$fila->id] = $sumatoria[$fila->id] + $fila->monto_pagado;
 							$lote = $fila->numero_lote;
 						} else  {
 							$row[$fila->id] = $fila->monto_pagado;
+							$sumatoria[$fila->id] = $sumatoria[$fila->id] + $fila->monto_pagado;
 						}
 					}
 				}
 			}
 			array_push ( $data , array('lote'=> $row));
+			array_push ( $data , array('total'=> $sumatoria));
 		}
 		if(isset($data)){
 	
@@ -352,6 +362,26 @@ class Reportes extends Conexion {
 				      	      $html .= "</tr>";
 				      	      		
 								endif;
+								
+								if(array_key_exists ( 'total' , $fila )):
+								
+								$html .= "<tr>
+											<td>". $fila["total"][0]."</td>";
+															
+
+								 foreach ($obras as $val){     
+								 	$total = 0;
+								 	if(isset($fila["total"][$val->id])){
+								 		$total = $fila["total"][$val->id];
+								 	}
+								 	$html .= "
+									<td>".$total ."</td>";
+								 }
+								 $html .= "</tr>";
+									
+							endif;
+								
+								
 				}
 								
 					

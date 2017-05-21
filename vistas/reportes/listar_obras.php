@@ -89,8 +89,28 @@ require_once ("../../template/header.php");
       	      				</tr>
       	      		<?php 
 				endif;
-		}
+				
+				if(array_key_exists ( 'total' , $fila )):
+				
 				?>
+							<tr>
+							<td><?php echo $fila["total"][0]?></td>
+							
+							<?php
+				              foreach ($obras as $val){               	
+				     		?> 
+								<td><?php echo isset($fila["total"][$val->id])?$fila["total"][$val->id]:0; ?></td>
+				     	    <?php
+				      	      }        
+				      	      ?>
+				      	      				</tr>
+				      	      		<?php 
+								endif;
+		}
+		
+		
+				?>
+				
 			
 	
 </table>      	
