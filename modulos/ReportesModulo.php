@@ -46,6 +46,7 @@ class Reportes extends Conexion {
 															INNER JOIN manzana m ON l.manzana_id=m.id
 															WHERE a.estado=1 and m.id=".$fila1->manzana_id);
 						if($lotes != null){
+							$data2 = []; 
 							while( $fila2 = $lotes->fetch_object() ){
 								$data2[]= $fila2;
 							}
