@@ -101,6 +101,7 @@ class Reportes extends Conexion {
 								
 					</table>";
 				if(count($data1) > 0){
+					$contador = 1;
                foreach ($data1 as $fila){       
                	
                	
@@ -128,7 +129,7 @@ class Reportes extends Conexion {
         						</tr>";
               				foreach ($manz->lotes as $lote){               	
               		   $html .="   	<tr>
-					            	<td>".$lote->id."</td>
+					            	<td>".$contador."</td>
 						            <td>".$lote->nombres."</td>
 						            <td>".$lote->apellidos."</td>
 						            <td>".$lote->cedula."</td>
@@ -136,6 +137,7 @@ class Reportes extends Conexion {
 						            <td>".$lote->valor_total."</td>            
 						            <td>".$lote->cod_promesa."</td>
 	        					</tr>";
+              		   		$contador++;
               				}
               }
               $html .="</tbody></table><br><br>";
