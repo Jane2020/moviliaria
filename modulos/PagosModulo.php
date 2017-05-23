@@ -38,12 +38,12 @@ class Pagos extends Conexion {
 	 * Función que obtiene el Listado de Pagos
 	 */
 	public function listarPagos($cedula, $acuerdo_id){
-		$resultado_pagos = $this->mysqli->query("SELECT p.id as pago_id , p.estado, tp.nombre as estado_nombre,p.id_item,t.monto_total, t.valor,
+		$resultado_pagos = $this->mysqli->query("SELECT t.id,p.id as pago_id , p.estado, tp.nombre as estado_nombre,p.id_item,t.monto_total, t.valor,
 												date_format(t.fecha_transaccion, '%Y-%m-%d') as fecha_pago,p.estado as estado_pago, id_obra_multa
 												FROM pago p
 												INNER JOIN transaccion t on p.id=t.pago_id
 				 								INNER JOIN tipo_pago tp on tp.id=tipo_pago_id
-												WHERE p.acuerdo_id =".$acuerdo_id);
+												WHERE p.acuerdo_id =".$acuerdo_id. " order by t.id");
 		$resultado_sinpagos = $this->mysqli->query("SELECT p.id as pago_id , p.estado, p.id_item, monto_pagado, monto_total,id_obra_multa
 												FROM pago p
 												WHERE estado <>1 and p.acuerdo_id=".$acuerdo_id);		
@@ -377,8 +377,11 @@ class Pagos extends Conexion {
 			$monto_total = $montos[0];
 			$monto_pagado = $montos[1];
 			$monto_adeudado = $monto_total - $monto_pagado;
+			
+			$monto = $valor+$monto_pagado;
+			
 			if($tipo_pago ==2){
-				$monto = $valor+$monto_pagado;
+				
 				if($monto_adeudado == $valor){
 					$estado = 1;
 				}
@@ -387,7 +390,6 @@ class Pagos extends Conexion {
 				}				
 			}
 			else{
-				$monto = $valor;
 				$estado = 1;
 			}
 			

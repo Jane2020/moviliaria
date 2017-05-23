@@ -226,7 +226,7 @@ class Reportes extends Conexion {
 					array_push ( $data , array('obras'=> $obrasArray));
 					$row = array(0 => $fila->numero_lote,$fila->id => $fila->monto_pagado);
 					$sumatoria[0] = 'Total';
-					$sumatoria[$fila->id] = $sumatoria[$fila->id] + $fila->monto_pagado;
+					//$sumatoria[$fila->id] = $sumatoria[$fila->id] + $fila->monto_pagado;
 					$i = $i + 1;
 				}
 	
