@@ -33,14 +33,14 @@ require_once ("../../template/header.php");
 <?php  
 
 
-		foreach ($listaObras as $fila){   
+		foreach ($listaObras['data'] as $fila){   
 			
 			if(array_key_exists ( 'lotizacion' , $fila )):
 			
 			?>
 			<tr>
-			 	<td colspan="7" align="center">
-			  			<b>Urbanizaci&oacute;n <?php echo ($fila["lotizacion"]); ?></b>
+			 	<td colspan="<?php echo $listaObras['obras'] ?>" align="center">
+			  			<b><?php echo ($fila["lotizacion"]); ?></b>
 			  	</td>
 			 </tr>
 			
@@ -50,7 +50,7 @@ require_once ("../../template/header.php");
 		
 			?>
 						 <tr>
-				            <td colspan="7" align="center" style='background-color:yellow'><b>MANZANA <?php echo ($fila["manzana"]); ?></b></td>
+				            <td colspan="<?php echo $listaObras['obras'] ?>" align="center" style='background-color:yellow'><b>MANZANA <?php echo ($fila["manzana"]); ?></b></td>
 				        </tr> 
 						
 				<?php		

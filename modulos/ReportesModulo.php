@@ -266,11 +266,14 @@ class Reportes extends Conexion {
 				}
 			}
 			array_push ( $data , array('lote'=> $row));
+			array_push ( $data , array('lotizacion'=> "Totales Obras de Infraestructura"));
+			array_push ( $data , array('obras' => $obrasArray));
 			array_push ( $data , array('total'=> $sumatoria));
+			
 		}
 		if(isset($data)){
 	
-			return $data;
+			return array('data' =>$data, 'obras' => count($obrasArray) + 1);
 		}
 	}
 	
@@ -314,13 +317,13 @@ class Reportes extends Conexion {
 			
 			$html .="<table class='display table table-bordered table-stripe' cellspacing='0' width='100%'>";
 				
-				foreach ($listaObras as $fila){
+				foreach ($listaObras['data'] as $fila){
 						
 					if(array_key_exists ( 'lotizacion' , $fila )):
 						
 					$html .="<tr>
-							 	<td colspan='5' align='center'>
-							  			<b>Urbanizaci&oacute;n ".($fila["lotizacion"])."</b>
+							 	<td colspan='".$listaObras['obras']."' align='center'>
+							  			<b> ".($fila["lotizacion"])."</b>
 							  	</td>
 							 </tr>";							
 					
@@ -328,7 +331,7 @@ class Reportes extends Conexion {
 							if(array_key_exists ( 'manzana' , $fila )):
 						
 							$html .="<tr>
-								            <td colspan='5' align='center' style='background-color:yellow'><b>MANZANA ".($fila["manzana"])."</b></td>
+								            <td colspan='".$listaObras['obras']."' align='center' style='background-color:yellow'><b>MANZANA ".($fila["manzana"])."</b></td>
 								        </tr> ";
 										
 										
