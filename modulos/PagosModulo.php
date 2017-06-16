@@ -46,7 +46,7 @@ class Pagos extends Conexion {
 												WHERE p.acuerdo_id =".$acuerdo_id. " order by t.id");
 		$resultado_sinpagos = $this->mysqli->query("SELECT p.id as pago_id , p.estado, p.id_item, monto_pagado, monto_total,id_obra_multa
 												FROM pago p
-												WHERE estado <>1 and p.acuerdo_id=".$acuerdo_id);		
+												WHERE estado <>1 and estado <>3 and p.acuerdo_id=".$acuerdo_id);		
 		if(isset($resultado_pagos)){
 			$html ="<div class='card'>
     					<div class='header'>
@@ -433,7 +433,7 @@ class Pagos extends Conexion {
 			$fila->pagados = $resultado_pagos;
 			$resultado_sinpagos = $this->mysqli->query("SELECT p.id as pago_id , p.estado, id_item, monto_pagado, monto_total,id_obra_multa
 													FROM pago p
-													WHERE estado <>1 and p.acuerdo_id=".$fila->id);
+													WHERE estado <>1 and estado <>3 and p.acuerdo_id=".$fila->id);
 			$fila->sinpagados = $resultado_sinpagos;
 			$data[] = $fila;
 		}

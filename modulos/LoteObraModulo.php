@@ -202,8 +202,10 @@ class InfraestructuraLote extends Conexion {
 		if(isset($_GET['id']) && $_GET['id'] >0){
 			$id= $_GET['id'];			
 			$consulta = "UPDATE lote_infraestructura SET eliminado=1 WHERE id =".$id;
+			$consulta_pago = "UPDATE pago SET estado=3 WHERE id_obra_multa=".$id;
 			try {
 				$resultado = $this->mysqli->query($consulta);
+				$resultado_pago = $this->mysqli->query($consulta_pago);
 				$_SESSION ['message'] = "Datos eliminados correctamente.";
 			} catch ( Exception $e ) {
 				$_SESSION ['message'] = $e->getMessage ();
