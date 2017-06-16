@@ -43,7 +43,7 @@ class Pagos extends Conexion {
 												FROM pago p
 												INNER JOIN transaccion t on p.id=t.pago_id
 				 								INNER JOIN tipo_pago tp on tp.id=tipo_pago_id
-												WHERE p.acuerdo_id =".$acuerdo_id. " order by t.id");
+												WHERE p.acuerdo_id =".$acuerdo_id. " order by t.id DESC");
 		$resultado_sinpagos = $this->mysqli->query("SELECT p.id as pago_id , p.estado, p.id_item, monto_pagado, monto_total,id_obra_multa
 												FROM pago p
 												WHERE estado <>1 and estado <>3 and p.acuerdo_id=".$acuerdo_id);		
@@ -429,7 +429,7 @@ class Pagos extends Conexion {
 					   FROM pago p
 					   INNER JOIN transaccion t on p.id=t.pago_id
 					   INNER JOIN tipo_pago tp on tp.id=tipo_pago_id
-	                   where p.acuerdo_id=".$fila->id);
+	                   where p.acuerdo_id=".$fila->id." order by t.id DESC");
 			$fila->pagados = $resultado_pagos;
 			$resultado_sinpagos = $this->mysqli->query("SELECT p.id as pago_id , p.estado, id_item, monto_pagado, monto_total,id_obra_multa
 													FROM pago p
@@ -475,7 +475,7 @@ class Pagos extends Conexion {
 								<img src='".PATH_FILES."/images/logo.jpg' style='height: 80px; margin-bottom: 5px;'>
 							</td>
 							<td>
-								<h3 class='title' align='center'>COMPAÑÍA NUEVO AMANECER DONOVILSA S.A</h3>
+								<h3 class='title' align='center'>COMPAÑÍA NUEVO AMANECER DONOVILSA S.A.</h3>
 							</td>
 						</tr> 
 					</table>
