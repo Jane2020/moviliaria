@@ -1,0 +1,3 @@
+ErrorDocument 404 /moviliaria/vistas/seguridad/error403.php
+ErrorDocument 403 /moviliaria/vistas/seguridad/error404.php
+ErrorDocument 500 /moviliaria/vistas/seguridad/error500.php
