@@ -73,7 +73,7 @@ class Pagos extends Conexion {
                 				<tbody>";
 			while( $fila = $resultado_pagos->fetch_object() ){				
 				if($fila->id_item == 1){					
-					$item_nombre = "Acuerdo";
+					$item_nombre = "Pago Inicial por Terreno";
 				}else if($fila->id_item == 3){						
 					if(isset($fila->id_obra_multa)){
 						$consulta_multa ="SELECT m.nombre FROM multa m
