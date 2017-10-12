@@ -72,9 +72,17 @@ $tipos_pago = $acuerdo->listarTipoPago();
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6 row6" >
-			<label class="control-label">Nombre del Nuevo Propietario</label>
+			<label class="control-label">Cedula del Nuevo Propietario</label>
 			<input type='text' name="usuario" class='form-control border-input' value="" id="usuario" >
 			<input type="hidden" name="usuario_id" class='form-control border-input' value="" id="usuario_id">
+		</div>
+	</div>
+
+	<div class="form-group col-sm-12">
+		<div class="form-group col-sm-6 row6" >
+			<label class="control-label">Nombre del Nuevo Propietario</label>
+			<input type='text' name="usuario_nombre" class='form-control border-input' value="" id="usuario_nombre" readonly="">
+			
 		</div>
 	</div>
 	
@@ -147,11 +155,14 @@ $(document).ready(function() {
 			        },
 			        success:function(data) {
 				        if(data != -1){
-					         jQuery("#usuario").val(data.nombre);
+					         jQuery("#usuario_nombre").val(data.nombre);
 						     jQuery("#usuario_id").val(data.usuario_id);			        	
 				        }		
 				        else{
 					        alert('El cliente no existe, ingrese en la administración de clientes para continuar.');
+					        jQuery("#usuario").val('');
+					        jQuery("#usuario_nombre").val('');
+						     jQuery("#usuario_id").val(0);
 					        
 					    }
 				        $('#frmAcuerdo').formValidation('revalidateField', 'usuario');		       
@@ -234,14 +245,14 @@ $(document).ready(function() {
 			message: 'This value is not valid',
 			fields: {
 				usuario: {
-					message: 'El Nombre del Cliente no es válido',
+					message: 'El Número de Cédula no es válido',
 					validators: {
 						notEmpty: {
-							message: 'El Nombre del Cliente no puede ser vacío.'
+							message: 'El Número de Cédula no puede ser vacío.'
 						},					
 						regexp: {
-							regexp: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ \s]+$/,
-							message: 'Ingrese un Nombre del Cliente válido.'
+							regexp: /^(?:\+)?\d{10}$/,
+							message: 'El Número de Cédula del Cliente no es válido.'
 						}
 					}
 				},
